@@ -4,6 +4,16 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
+typedef struct {
+	int x0; int y0;
+	int x1; int y1;
+} rohmen_line;
+
+typedef struct {
+	int x0; int y0;
+	int x1; int y1;
+} rohmen_rectangle;
+
 // Canvas' global variables
 extern int page;
 extern int drawing;

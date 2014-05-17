@@ -3,8 +3,15 @@
 #ifndef APP_H
 #define APP_H
 
+typedef struct {
+	rohmen_rectangle rect;
+	int focus;
+} rohmen_panel;
+
 // App's global variables
 extern int exit;
+extern rohmen_panel menu_panels[7];
+extern rohmen_panel side_panels[7];
 
 // Functions and procedures prototype
 void app_start( void );
