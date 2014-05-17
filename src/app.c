@@ -21,7 +21,7 @@ void app_draw( void ) {
 	
 	// Draw panel
 	// 1 - Panel garis
-	canvas_draw_rectangle( 0, 0, 64, 64, 15, 0 );
+	canvas_draw_rectangle( 0, 0, 64, 64, 15, 10 );
 	canvas_draw_line( 10, 54, 54, 10, 15 );
 	
 	canvas_end_draw();

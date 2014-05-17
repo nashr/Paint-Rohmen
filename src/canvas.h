@@ -23,4 +23,6 @@ void canvas_draw_line( int x0, int y0, int x1, int y1, int color );
 
 void canvas_draw_rectangle( int x0, int y0, int x1, int y1, int border_color, int fill_color );
 
+void canvas_fill_rectangle( int x0, int y0, int x1, int y1, int color );
+
 #endif

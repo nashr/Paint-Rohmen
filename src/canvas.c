@@ -129,6 +129,32 @@ void canvas_draw_rectangle( int x0, int y0, int x1, int y1, int border_color, in
 	canvas_draw_line( x0, y1, x1, y1, border_color );
 	canvas_draw_line( x1, y1, x1, y0, border_color );
 	canvas_draw_line( x1, y0, x0, y0, border_color );
+	
+	canvas_fill_rectangle( x0, y0, x1, y1, fill_color );
+
+	return;
+}
+
+void canvas_fill_rectangle( int x0, int y0, int x1, int y1, int color ) {
+	int i, j, inc_i, inc_j;
+
+	if ( x0 < x1 ) {
+		inc_i = 1;
+	} else {
+		inc_i = -1;
+	}
+
+	if ( y0 < y1 ) {
+		inc_j = 1;
+	} else {
+		inc_j = -1;
+	}
+
+	for ( i = x0 + 1; i < x1; i += inc_i ) {
+		for ( j = y0 + 1; j < y1; j += inc_j ) {
+			putpixel( i, j, color );
+		}
+	}
 
 	return;
 }
