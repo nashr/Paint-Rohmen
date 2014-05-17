@@ -19,7 +19,10 @@ void app_update( void ) {
 void app_draw( void ) {
 	canvas_begin_draw();
 	
-	// Draw anything else here
+	// Draw panel
+	// 1 - Panel garis
+	canvas_draw_rectangle( 0, 0, 64, 64, 15, 0 );
+	canvas_draw_line( 10, 54, 54, 10, 15 );
 	
 	canvas_end_draw();
 
