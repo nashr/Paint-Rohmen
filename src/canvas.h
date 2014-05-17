@@ -19,4 +19,6 @@ void canvas_end_draw( void );
 
 const int canvas_inactive_page( void );
 
+void canvas_draw_line( int x0, int y0, int x1, int y1, int color );
+
 #endif
