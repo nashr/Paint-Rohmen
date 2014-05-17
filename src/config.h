@@ -1,0 +1,13 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define MENU_COLOR 9
+#define MENU_COLOR_FOCUS 1
+#define MENU_FONT_COLOR 0
+#define MENU_FONT_COLOR_FOCUS 15
+#define PANEL_COLOR 3
+#define PANEL_COLOR_FOCUS 1
+#define PANEL_FONT_COLOR 0
+#define PANEL_FONT_COLOR_FOCUS 15
+
+#endif
