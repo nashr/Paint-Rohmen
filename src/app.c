@@ -1,4 +1,5 @@
 #include "app.h"
+#include <stdio.h>
 
 int exit;
 
@@ -9,6 +10,9 @@ void app_start( void ) {
 }
 
 void app_handle_input( void ) {
+	g_mousestate state;
+	getmousestate(&state);
+
 	return;
 }
 
@@ -22,7 +26,7 @@ void app_draw( void ) {
 	// Draw panel
 	// 1 - Panel garis
 	canvas_draw_rectangle( 0, 0, 64, 64, 15, 10 );
-	canvas_draw_line( 10, 54, 54, 10, 15 );
+	canvas_draw_line( 10, 54, 54, 10, 0 );
 	
 	canvas_end_draw();
 
@@ -36,6 +40,8 @@ void app_run( void ) {
 		app_handle_input();
 		app_update();
 		app_draw();
+
+		delay( 1000 / 30 );
 	}
 
 	canvas_close();

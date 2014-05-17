@@ -24,6 +24,7 @@ void canvas_begin_draw( void ) {
 	setactivepage( canvas_inactive_page() );
 
 	cleardevice();
+	setbkcolor(WHITE);
 
 	return;
 }
