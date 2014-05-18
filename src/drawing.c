@@ -22,6 +22,9 @@ int drawing_prepare_line( int x, int y ) {
 		lines[ n_line - 1 ].x0 = x;
 		lines[ n_line - 1 ].y0 = y;
 		
+		lines[ n_line - 1 ].x1 = x;
+		lines[ n_line - 1 ].y1 = y;
+		
 		return true;
 	}
 
