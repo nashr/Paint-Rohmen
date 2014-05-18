@@ -1,5 +1,6 @@
 #include "app.h"
 #include "config.h"
+#include "drawing.h"
 #include <stdio.h>
 
 int counter, exit;
@@ -88,36 +89,83 @@ void app_handle_input( void ) {
 	if ( state.buttons == 0 ) { // no click
 		
 	} else if ( state.buttons == 1 ) { // left click
-		for ( i = 0; i < NUM_MENU; i++ ) {
-			if ( state.x > menu_panels[ i ].rect.x0 && state.x < menu_panels[ i ].rect.x1 
-				&& state.y > menu_panels[ i ].rect.y0 && state.y < menu_panels[ i ].rect.y1 ) {
-				if ( i == 0 ) { // Special case for cartesian ( it's independent from others )
-					if ( counter == 0 ) {
-						menu_panels[ i ].focus += 1;
-						menu_panels[ i ].focus %= 2;
-						counter++;
+		int done = false;
+
+		if ( !done ) {
+			for ( i = 0; i < NUM_MENU; i++ ) {
+				if ( state.x > menu_panels[ i ].rect.x0 && state.x < menu_panels[ i ].rect.x1 
+					&& state.y > menu_panels[ i ].rect.y0 && state.y < menu_panels[ i ].rect.y1 ) {
+					if ( i == 0 ) { // Special case for cartesian ( it's independent from others )
+						if ( counter == 0 ) {
+							menu_panels[ i ].focus += 1;
+							menu_panels[ i ].focus %= 2;
+							counter++;
+						}
+					} else {
+						menu_focus = i;
 					}
-				} else {
-					menu_focus = i;
+					
+					done = true;
 				}
 			}
 		}
 		
-		for ( i = 0; i < NUM_SIDE; i++ ) {
-			if ( state.x > side_panels[ i ].rect.x0 && state.x < side_panels[ i ].rect.x1 
-				&& state.y > side_panels[ i ].rect.y0 && state.y < side_panels[ i ].rect.y1 ) {
-				side_focus = i;
+		if ( !done ) {
+			for ( i = 0; i < NUM_SIDE; i++ ) {
+				if ( state.x > side_panels[ i ].rect.x0 && state.x < side_panels[ i ].rect.x1 
+					&& state.y > side_panels[ i ].rect.y0 && state.y < side_panels[ i ].rect.y1 ) {
+					side_focus = i;
+					
+					done = true;
+				}
+			}
+		}
+		
+		if ( !done ) {
+			if ( side_focus == 0 ) { // SELECT
+				
+			} else if ( side_focus == 1 ) { // LINE
+				int idx = drawing_get_line();
+				if ( idx > -1 ) {
+					drawing_set_point( state.x, state.y );
+				}
+			} else if ( side_focus == 2 ) { // CURVE
+				
+			} else if ( side_focus == 3 ) { // ELLIPSE
+				
+			} else if ( side_focus == 4 ) { // POLYGON
+				
+			} else if ( side_focus == 5 ) { // FILL
+				
+			} else if ( side_focus == 6 ) { // EMPTY
+				
 			}
 		}
 	} else if ( state.buttons == 2 ) { // right click
+		int done = false;
 		
+		if ( !done ) {
+			if ( side_focus == 1 ) { // MOVE
+				
+			} else if ( side_focus == 2 ) { // ROTATE
+				
+			} else if ( side_focus == 3 ) { // SKEW
+				
+			} else if ( side_focus == 4 ) { // MIRROR
+				
+			} else if ( side_focus == 5 ) { // ZOOM IN
+				
+			} else if ( side_focus == 6 ) { // ZOOM OUT
+				
+			}
+		}
 	} else if ( state.buttons == 3 ) { // both click ( not to be confused with double click )
 		
 	}
 
 	if ( counter > 0 ) {
 		counter++;
-		counter %= 30;
+		counter %= MAX_COUNTER;
 	}
 
 	return;
@@ -204,6 +252,9 @@ void app_draw( void ) {
 	// 6 - FILL
 	
 	// 7 - EMPTY
+	
+	// Draw drawings
+	drawing_draw();
 	
 	canvas_end_draw();
 

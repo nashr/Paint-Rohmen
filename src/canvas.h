@@ -4,6 +4,9 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
+#define START_NODE 0
+#define END_NODE 1
+
 typedef struct {
 	int x0; int y0;
 	int x1; int y1;
