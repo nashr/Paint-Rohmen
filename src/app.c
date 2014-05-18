@@ -2,7 +2,7 @@
 #include "config.h"
 #include <stdio.h>
 
-int exit;
+int counter, exit;
 rohmen_panel menu_panels[ NUM_MENU ];
 rohmen_panel side_panels[ NUM_SIDE ];
 int menu_focus, side_focus;
@@ -91,7 +91,15 @@ void app_handle_input( void ) {
 		for ( i = 0; i < NUM_MENU; i++ ) {
 			if ( state.x > menu_panels[ i ].rect.x0 && state.x < menu_panels[ i ].rect.x1 
 				&& state.y > menu_panels[ i ].rect.y0 && state.y < menu_panels[ i ].rect.y1 ) {
-				menu_focus = i;
+				if ( i == 0 ) { // Special case for cartesian ( it's independent from others )
+					if ( counter == 0 ) {
+						menu_panels[ i ].focus += 1;
+						menu_panels[ i ].focus %= 2;
+						counter++;
+					}
+				} else {
+					menu_focus = i;
+				}
 			}
 		}
 		
@@ -107,6 +115,11 @@ void app_handle_input( void ) {
 		
 	}
 
+	if ( counter > 0 ) {
+		counter++;
+		counter %= 30;
+	}
+
 	return;
 }
 
@@ -114,7 +127,7 @@ void app_update( void ) {
 	int i;
 
 	// Focus handle
-	for ( i = 0; i < NUM_MENU; i++ ) {
+	for ( i = 1; i < NUM_MENU; i++ ) { // i = 0 ( cartesian ) is an exception
 		if ( i == menu_focus ) {
 			menu_panels[ i ].focus = true;
 		} else {

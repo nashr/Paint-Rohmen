@@ -15,7 +15,7 @@ typedef struct {
 } rohmen_panel;
 
 // App's global variables
-extern int exit;
+extern int counter, exit;
 extern rohmen_panel menu_panels[ NUM_MENU ];
 extern rohmen_panel side_panels[ NUM_SIDE ];
 extern int menu_focus, side_focus;
