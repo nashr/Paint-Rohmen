@@ -16,6 +16,10 @@ extern rohmen_panel side_panels[7];
 // Functions and procedures prototype
 void app_start( void );
 
+void app_build_workspace( void );
+
+void app_draw_panel( rohmen_panel panel );
+
 void app_handle_input( void );
 
 void app_update( void );
