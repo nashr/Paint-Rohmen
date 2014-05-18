@@ -17,8 +17,10 @@ void drawing_draw( void ) {
 
 int drawing_prepare_line( int x, int y ) {
 	if ( n_line < MAX_LINE ) {
-		lines[ n_line ].x0 = x;
-		lines[ n_line ].y0 = y;
+		n_line++;
+
+		lines[ n_line - 1 ].x0 = x;
+		lines[ n_line - 1 ].y0 = y;
 		
 		return true;
 	}
@@ -28,8 +30,8 @@ int drawing_prepare_line( int x, int y ) {
 
 int drawing_process_line( int x, int y ) {
 	if ( x > 64 && y > 32 ) {
-		lines[ n_line ].x1 = x;
-		lines[ n_line ].y1 = y;
+		lines[ n_line - 1 ].x1 = x;
+		lines[ n_line - 1 ].y1 = y;
 		
 		return true;
 	}
@@ -39,10 +41,10 @@ int drawing_process_line( int x, int y ) {
 
 int drawing_finalize_line( int x, int y ) {
 	if ( x > 64 && y > 32 ) {
-		lines[ n_line ].x1 = x;
-		lines[ n_line ].y1 = y;
-
-		n_line++;
+		lines[ n_line - 1 ].x1 = x;
+		lines[ n_line - 1 ].y1 = y;
+		
+		printf("Banyak garis tersimpan = %d\n", n_line);
 		
 		return true;
 	}

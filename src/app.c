@@ -91,7 +91,7 @@ void app_handle_input( void ) {
 		if ( side_focus == 0 ) { // SELECT
 			
 		} else if ( side_focus == 1 ) { // LINE
-			drawing_process_line( state.x, state.y );
+			
 		} else if ( side_focus == 2 ) { // CURVE
 			
 		} else if ( side_focus == 3 ) { // ELLIPSE
