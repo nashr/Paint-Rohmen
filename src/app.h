@@ -7,7 +7,7 @@
 #define TYPE_SIDE 1
 #define NUM_MENU 7
 #define NUM_SIDE 7
-#define MAX_COUNTER 16
+#define MAX_COUNTER 4
 
 typedef struct {
 	int type;
@@ -16,7 +16,7 @@ typedef struct {
 } rohmen_panel;
 
 // App's global variables
-extern int counter, exit;
+extern int counter, mouse_prev_state, exit;
 extern rohmen_panel menu_panels[ NUM_MENU ];
 extern rohmen_panel side_panels[ NUM_SIDE ];
 extern int menu_focus, side_focus;

@@ -3,7 +3,7 @@
 #include "drawing.h"
 #include <stdio.h>
 
-int counter, exit;
+int counter, mouse_prev_state, exit;
 rohmen_panel menu_panels[ NUM_MENU ];
 rohmen_panel side_panels[ NUM_SIDE ];
 int menu_focus, side_focus;
@@ -86,11 +86,28 @@ void app_handle_input( void ) {
 	g_mousestate state;
 	getmousestate( &state );
 
-	if ( state.buttons == 0 ) { // no click
-		
-	} else if ( state.buttons == 1 ) { // left click
+	if ( state.buttons == 0 && mouse_prev_state == 0 ) { // hover ( no click )
+		mouse_prev_state = 0;
+		if ( side_focus == 0 ) { // SELECT
+			
+		} else if ( side_focus == 1 && counter == 0 ) { // LINE
+			drawing_process_line( state.x, state.y );
+			counter++;
+		} else if ( side_focus == 2 ) { // CURVE
+			
+		} else if ( side_focus == 3 ) { // ELLIPSE
+			
+		} else if ( side_focus == 4 ) { // POLYGON
+			
+		} else if ( side_focus == 5 ) { // FILL
+			
+		} else if ( side_focus == 6 ) { // EMPTY
+			
+		}
+	} else if ( state.buttons == 1 && mouse_prev_state == 0 ) { // on mouse down ( left clicked )
 		int done = false;
 
+		mouse_prev_state = 1;
 		if ( !done ) {
 			for ( i = 0; i < NUM_MENU; i++ ) {
 				if ( state.x > menu_panels[ i ].rect.x0 && state.x < menu_panels[ i ].rect.x1 
@@ -99,7 +116,7 @@ void app_handle_input( void ) {
 						if ( counter == 0 ) {
 							menu_panels[ i ].focus += 1;
 							menu_panels[ i ].focus %= 2;
-							counter++;
+							//counter++;
 						}
 					} else {
 						menu_focus = i;
@@ -125,11 +142,9 @@ void app_handle_input( void ) {
 			if ( side_focus == 0 ) { // SELECT
 				
 			} else if ( side_focus == 1 ) { // LINE
-				int idx = drawing_get_line();
-				if ( idx > -1 ) {
-					drawing_set_point( state.x, state.y );
-					printf("%d %d\n", state.x, state.y);
-				}
+				if ( !drawing_prepare_line( state.x, state.y ) ) {
+					drawing_finalize_line( state.x, state.y );
+				} 
 			} else if ( side_focus == 2 ) { // CURVE
 				
 			} else if ( side_focus == 3 ) { // ELLIPSE
@@ -141,10 +156,16 @@ void app_handle_input( void ) {
 			} else if ( side_focus == 6 ) { // EMPTY
 				
 			}
+			counter++;
 		}
-	} else if ( state.buttons == 2 ) { // right click
+	} else if ( state.buttons == 1 && mouse_prev_state == 1 ) { // on mouse move ( left pressed )
+		mouse_prev_state = 1;
+	} else if ( state.buttons == 0 && mouse_prev_state == 1 ) { // on mouse up ( left released )
+		mouse_prev_state = 0;
+	} else if ( state.buttons == 2 && mouse_prev_state == 0 ) { // on mouse down ( right clicked )
 		int done = false;
 		
+		mouse_prev_state = 2;
 		if ( !done ) {
 			if ( side_focus == 1 ) { // MOVE
 				
@@ -160,6 +181,10 @@ void app_handle_input( void ) {
 				
 			}
 		}
+	} else if ( state.buttons == 2 && mouse_prev_state == 2 ) { // on mouse move ( right pressed )
+		mouse_prev_state = 2;
+	} else if ( state.buttons == 0 && mouse_prev_state == 2 ) { // on mouse up ( right released )
+		mouse_prev_state = 0;
 	} else if ( state.buttons == 3 ) { // both click ( not to be confused with double click )
 		
 	}

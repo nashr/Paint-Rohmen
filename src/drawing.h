@@ -18,7 +18,11 @@ extern int n_line;
 
 void drawing_draw( void );
 
-int drawing_get_line( void );
+int drawing_prepare_line( int x, int y );
+
+int drawing_process_line( int x, int y );
+
+int drawing_finalize_line( int x, int y );
 
 void drawing_set_point( int x, int y );
 
