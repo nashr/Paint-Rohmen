@@ -64,16 +64,26 @@ void canvas_draw_line( int x0, int y0, int x1, int y1, int color ) {
 	}
 
 	// mir
-	float m = ( y0 - y1 ) / ( x0 - x1 );
+	float m = ( y0 - y1 ) * 1.0 / ( x0 - x1 );
+	
+	if ( m > 1 || m < -1 ) {
+		int temp = x0;
+		x0 = y0;
+		y0 = temp;
+		
+		temp = x1;
+		x1 = y1;
+		y1 = temp;
+	}
 	
 	if ( x0 > x1 ) {
 		int temp = x0;
 		x0 = x1;
 		x1 = temp;
 
-		temp = x0;
-		x0 = x1;
-		x1 = temp;
+		temp = y0;
+		y0 = y1;
+		y1 = temp;
 	}
 	
 	// inisiasi
