@@ -138,9 +138,7 @@ void app_handle_input( void ) {
 			if ( side_focus == 0 ) { // SELECT
 				
 			} else if ( side_focus == 1 ) { // LINE
-				if ( !drawing_prepare_line( state.x, state.y ) ) {
-					drawing_finalize_line( state.x, state.y );
-				} 
+				drawing_prepare_line( state.x, state.y );
 			} else if ( side_focus == 2 ) { // CURVE
 				
 			} else if ( side_focus == 3 ) { // ELLIPSE
@@ -155,8 +153,38 @@ void app_handle_input( void ) {
 		}
 	} else if ( state.buttons == 1 && mouse_prev_state == 1 ) { // on mouse move ( left pressed )
 		mouse_prev_state = 1;
+		if ( side_focus == 0 ) { // SELECT
+			
+		} else if ( side_focus == 1 ) { // LINE
+			drawing_process_line( state.x, state.y );
+		} else if ( side_focus == 2 ) { // CURVE
+			
+		} else if ( side_focus == 3 ) { // ELLIPSE
+			
+		} else if ( side_focus == 4 ) { // POLYGON
+			
+		} else if ( side_focus == 5 ) { // FILL
+			
+		} else if ( side_focus == 6 ) { // EMPTY
+			
+		}
 	} else if ( state.buttons == 0 && mouse_prev_state == 1 ) { // on mouse up ( left released )
 		mouse_prev_state = 0;
+		if ( side_focus == 0 ) { // SELECT
+			
+		} else if ( side_focus == 1 ) { // LINE
+			drawing_finalize_line( state.x, state.y );
+		} else if ( side_focus == 2 ) { // CURVE
+			
+		} else if ( side_focus == 3 ) { // ELLIPSE
+			
+		} else if ( side_focus == 4 ) { // POLYGON
+			
+		} else if ( side_focus == 5 ) { // FILL
+			
+		} else if ( side_focus == 6 ) { // EMPTY
+			
+		}
 	} else if ( state.buttons == 2 && mouse_prev_state == 0 ) { // on mouse down ( right clicked )
 		int done = false;
 		
