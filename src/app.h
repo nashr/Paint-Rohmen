@@ -7,7 +7,7 @@
 #define TYPE_SIDE 1
 #define NUM_MENU 7
 #define NUM_SIDE 7
-#define MAX_COUNTER 30
+#define MAX_COUNTER 16
 
 typedef struct {
 	int type;

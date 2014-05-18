@@ -121,13 +121,14 @@ void app_handle_input( void ) {
 			}
 		}
 		
-		if ( !done ) {
+		if ( !done && counter == 0 ) {
 			if ( side_focus == 0 ) { // SELECT
 				
 			} else if ( side_focus == 1 ) { // LINE
 				int idx = drawing_get_line();
 				if ( idx > -1 ) {
 					drawing_set_point( state.x, state.y );
+					printf("%d %d\n", state.x, state.y);
 				}
 			} else if ( side_focus == 2 ) { // CURVE
 				
