@@ -18,13 +18,13 @@ void app_build_workspace( void ) {
 	// Build menu
 	rohmen_panel cartesian, move, rotate, skew, mirror, zoom_in, zoom_out;
 	
-	cartesian.rect.x0 = 0; cartesian.rect.y0 = 0; cartesian.rect.x1 = 64; cartesian.rect.y1 = 32; cartesian.focus = false;
-	move.rect.x0 = 64; move.rect.y0 = 0; move.rect.x1 = 160; move.rect.y1 = 32; move.focus = false;
-	rotate.rect.x0 = 160; rotate.rect.y0 = 0; rotate.rect.x1 = 256; rotate.rect.y1 = 32; rotate.focus = false;
-	skew.rect.x0 = 256; skew.rect.y0 = 0; skew.rect.x1 = 352; skew.rect.y1 = 32; skew.focus = false;
-	mirror.rect.x0 = 352; mirror.rect.y0 = 0; mirror.rect.x1 = 448; mirror.rect.y1 = 32; mirror.focus = false;
-	zoom_in.rect.x0 = 448; zoom_in.rect.y0 = 0; zoom_in.rect.x1 = 544; zoom_in.rect.y1 = 32; zoom_in.focus = false;
-	zoom_out.rect.x0 = 544; zoom_out.rect.y0 = 0; zoom_out.rect.x1 = 640; zoom_out.rect.y1 = 32; zoom_out.focus = false;
+	cartesian.type = TYPE_MENU; cartesian.rect.x0 = 0; cartesian.rect.y0 = 0; cartesian.rect.x1 = 64; cartesian.rect.y1 = 32; cartesian.focus = false;
+	move.type = TYPE_MENU; move.rect.x0 = 64; move.rect.y0 = 0; move.rect.x1 = 160; move.rect.y1 = 32; move.focus = false;
+	rotate.type = TYPE_MENU; rotate.rect.x0 = 160; rotate.rect.y0 = 0; rotate.rect.x1 = 256; rotate.rect.y1 = 32; rotate.focus = false;
+	skew.type = TYPE_MENU; skew.rect.x0 = 256; skew.rect.y0 = 0; skew.rect.x1 = 352; skew.rect.y1 = 32; skew.focus = false;
+	mirror.type = TYPE_MENU; mirror.rect.x0 = 352; mirror.rect.y0 = 0; mirror.rect.x1 = 448; mirror.rect.y1 = 32; mirror.focus = false;
+	zoom_in.type = TYPE_MENU; zoom_in.rect.x0 = 448; zoom_in.rect.y0 = 0; zoom_in.rect.x1 = 544; zoom_in.rect.y1 = 32; zoom_in.focus = false;
+	zoom_out.type = TYPE_MENU; zoom_out.rect.x0 = 544; zoom_out.rect.y0 = 0; zoom_out.rect.x1 = 640; zoom_out.rect.y1 = 32; zoom_out.focus = false;
 	
 	menu_panels[ 0 ] = cartesian;
 	menu_panels[ 1 ] = move;
@@ -35,17 +35,44 @@ void app_build_workspace( void ) {
 	menu_panels[ 6 ] = zoom_out;
 
 	// Build sidebar panel
+	rohmen_panel select, line, curve, ellipse, polygon, fill, empty;
+	
+	select.type = TYPE_SIDE; select.rect.x0 = 0; select.rect.y0 = 32; select.rect.x1 = 64; select.rect.y1 = 96; select.focus = false;
+	line.type = TYPE_SIDE; line.rect.x0 = 0; line.rect.y0 = 96; line.rect.x1 = 64; line.rect.y1 = 160; line.focus = false;
+	curve.type = TYPE_SIDE; curve.rect.x0 = 0; curve.rect.y0 = 160; curve.rect.x1 = 64; curve.rect.y1 = 224; curve.focus = false;
+	ellipse.type = TYPE_SIDE; ellipse.rect.x0 = 0; ellipse.rect.y0 = 224; ellipse.rect.x1 = 64; ellipse.rect.y1 = 288; ellipse.focus = false;
+	polygon.type = TYPE_SIDE; polygon.rect.x0 = 0; polygon.rect.y0 = 288; polygon.rect.x1 = 64; polygon.rect.y1 = 352; polygon.focus = false;
+	fill.type = TYPE_SIDE; fill.rect.x0 = 0; fill.rect.y0 = 352; fill.rect.x1 = 64; fill.rect.y1 = 416; fill.focus = false;
+	empty.type = TYPE_SIDE; empty.rect.x0 = 0; empty.rect.y0 = 416; empty.rect.x1 = 64; empty.rect.y1 = 480; empty.focus = false;
+	
+	side_panels[ 0 ] = select;
+	side_panels[ 1 ] = line;
+	side_panels[ 2 ] = curve;
+	side_panels[ 3 ] = ellipse;
+	side_panels[ 4 ] = polygon;
+	side_panels[ 5 ] = fill;
+	side_panels[ 6 ] = empty;
 }
 
 void app_draw_panel( rohmen_panel panel ) {
 	int border_color, fill_color;
 
 	if ( panel.focus ) {
-		border_color = MENU_BORDER_COLOR_FOCUS;
-		fill_color = MENU_COLOR_FOCUS;
+		if ( panel.type == TYPE_MENU ) {
+			border_color = MENU_BORDER_COLOR_FOCUS;
+			fill_color = MENU_COLOR_FOCUS;
+		} else if ( panel.type == TYPE_SIDE ) {
+			border_color = PANEL_BORDER_COLOR_FOCUS;
+			fill_color = PANEL_COLOR_FOCUS;
+		}
 	} else {
-		border_color = MENU_BORDER_COLOR;
-		fill_color = MENU_COLOR;
+		if ( panel.type == TYPE_MENU ) {
+			border_color = MENU_BORDER_COLOR;
+			fill_color = MENU_COLOR;
+		} else if ( panel.type == TYPE_SIDE ) {
+			border_color = PANEL_BORDER_COLOR;
+			fill_color = PANEL_COLOR;
+		}
 	}
 
 	canvas_draw_rectangle( panel.rect.x0, panel.rect.y0, panel.rect.x1, panel.rect.y1, border_color, fill_color );
@@ -53,7 +80,7 @@ void app_draw_panel( rohmen_panel panel ) {
 
 void app_handle_input( void ) {
 	g_mousestate state;
-	getmousestate(&state);
+	getmousestate( &state );
 
 	return;
 }
@@ -69,37 +96,13 @@ void app_draw( void ) {
 	
 	// Draw menu panels
 	for ( i = 0; i < 7; i++ ) {
-		app_draw_panel( menu_panels[i] );
+		app_draw_panel( menu_panels[ i ] );
 	}
-	
-	// Draw side panels
-	// 1 - Panel SELECT
-	canvas_draw_rectangle( 0, 32, 64, 96, PANEL_BORDER_COLOR_FOCUS, PANEL_COLOR_FOCUS );
-	//canvas_draw_line( 10, 54, 54, 10, 0 );
-	
-	// 2 - Panel LINE
-	canvas_draw_rectangle( 0, 96, 64, 160, PANEL_BORDER_COLOR, PANEL_COLOR );
-	canvas_draw_line( 10, 150, 54, 106, PANEL_FONT_COLOR );
-	
-	// 3 - Panel CURVE
-	canvas_draw_rectangle( 0, 160, 64, 224, PANEL_BORDER_COLOR, PANEL_COLOR );
-	//canvas_draw_line( 10, 54, 54, 10, 0 );
-	
-	// 4 - Panel ELLIPSE
-	canvas_draw_rectangle( 0, 224, 64, 288, PANEL_BORDER_COLOR, PANEL_COLOR );
-	//canvas_draw_line( 10, 54, 54, 10, 0 );
-	
-	// 5 - Panel POLYGON
-	canvas_draw_rectangle( 0, 288, 64, 352, PANEL_BORDER_COLOR, PANEL_COLOR );
-	//canvas_draw_line( 10, 54, 54, 10, 0 );
 
-	// 6 - Panel FILL
-	canvas_draw_rectangle( 0, 352, 64, 416, PANEL_BORDER_COLOR, PANEL_COLOR );
-	//canvas_draw_line( 10, 54, 54, 10, 0 );
-	
-	// 7 - Panel ???
-	canvas_draw_rectangle( 0, 416, 64, 480, PANEL_BORDER_COLOR, PANEL_COLOR );
-	//canvas_draw_line( 10, 54, 54, 10, 0 );
+	// Draw side panels
+	for ( i = 0; i < 7; i++ ) {
+		app_draw_panel( side_panels[ i ] );
+	}
 
 	canvas_end_draw();
 

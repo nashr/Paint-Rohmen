@@ -3,7 +3,11 @@
 #ifndef APP_H
 #define APP_H
 
+#define TYPE_MENU 0
+#define TYPE_SIDE 1
+
 typedef struct {
+	int type;
 	rohmen_rectangle rect;
 	int focus;
 } rohmen_panel;
