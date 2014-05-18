@@ -3,7 +3,7 @@
 #include "drawing.h"
 #include <stdio.h>
 
-int counter, mouse_prev_state, exit;
+int mouse_prev_state, exit;
 rohmen_panel menu_panels[ NUM_MENU ];
 rohmen_panel side_panels[ NUM_SIDE ];
 int menu_focus, side_focus;
@@ -90,9 +90,8 @@ void app_handle_input( void ) {
 		mouse_prev_state = 0;
 		if ( side_focus == 0 ) { // SELECT
 			
-		} else if ( side_focus == 1 && counter == 0 ) { // LINE
+		} else if ( side_focus == 1 ) { // LINE
 			drawing_process_line( state.x, state.y );
-			counter++;
 		} else if ( side_focus == 2 ) { // CURVE
 			
 		} else if ( side_focus == 3 ) { // ELLIPSE
@@ -113,11 +112,8 @@ void app_handle_input( void ) {
 				if ( state.x > menu_panels[ i ].rect.x0 && state.x < menu_panels[ i ].rect.x1 
 					&& state.y > menu_panels[ i ].rect.y0 && state.y < menu_panels[ i ].rect.y1 ) {
 					if ( i == 0 ) { // Special case for cartesian ( it's independent from others )
-						if ( counter == 0 ) {
-							menu_panels[ i ].focus += 1;
-							menu_panels[ i ].focus %= 2;
-							//counter++;
-						}
+						menu_panels[ i ].focus += 1;
+						menu_panels[ i ].focus %= 2;
 					} else {
 						menu_focus = i;
 					}
@@ -138,7 +134,7 @@ void app_handle_input( void ) {
 			}
 		}
 		
-		if ( !done && counter == 0 ) {
+		if ( !done ) {
 			if ( side_focus == 0 ) { // SELECT
 				
 			} else if ( side_focus == 1 ) { // LINE
@@ -156,7 +152,6 @@ void app_handle_input( void ) {
 			} else if ( side_focus == 6 ) { // EMPTY
 				
 			}
-			counter++;
 		}
 	} else if ( state.buttons == 1 && mouse_prev_state == 1 ) { // on mouse move ( left pressed )
 		mouse_prev_state = 1;
@@ -187,11 +182,6 @@ void app_handle_input( void ) {
 		mouse_prev_state = 0;
 	} else if ( state.buttons == 3 ) { // both click ( not to be confused with double click )
 		
-	}
-
-	if ( counter > 0 ) {
-		counter++;
-		counter %= MAX_COUNTER;
 	}
 
 	return;
