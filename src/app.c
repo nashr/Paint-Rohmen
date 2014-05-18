@@ -98,12 +98,56 @@ void app_draw( void ) {
 	for ( i = 0; i < 7; i++ ) {
 		app_draw_panel( menu_panels[ i ] );
 	}
+	
+	// Draw menu icons
+	// 1 - CARTESIAN
+	if ( menu_panels[ 0 ].focus ) {
+		canvas_draw_line( 20, 16, 44, 16, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 32, 5, 32, 27, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_rectangle( 25, 10, 39, 22, MENU_FONT_COLOR_FOCUS, -1 );
+	} else {
+		canvas_draw_line( 20, 16, 44, 16, MENU_FONT_COLOR );
+		canvas_draw_line( 32, 5, 32, 27, MENU_FONT_COLOR );
+		canvas_draw_rectangle( 25, 10, 39, 22, MENU_FONT_COLOR, -1 );
+	}
+	
+	// 2 - MOVE
+	
+	// 3 - ROTATE
+	
+	// 4 - SKEW
+	
+	// 5 - MIRROR
+	
+	// 6 - ZOOM IN
+	
+	// 7 - ZOOM OUT
 
 	// Draw side panels
 	for ( i = 0; i < 7; i++ ) {
 		app_draw_panel( side_panels[ i ] );
 	}
 
+	// Draw side icons
+	// 1 - SELECT
+	
+	// 2 - LINE
+	if ( side_panels[ 1 ].focus ) {
+		canvas_draw_line( 10, 150, 54, 106, PANEL_FONT_COLOR_FOCUS );
+	} else {
+		canvas_draw_line( 10, 150, 54, 106, PANEL_FONT_COLOR );
+	}
+	
+	// 3 - CURVE
+	
+	// 4 - ELLIPSE
+	
+	// 5 - POLYGON
+	
+	// 6 - FILL
+	
+	// 7 - EMPTY
+	
 	canvas_end_draw();
 
 	return;

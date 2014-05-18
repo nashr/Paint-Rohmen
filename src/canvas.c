@@ -131,7 +131,9 @@ void canvas_draw_rectangle( int x0, int y0, int x1, int y1, int border_color, in
 	canvas_draw_line( x1, y1, x1, y0, border_color );
 	canvas_draw_line( x1, y0, x0, y0, border_color );
 	
-	canvas_fill_rectangle( x0, y0, x1, y1, fill_color );
+	if ( fill_color > -1 ) {
+		canvas_fill_rectangle( x0, y0, x1, y1, fill_color );
+	}
 
 	return;
 }
