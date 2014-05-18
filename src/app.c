@@ -3,8 +3,9 @@
 #include <stdio.h>
 
 int exit;
-rohmen_panel menu_panels[7];
-rohmen_panel side_panels[7];
+rohmen_panel menu_panels[ NUM_MENU ];
+rohmen_panel side_panels[ NUM_SIDE ];
+int menu_focus, side_focus;
 
 void app_start( void ) {
 	exit = false;
@@ -79,13 +80,56 @@ void app_draw_panel( rohmen_panel panel ) {
 }
 
 void app_handle_input( void ) {
+	int i;
+
 	g_mousestate state;
 	getmousestate( &state );
+
+	if ( state.buttons == 0 ) { // no click
+		
+	} else if ( state.buttons == 1 ) { // left click
+		for ( i = 0; i < NUM_MENU; i++ ) {
+			if ( state.x > menu_panels[ i ].rect.x0 && state.x < menu_panels[ i ].rect.x1 
+				&& state.y > menu_panels[ i ].rect.y0 && state.y < menu_panels[ i ].rect.y1 ) {
+				menu_focus = i;
+			}
+		}
+		
+		for ( i = 0; i < NUM_SIDE; i++ ) {
+			if ( state.x > side_panels[ i ].rect.x0 && state.x < side_panels[ i ].rect.x1 
+				&& state.y > side_panels[ i ].rect.y0 && state.y < side_panels[ i ].rect.y1 ) {
+				side_focus = i;
+			}
+		}
+	} else if ( state.buttons == 2 ) { // right click
+		
+	} else if ( state.buttons == 3 ) { // both click ( not to be confused with double click )
+		
+	}
 
 	return;
 }
 
 void app_update( void ) {
+	int i;
+
+	// Focus handle
+	for ( i = 0; i < NUM_MENU; i++ ) {
+		if ( i == menu_focus ) {
+			menu_panels[ i ].focus = true;
+		} else {
+			menu_panels[ i ].focus = false;
+		}
+	}
+
+	for ( i = 0; i < NUM_SIDE; i++ ) {
+		if ( i == side_focus ) {
+			side_panels[ i ].focus = true;
+		} else {
+			side_panels[ i ].focus = false;
+		}
+	}
+
 	return;
 }
 
@@ -95,7 +139,7 @@ void app_draw( void ) {
 	canvas_begin_draw();
 	
 	// Draw menu panels
-	for ( i = 0; i < 7; i++ ) {
+	for ( i = 0; i < NUM_MENU; i++ ) {
 		app_draw_panel( menu_panels[ i ] );
 	}
 	
@@ -124,7 +168,7 @@ void app_draw( void ) {
 	// 7 - ZOOM OUT
 
 	// Draw side panels
-	for ( i = 0; i < 7; i++ ) {
+	for ( i = 0; i < NUM_SIDE; i++ ) {
 		app_draw_panel( side_panels[ i ] );
 	}
 

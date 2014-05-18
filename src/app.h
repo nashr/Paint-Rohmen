@@ -5,6 +5,8 @@
 
 #define TYPE_MENU 0
 #define TYPE_SIDE 1
+#define NUM_MENU 7
+#define NUM_SIDE 7
 
 typedef struct {
 	int type;
@@ -14,8 +16,9 @@ typedef struct {
 
 // App's global variables
 extern int exit;
-extern rohmen_panel menu_panels[7];
-extern rohmen_panel side_panels[7];
+extern rohmen_panel menu_panels[ NUM_MENU ];
+extern rohmen_panel side_panels[ NUM_SIDE ];
+extern int menu_focus, side_focus;
 
 // Functions and procedures prototype
 void app_start( void );
