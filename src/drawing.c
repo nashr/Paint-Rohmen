@@ -4,6 +4,31 @@
 rohmen_line lines[ MAX_LINE ];
 int n_line;
 
+// Drawing's global variables
+int drawing_ox = -1, drawing_oy = -1;
+
+void drawing_translate( int px, int py ) {
+	int i;
+
+	if ( drawing_ox == -1 || px == -1 ) {
+		drawing_ox = px;
+		drawing_oy = py;
+	} else {
+		for ( i = 0; i < n_line; i++ ) {
+			lines[ i ].x0 += ( px - drawing_ox );
+			lines[ i ].y0 += ( py - drawing_oy );
+
+			lines[ i ].x1 += ( px - drawing_ox );
+			lines[ i ].y1 += ( py - drawing_oy );
+		}
+		
+		drawing_ox = px;
+		drawing_oy = py;
+	}
+	
+	return;
+}
+
 void drawing_scale( int cx, int cy, float scale ) {
 	int i;
 	

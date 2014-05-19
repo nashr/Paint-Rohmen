@@ -7,6 +7,9 @@ int center_x, center_y;
 int width, height;
 int scale;
 
+// Canvas' global variables
+int ox, oy;
+
 void canvas_init( void ) {
 	page = 0;
 	drawing = false;
@@ -107,10 +110,8 @@ int canvas_zoom_out( int px, int py ) {
 }
 
 void canvas_draw_cartesian( int absis_color, int cartesian_color ) {
-	canvas_draw_line( 0 + OFFSET_X, center_y, width + OFFSET_X, center_y, absis_color );
-	canvas_draw_line( center_x, 0 + OFFSET_Y, center_x, height + OFFSET_Y, absis_color );
-	
 	int i;
+
 	for ( i = center_y - scale; i > 0 + OFFSET_Y; i -= scale ) {
 		canvas_draw_line( 0 + OFFSET_X, i, width + OFFSET_X, i, cartesian_color );
 	}
@@ -126,6 +127,9 @@ void canvas_draw_cartesian( int absis_color, int cartesian_color ) {
 	for ( i = center_x + scale; i < width + OFFSET_X; i += scale ) {
 		canvas_draw_line( i, 0 + OFFSET_Y, i, height + OFFSET_Y, cartesian_color );
 	}
+	
+	canvas_draw_line( 0 + OFFSET_X, center_y, width + OFFSET_X, center_y, absis_color );
+	canvas_draw_line( center_x, 0 + OFFSET_Y, center_x, height + OFFSET_Y, absis_color );
 	
 	return;
 }

@@ -16,6 +16,11 @@
 #define MAX_ZOOM_OUT 32
 
 typedef struct {
+	int x;
+	int y;
+} rohmen_point;
+
+typedef struct {
 	int x0; int y0;
 	int x1; int y1;
 } rohmen_line;
@@ -31,9 +36,6 @@ extern int drawing;
 extern int center_x, center_y;
 extern int width, height;
 extern int scale;
-
-// Canvas' local variables
-int ox, oy;
 
 // Functions and procedures prototype
 void canvas_init( void );
