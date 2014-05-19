@@ -243,6 +243,17 @@ void app_draw( void ) {
 
 	canvas_begin_draw();
 	
+	// Draw cartesian if user wants it
+	if ( menu_panels[ 0 ].focus ) {
+		canvas_draw_cartesian( CARTESIAN_ABSIS_COLOR, CARTESIAN_COLOR );
+		int i;
+		for (i=0;i<16;i++)
+			canvas_draw_rectangle(64+32*i,416,64+32*(i+1),480,i,i);
+	}
+	
+	// Draw drawings
+	drawing_draw();
+	
 	// Draw menu panels
 	for ( i = 0; i < NUM_MENU; i++ ) {
 		app_draw_panel( menu_panels[ i ] );
@@ -296,9 +307,6 @@ void app_draw( void ) {
 	// 6 - FILL
 	
 	// 7 - EMPTY
-	
-	// Draw drawings
-	drawing_draw();
 	
 	canvas_end_draw();
 

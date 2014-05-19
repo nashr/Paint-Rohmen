@@ -42,6 +42,36 @@ const int canvas_inactive_page( void ) {
 	return ( page == 1 ) ? 0 : 1;
 }
 
+void canvas_draw_cartesian( int absis_color, int cartesian_color ) {
+	int offset_x = 64;
+	int offset_y = 32;
+
+	int w = getmaxx() - offset_x;
+	int h = getmaxy() - offset_y;
+
+	canvas_draw_line( 0 + offset_x, h / 2 + offset_y, w + offset_x, h / 2 + offset_y, absis_color );
+	canvas_draw_line( w / 2 + offset_x, 0 + offset_y, w / 2 + offset_x, h + offset_y, absis_color );
+	
+	int i;
+	for ( i = h / 2 + offset_y - 32; i > 0 + offset_y; i -= 32 ) {
+		canvas_draw_line( 0 + offset_x, i, w + offset_x, i, cartesian_color );
+	}
+	
+	for ( i = h / 2 + offset_y + 32; i < h + offset_y; i += 32 ) {
+		canvas_draw_line( 0 + offset_x, i, w + offset_x, i, cartesian_color );
+	}
+	
+	for ( i = w / 2 + offset_x - 32; i > 0 + offset_x; i -= 32 ) {
+		canvas_draw_line( i, 0 + offset_y, i, h + offset_y, cartesian_color );
+	}
+	
+	for ( i = w / 2 + offset_x + 32; i < w + offset_x; i += 32 ) {
+		canvas_draw_line( i, 0 + offset_y, i, h + offset_y, cartesian_color );
+	}
+	
+	return;
+}
+
 void canvas_draw_line( int x0, int y0, int x1, int y1, int color ) {
 	int i;
 
