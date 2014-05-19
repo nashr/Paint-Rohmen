@@ -1,7 +1,11 @@
 #include "canvas.h"
+#include <stdio.h>
 
 int page;
 int drawing;
+int center_x, center_y;
+int width, height;
+int scale;
 
 void canvas_init( void ) {
 	page = 0;
@@ -9,6 +13,14 @@ void canvas_init( void ) {
 
 	int gd = DETECT, gm = GM_640x480;
 	initgraph( &gd, &gm, "" );
+
+	width = getmaxx() - OFFSET_X;
+	height = getmaxy() - OFFSET_Y;
+
+	center_x = width / 2 + OFFSET_X;
+	center_y = height / 2 + OFFSET_Y;
+	
+	scale = DEFAULT_SCALE;
 
 	return;
 }
@@ -42,31 +54,57 @@ const int canvas_inactive_page( void ) {
 	return ( page == 1 ) ? 0 : 1;
 }
 
+void canvas_zoom_in( int cx, int cy ) {
+	center_x -= cx;
+	center_y -= cy;
+	
+	center_x *= 1.05;
+	center_y *= 1.05;
+	
+	scale *= 1.05;
+	
+	center_x += cx;
+	center_y += cy;
+
+	return;
+}
+
+void canvas_zoom_out( int cx, int cy ) {
+	if ( scale > MAX_ZOOM_OUT ) {
+		center_x -= cx;
+		center_y -= cy;
+		
+		center_x *= 0.95;
+		center_y *= 0.95;
+		
+		scale *= 0.95;
+		
+		center_x += cx;
+		center_y += cy;
+	}
+
+	return;
+}
+
 void canvas_draw_cartesian( int absis_color, int cartesian_color ) {
-	int offset_x = 64;
-	int offset_y = 32;
-
-	int w = getmaxx() - offset_x;
-	int h = getmaxy() - offset_y;
-
-	canvas_draw_line( 0 + offset_x, h / 2 + offset_y, w + offset_x, h / 2 + offset_y, absis_color );
-	canvas_draw_line( w / 2 + offset_x, 0 + offset_y, w / 2 + offset_x, h + offset_y, absis_color );
+	canvas_draw_line( 0 + OFFSET_X, center_y, width + OFFSET_X, center_y, absis_color );
+	canvas_draw_line( center_x, 0 + OFFSET_Y, center_x, height + OFFSET_Y, absis_color );
 	
 	int i;
-	for ( i = h / 2 + offset_y - 32; i > 0 + offset_y; i -= 32 ) {
-		canvas_draw_line( 0 + offset_x, i, w + offset_x, i, cartesian_color );
+	for ( i = center_y - scale; i > 0 + OFFSET_Y; i -= scale ) {
+		canvas_draw_line( 0 + OFFSET_X, i, width + OFFSET_X, i, cartesian_color );
 	}
 	
-	for ( i = h / 2 + offset_y + 32; i < h + offset_y; i += 32 ) {
-		canvas_draw_line( 0 + offset_x, i, w + offset_x, i, cartesian_color );
+	for ( i = center_y + scale; i < height + OFFSET_Y; i += scale ) {
+		canvas_draw_line( 0 + OFFSET_X, i, width + OFFSET_X, i, cartesian_color );
 	}
 	
-	for ( i = w / 2 + offset_x - 32; i > 0 + offset_x; i -= 32 ) {
-		canvas_draw_line( i, 0 + offset_y, i, h + offset_y, cartesian_color );
+	for ( i = center_x - scale; i > 0 + OFFSET_X; i -= scale ) {
+		canvas_draw_line( i, 0 + OFFSET_Y, i, height + OFFSET_Y, cartesian_color );
 	}
 	
-	for ( i = w / 2 + offset_x + 32; i < w + offset_x; i += 32 ) {
-		canvas_draw_line( i, 0 + offset_y, i, h + offset_y, cartesian_color );
+	for ( i = center_x + scale; i < width + OFFSET_X; i += scale ) {
+		canvas_draw_line( i, 0 + OFFSET_Y, i, height + OFFSET_Y, cartesian_color );
 	}
 	
 	return;

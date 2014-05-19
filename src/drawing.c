@@ -46,9 +46,7 @@ int drawing_finalize_line( int x, int y ) {
 	if ( x > 64 && y > 32 ) {
 		lines[ n_line - 1 ].x1 = x;
 		lines[ n_line - 1 ].y1 = y;
-		
-		printf("Banyak garis tersimpan = %d\n", n_line);
-		
+
 		return true;
 	}
 

@@ -88,21 +88,6 @@ void app_handle_input( void ) {
 
 	if ( state.buttons == 0 && mouse_prev_state == 0 ) { // hover ( no click )
 		mouse_prev_state = 0;
-		if ( side_focus == 0 ) { // SELECT
-			
-		} else if ( side_focus == 1 ) { // LINE
-			
-		} else if ( side_focus == 2 ) { // CURVE
-			
-		} else if ( side_focus == 3 ) { // ELLIPSE
-			
-		} else if ( side_focus == 4 ) { // POLYGON
-			
-		} else if ( side_focus == 5 ) { // FILL
-			
-		} else if ( side_focus == 6 ) { // EMPTY
-			
-		}
 	} else if ( state.buttons == 1 && mouse_prev_state == 0 ) { // on mouse down ( left clicked )
 		int done = false;
 
@@ -190,24 +175,50 @@ void app_handle_input( void ) {
 		
 		mouse_prev_state = 2;
 		if ( !done ) {
-			if ( side_focus == 1 ) { // MOVE
+			if ( menu_focus == 1 ) { // MOVE
 				
-			} else if ( side_focus == 2 ) { // ROTATE
+			} else if ( menu_focus == 2 ) { // ROTATE
 				
-			} else if ( side_focus == 3 ) { // SKEW
+			} else if ( menu_focus == 3 ) { // SKEW
 				
-			} else if ( side_focus == 4 ) { // MIRROR
+			} else if ( menu_focus == 4 ) { // MIRROR
 				
-			} else if ( side_focus == 5 ) { // ZOOM IN
-				
-			} else if ( side_focus == 6 ) { // ZOOM OUT
-				
+			} else if ( menu_focus == 5 ) { // ZOOM IN
+				// do nothing
+			} else if ( menu_focus == 6 ) { // ZOOM OUT
+				// do nothing
 			}
 		}
 	} else if ( state.buttons == 2 && mouse_prev_state == 2 ) { // on mouse move ( right pressed )
 		mouse_prev_state = 2;
+		if ( menu_focus == 1 ) { // MOVE
+			
+		} else if ( menu_focus == 2 ) { // ROTATE
+			
+		} else if ( menu_focus == 3 ) { // SKEW
+			
+		} else if ( menu_focus == 4 ) { // MIRROR
+			
+		} else if ( menu_focus == 5 ) { // ZOOM IN
+			canvas_zoom_in( state.x, state.y );
+		} else if ( menu_focus == 6 ) { // ZOOM OUT
+			canvas_zoom_out( state.x, state.y );
+		}
 	} else if ( state.buttons == 0 && mouse_prev_state == 2 ) { // on mouse up ( right released )
 		mouse_prev_state = 0;
+		if ( menu_focus == 1 ) { // MOVE
+			
+		} else if ( menu_focus == 2 ) { // ROTATE
+			
+		} else if ( menu_focus == 3 ) { // SKEW
+			
+		} else if ( menu_focus == 4 ) { // MIRROR
+			
+		} else if ( menu_focus == 5 ) { // ZOOM IN
+			// do nothing
+		} else if ( menu_focus == 6 ) { // ZOOM OUT
+			// do nothing
+		}
 	} else if ( state.buttons == 3 ) { // both click ( not to be confused with double click )
 		
 	}
