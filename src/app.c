@@ -1,12 +1,13 @@
 #include "app.h"
 #include "config.h"
 #include "drawing.h"
+#include <graphics.h>
 #include <stdio.h>
 
 int mouse_prev_state, exit;
 rohmen_panel menu_panels[ NUM_MENU ];
 rohmen_panel side_panels[ NUM_SIDE ];
-int menu_focus, side_focus;
+int menu_focus = 1, side_focus = 0;
 
 void app_start( void ) {
 	exit = false;
@@ -133,7 +134,7 @@ void app_handle_input( void ) {
 			} else if ( side_focus == 5 ) { // FILL
 				
 			} else if ( side_focus == 6 ) { // crop
-				// do nothing
+				
 			}
 		}
 	} else if ( state.buttons == 1 && mouse_prev_state == 1 ) { // on mouse move ( left pressed )
@@ -180,7 +181,9 @@ void app_handle_input( void ) {
 					drawing_translate( state.x, state.y );
 				}
 			} else if ( menu_focus == 2 ) { // ROTATE
-				
+				if ( canvas_rotate( state.x, state.y ) ) {
+					drawing_rotate( state.x, state.y );
+				}
 			} else if ( menu_focus == 3 ) { // SKEW
 				
 			} else if ( menu_focus == 4 ) { // MIRROR
@@ -198,7 +201,9 @@ void app_handle_input( void ) {
 				drawing_translate( state.x, state.y );
 			}
 		} else if ( menu_focus == 2 ) { // ROTATE
-			
+			if ( canvas_rotate( state.x, state.y ) ) {
+				drawing_rotate( state.x, state.y );
+			}
 		} else if ( menu_focus == 3 ) { // SKEW
 			
 		} else if ( menu_focus == 4 ) { // MIRROR
@@ -219,7 +224,9 @@ void app_handle_input( void ) {
 				drawing_translate( -1, -1 );
 			}
 		} else if ( menu_focus == 2 ) { // ROTATE
-			
+			if ( canvas_rotate( -1, -1 ) ) {
+				drawing_rotate( -1, -1 );
+			}
 		} else if ( menu_focus == 3 ) { // SKEW
 			
 		} else if ( menu_focus == 4 ) { // MIRROR
@@ -320,7 +327,13 @@ void app_draw( void ) {
 	}
 
 	// 3 - ROTATE
-	
+	if ( menu_panels[ 2 ].focus ) {
+		canvas_draw_line( 208, 6, 213, 1, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 208, 6, 213, 11, MENU_FONT_COLOR_FOCUS );
+	} else {
+		canvas_draw_line( 208, 6, 213, 1, MENU_FONT_COLOR );
+		canvas_draw_line( 208, 6, 213, 11, MENU_FONT_COLOR );
+	}
 	// 4 - SKEW
 	
 	// 5 - MIRROR
@@ -364,7 +377,12 @@ void app_draw( void ) {
 	
 	// 6 - FILL
 	
-	// 7 - crop
+	// 7 - CROP
+	
+	// Draw rotation center if it's active
+	if ( menu_panels[ 2 ].focus ) {
+		canvas_draw_rotation_center();
+	}
 	
 	canvas_end_draw();
 

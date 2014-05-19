@@ -9,7 +9,9 @@
 extern rohmen_line lines[ MAX_LINE ];
 extern int n_line;
 
-void drawing_translate( int dx, int dy );
+void drawing_translate( int px, int py );
+
+void drawing_rotate( int px, int py );
 
 void drawing_scale( int cx, int cy, float scale );
 

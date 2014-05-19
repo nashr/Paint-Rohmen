@@ -1,4 +1,6 @@
 #include "canvas.h"
+#include <graphics.h>
+#include <math.h>
 #include <stdio.h>
 
 int page;
@@ -6,9 +8,10 @@ int drawing;
 int center_x, center_y;
 int width, height;
 int scale;
+int rx, ry;
 
 // Canvas' global variables
-int ox, oy;
+int ox = -1, oy = -1;
 
 void canvas_init( void ) {
 	page = 0;
@@ -25,8 +28,8 @@ void canvas_init( void ) {
 	
 	scale = DEFAULT_SCALE;
 	
-	ox = -1;
-	oy = -1;
+	rx = center_x / 2;
+	ry = center_y;
 
 	return;
 }
@@ -75,6 +78,36 @@ int canvas_translate( int px, int py ) {
 	return true;
 }
 
+int canvas_rotate( int px, int py ) {
+	if ( ox == -1 || px == -1 ) {
+		ox = px;
+		oy = py;
+	} else {
+		double d = sqrt( ( ox - px ) * ( ox - px ) + ( oy - py ) * ( oy - py ) );
+		double r = sqrt( ( ox - rx ) * ( ox - rx ) + ( oy - ry ) * ( oy - ry ) );
+		double angle = d / r;
+		double s = sin( angle );
+		double c = cos( angle );
+		
+		center_x -= rx;
+		center_y -= ry;
+	
+		int tx = center_x;
+		int ty = center_y;
+		
+		center_x = tx * c - ty * s;
+		center_y = tx * s + ty * c;
+		
+		center_x += rx;
+		center_y += ry;
+
+		ox = px;
+		oy = py;
+	}
+
+	return true;
+}
+
 int canvas_zoom_in( int px, int py ) {
 	center_x -= px;
 	center_y -= py;
@@ -107,6 +140,12 @@ int canvas_zoom_out( int px, int py ) {
 	}
 
 	return false;
+}
+
+void canvas_draw_rotation_center( void ) {
+	canvas_draw_rectangle( rx - 5, ry - 5, rx + 5, ry + 5, 12, 13 );
+
+	return;
 }
 
 void canvas_draw_cartesian( int absis_color, int cartesian_color ) {

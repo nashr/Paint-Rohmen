@@ -1,4 +1,5 @@
 #include "drawing.h"
+#include <math.h>
 #include <stdio.h>
 
 rohmen_line lines[ MAX_LINE ];
@@ -8,12 +9,11 @@ int n_line;
 int drawing_ox = -1, drawing_oy = -1;
 
 void drawing_translate( int px, int py ) {
-	int i;
-
 	if ( drawing_ox == -1 || px == -1 ) {
 		drawing_ox = px;
 		drawing_oy = py;
 	} else {
+		int i;
 		for ( i = 0; i < n_line; i++ ) {
 			lines[ i ].x0 += ( px - drawing_ox );
 			lines[ i ].y0 += ( py - drawing_oy );
@@ -26,6 +26,51 @@ void drawing_translate( int px, int py ) {
 		drawing_oy = py;
 	}
 	
+	return;
+}
+
+void drawing_rotate( int px, int py ) {
+	if ( drawing_ox == -1 || px == -1 ) {
+		drawing_ox = px;
+		drawing_oy = py;
+	} else {
+		double d = sqrt( ( drawing_ox - px ) * ( drawing_ox - px ) + ( drawing_oy - py ) * ( drawing_oy - py ) );
+		double r = sqrt( ( drawing_ox - rx ) * ( drawing_ox - rx ) + ( drawing_oy - ry ) * ( drawing_oy - ry ) );
+		double angle = d / r;
+		double s = sin( angle );
+		double c = cos( angle );
+		
+		int i;
+		for ( i = 0; i < n_line; i++ ) {
+			lines[ i ].x0 -= rx;
+			lines[ i ].y0 -= ry;
+			
+			int tx = lines[ i ].x0;
+			int ty = lines[ i ].y0;
+
+			lines[ i ].x0 = tx * c - ty * s;
+			lines[ i ].y0 = tx * s + ty * c;
+
+			lines[ i ].x0 += rx;
+			lines[ i ].y0 += ry;
+
+			lines[ i ].x1 -= rx;
+			lines[ i ].y1 -= ry;
+			
+			tx = lines[ i ].x1;
+			ty = lines[ i ].y1;
+
+			lines[ i ].x1 = tx * c - ty * s;
+			lines[ i ].y1 = tx * s + ty * c;
+
+			lines[ i ].x1 += rx;
+			lines[ i ].y1 += ry;
+		}
+		
+		drawing_ox = px;
+		drawing_oy = py;
+	}
+
 	return;
 }
 
