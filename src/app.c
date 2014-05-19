@@ -280,8 +280,20 @@ void app_draw( void ) {
 	// 5 - MIRROR
 	
 	// 6 - ZOOM IN
-	
+	if ( menu_panels[ 5 ].focus ) {
+		canvas_draw_line( 485, 16, 507, 16, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 496, 5, 496, 27, MENU_FONT_COLOR_FOCUS );
+	} else {
+		canvas_draw_line( 485, 16, 507, 16, MENU_FONT_COLOR );
+		canvas_draw_line( 496, 5, 496, 27, MENU_FONT_COLOR );
+	}
+
 	// 7 - ZOOM OUT
+	if ( menu_panels[ 6 ].focus ) {
+		canvas_draw_line( 581, 16, 603, 16, MENU_FONT_COLOR_FOCUS );
+	} else {
+		canvas_draw_line( 581, 16, 603, 16, MENU_FONT_COLOR );
+	}
 
 	// Draw side panels
 	for ( i = 0; i < NUM_SIDE; i++ ) {
