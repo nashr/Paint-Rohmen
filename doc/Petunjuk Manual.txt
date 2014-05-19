@@ -1,0 +1,86 @@
+PETUNJUK MANUAL PAINT-ROHMEN
+oleh kelompok Grafika-Rohmen
+
+Daftar Isi
+===========================================================
++-> 1.Koordinat
++-> 2.Transformasi
++-+-> 2.1 Move
+| +-> 2.2 Rotate
+| +-> 2.3 Skew
+| +-> 2.4 Mirror
+| +-> 2.5 Zoom In
+| +-> 2.6 Zoom Out
++-> 3.Gambar
++-+-> 3.1 Select
+  +-> 3.2 Line
+  +-> 3.3 Curve
+  +-> 3.4 Ellipse
+  +-> 3.5 Polygon
+  +-> 3.6 Fill
+  +-> 3.7 Crop
+
+Deskripsi
+===========================================================
+1.Koordinat
+  Paint-Rohmen dapat menampilkan/menyembunyikan koordinat
+  kartesian dengan meng-click kiri pada tombol Koordinat.
+
+2.Transformasi
+  Semua aksi transformasi menggunakan click kanan.
+  2.1 Move
+      a. Click kiri pada tombol Move;
+      b. Click kanan pada canvas;
+      c. Tahan dan gerakan mouse untuk bergerak;
+      d. Lepas click setelah selesai.
+  2.2 Rotate
+      a. Click kiri pada tombol Rotate;
+      b. Click kanan pertama pada canvas untuk mengambil
+         titik pusat rotasi;
+      c. Click kanan kedua pada canvas untuk merotasi;
+      d. Lepas click setelah selesai.
+  2.3 Skew
+      a. ???
+  2.4 Mirror
+      a. ???
+  2.5 Zoom In
+      a. Click kiri pada tombol Zoom In;
+      b. Click kanan pada canvas untuk memperbesar canvas
+         dengan pusat titik tersebut;
+      c. Lepas click setelah selesai.
+  2.6 Zoom Out
+      a. Click kiri pada tombol Zoom Out;
+      b. Click kanan pada canvas untuk memperkecil canvas
+         dengan pusat titik tersebut;
+      c. Lepas click setelah selesai.
+
+3.Gambar
+  Semua aksi gambar menggunakan click kiri.
+  3.1 Select
+      a. ???
+  3.2 Line
+      a. Click kiri pada tombol Line;
+      b. Click kiri pertama pada canvas untuk mengambil 
+         titik pertama;
+      c. Tahan dan gerakkan mouse untuk melihat garis yang
+         terbentuk;
+      d. Lepaskan click setelah selesai.
+  3.3 Curve
+      a. ???
+  3.4 Ellipse
+      a. ???
+  3.5 Polygon
+      a. ???
+  3.6 Fill
+      a. ???
+  3.7 Crop
+      a. ???
+
+Copyright
+===========================================================
+13511018 Tito D. Kesumo Siregar
+13511020 Arief Rahman
+13511044 Muhammad Nassirudin
+13511071 Setyo Legowo
+13511082 Arini Hasianna Sirait
+13511087 Dinah Kamilah Ulfa
