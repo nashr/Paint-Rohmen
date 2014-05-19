@@ -54,36 +54,38 @@ const int canvas_inactive_page( void ) {
 	return ( page == 1 ) ? 0 : 1;
 }
 
-void canvas_zoom_in( int cx, int cy ) {
+int canvas_zoom_in( int cx, int cy ) {
 	center_x -= cx;
 	center_y -= cy;
 	
-	center_x *= 1.05;
-	center_y *= 1.05;
+	center_x *= DEFAULT_ZOOM_IN;
+	center_y *= DEFAULT_ZOOM_IN;
 	
-	scale *= 1.05;
+	scale *= DEFAULT_ZOOM_IN;
 	
 	center_x += cx;
 	center_y += cy;
 
-	return;
+	return true;
 }
 
-void canvas_zoom_out( int cx, int cy ) {
+int canvas_zoom_out( int cx, int cy ) {
 	if ( scale > MAX_ZOOM_OUT ) {
 		center_x -= cx;
 		center_y -= cy;
 		
-		center_x *= 0.95;
-		center_y *= 0.95;
+		center_x *= DEFAULT_ZOOM_OUT;
+		center_y *= DEFAULT_ZOOM_OUT;
 		
-		scale *= 0.95;
+		scale *= DEFAULT_ZOOM_OUT;
 		
 		center_x += cx;
 		center_y += cy;
+		
+		return true;
 	}
 
-	return;
+	return false;
 }
 
 void canvas_draw_cartesian( int absis_color, int cartesian_color ) {

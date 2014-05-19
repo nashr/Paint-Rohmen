@@ -11,6 +11,8 @@
 #define OFFSET_Y 32
 
 #define DEFAULT_SCALE 64
+#define DEFAULT_ZOOM_IN 1.05
+#define DEFAULT_ZOOM_OUT 0.95
 #define MAX_ZOOM_OUT 32
 
 typedef struct {
@@ -41,9 +43,9 @@ void canvas_end_draw( void );
 
 const int canvas_inactive_page( void );
 
-void canvas_zoom_in( int cx, int cy );
+int canvas_zoom_in( int cx, int cy );
 
-void canvas_zoom_out( int cx, int cy );
+int canvas_zoom_out( int cx, int cy );
 
 void canvas_draw_cartesian( int absis_color, int cartesian_color );
 

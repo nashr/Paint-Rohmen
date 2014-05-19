@@ -4,6 +4,33 @@
 rohmen_line lines[ MAX_LINE ];
 int n_line;
 
+void drawing_scale( int cx, int cy, float scale ) {
+	int i;
+	
+	// Take scale to lines
+	for ( i = 0; i < n_line; i++ ) {
+		lines[ i ].x0 -= cx;
+		lines[ i ].y0 -= cy;
+		
+		lines[ i ].x0 *= scale;
+		lines[ i ].y0 *= scale;
+		
+		lines[ i ].x0 += cx;
+		lines[ i ].y0 += cy;
+		
+		lines[ i ].x1 -= cx;
+		lines[ i ].y1 -= cy;
+		
+		lines[ i ].x1 *= scale;
+		lines[ i ].y1 *= scale;
+		
+		lines[ i ].x1 += cx;
+		lines[ i ].y1 += cy;
+	}
+
+	return;
+}
+
 void drawing_draw( void ) {
 	int i;
 	

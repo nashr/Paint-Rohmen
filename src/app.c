@@ -200,9 +200,13 @@ void app_handle_input( void ) {
 		} else if ( menu_focus == 4 ) { // MIRROR
 			
 		} else if ( menu_focus == 5 ) { // ZOOM IN
-			canvas_zoom_in( state.x, state.y );
+			if ( canvas_zoom_in( state.x, state.y ) ) {
+				drawing_scale( state.x, state.y, DEFAULT_ZOOM_IN );
+			}
 		} else if ( menu_focus == 6 ) { // ZOOM OUT
-			canvas_zoom_out( state.x, state.y );
+			if ( canvas_zoom_out( state.x, state.y ) ) {
+				drawing_scale( state.x, state.y, DEFAULT_ZOOM_OUT );
+			}
 		}
 	} else if ( state.buttons == 0 && mouse_prev_state == 2 ) { // on mouse up ( right released )
 		mouse_prev_state = 0;
