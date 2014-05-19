@@ -176,7 +176,7 @@ void app_handle_input( void ) {
 		mouse_prev_state = 2;
 		if ( !done ) {
 			if ( menu_focus == 1 ) { // MOVE
-				
+				canvas_translate( state.x, state.y );
 			} else if ( menu_focus == 2 ) { // ROTATE
 				
 			} else if ( menu_focus == 3 ) { // SKEW
@@ -192,7 +192,7 @@ void app_handle_input( void ) {
 	} else if ( state.buttons == 2 && mouse_prev_state == 2 ) { // on mouse move ( right pressed )
 		mouse_prev_state = 2;
 		if ( menu_focus == 1 ) { // MOVE
-			
+			canvas_translate( state.x, state.y );
 		} else if ( menu_focus == 2 ) { // ROTATE
 			
 		} else if ( menu_focus == 3 ) { // SKEW
@@ -211,7 +211,7 @@ void app_handle_input( void ) {
 	} else if ( state.buttons == 0 && mouse_prev_state == 2 ) { // on mouse up ( right released )
 		mouse_prev_state = 0;
 		if ( menu_focus == 1 ) { // MOVE
-			
+			canvas_translate( -1, -1 );
 		} else if ( menu_focus == 2 ) { // ROTATE
 			
 		} else if ( menu_focus == 3 ) { // SKEW

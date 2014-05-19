@@ -21,6 +21,9 @@ void canvas_init( void ) {
 	center_y = height / 2 + OFFSET_Y;
 	
 	scale = DEFAULT_SCALE;
+	
+	ox = -1;
+	oy = -1;
 
 	return;
 }
@@ -54,33 +57,48 @@ const int canvas_inactive_page( void ) {
 	return ( page == 1 ) ? 0 : 1;
 }
 
-int canvas_zoom_in( int cx, int cy ) {
-	center_x -= cx;
-	center_y -= cy;
+int canvas_translate( int px, int py ) {
+	if ( ox == -1 || px == -1 ) {
+		ox = px;
+		oy = py;
+	} else {
+		center_x += ( px - ox );
+		center_y += ( py - oy );
+		
+		ox = px;
+		oy = py;
+	}
+
+	return true;
+}
+
+int canvas_zoom_in( int px, int py ) {
+	center_x -= px;
+	center_y -= py;
 	
 	center_x *= DEFAULT_ZOOM_IN;
 	center_y *= DEFAULT_ZOOM_IN;
 	
 	scale *= DEFAULT_ZOOM_IN;
 	
-	center_x += cx;
-	center_y += cy;
+	center_x += px;
+	center_y += py;
 
 	return true;
 }
 
-int canvas_zoom_out( int cx, int cy ) {
+int canvas_zoom_out( int px, int py ) {
 	if ( scale > MAX_ZOOM_OUT ) {
-		center_x -= cx;
-		center_y -= cy;
+		center_x -= px;
+		center_y -= py;
 		
 		center_x *= DEFAULT_ZOOM_OUT;
 		center_y *= DEFAULT_ZOOM_OUT;
 		
 		scale *= DEFAULT_ZOOM_OUT;
 		
-		center_x += cx;
-		center_y += cy;
+		center_x += px;
+		center_y += py;
 		
 		return true;
 	}

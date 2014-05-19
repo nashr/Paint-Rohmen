@@ -32,6 +32,9 @@ extern int center_x, center_y;
 extern int width, height;
 extern int scale;
 
+// Canvas' local variables
+int ox, oy;
+
 // Functions and procedures prototype
 void canvas_init( void );
 
@@ -43,9 +46,11 @@ void canvas_end_draw( void );
 
 const int canvas_inactive_page( void );
 
-int canvas_zoom_in( int cx, int cy );
+int canvas_translate( int px, int py );
 
-int canvas_zoom_out( int cx, int cy );
+int canvas_zoom_in( int px, int py );
+
+int canvas_zoom_out( int px, int py );
 
 void canvas_draw_cartesian( int absis_color, int cartesian_color );
 
