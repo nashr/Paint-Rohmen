@@ -287,7 +287,32 @@ void app_draw( void ) {
 	}
 	
 	// 2 - MOVE
-	
+	if ( menu_panels[ 1 ].focus ) {
+		canvas_draw_line( 96, 16, 101, 11, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 96, 16, 101, 21, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 101, 16, 123, 16, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 123, 11, 128, 16, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 123, 21, 128, 16, MENU_FONT_COLOR_FOCUS );
+
+		canvas_draw_line( 107, 10, 112, 5, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 112, 5, 117, 10, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 112, 5, 112, 27, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 107, 22, 112, 27, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 112, 27, 117, 22, MENU_FONT_COLOR_FOCUS );
+	} else {
+		canvas_draw_line( 96, 16, 101, 11, MENU_FONT_COLOR );
+		canvas_draw_line( 96, 16, 101, 21, MENU_FONT_COLOR );
+		canvas_draw_line( 101, 16, 123, 16, MENU_FONT_COLOR );
+		canvas_draw_line( 123, 11, 128, 16, MENU_FONT_COLOR );
+		canvas_draw_line( 123, 21, 128, 16, MENU_FONT_COLOR );
+
+		canvas_draw_line( 107, 10, 112, 5, MENU_FONT_COLOR );
+		canvas_draw_line( 112, 5, 117, 10, MENU_FONT_COLOR );
+		canvas_draw_line( 112, 5, 112, 27, MENU_FONT_COLOR );
+		canvas_draw_line( 107, 22, 112, 27, MENU_FONT_COLOR );
+		canvas_draw_line( 112, 27, 117, 22, MENU_FONT_COLOR );
+	}
+
 	// 3 - ROTATE
 	
 	// 4 - SKEW
