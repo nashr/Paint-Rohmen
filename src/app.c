@@ -37,7 +37,7 @@ void app_build_workspace( void ) {
 	menu_panels[ 6 ] = zoom_out;
 
 	// Build sidebar panel
-	rohmen_panel select, line, curve, ellipse, polygon, fill, empty;
+	rohmen_panel select, line, curve, ellipse, polygon, fill, crop;
 	
 	select.type = TYPE_SIDE; select.rect.x0 = 0; select.rect.y0 = 32; select.rect.x1 = 64; select.rect.y1 = 96; select.focus = false;
 	line.type = TYPE_SIDE; line.rect.x0 = 0; line.rect.y0 = 96; line.rect.x1 = 64; line.rect.y1 = 160; line.focus = false;
@@ -45,7 +45,7 @@ void app_build_workspace( void ) {
 	ellipse.type = TYPE_SIDE; ellipse.rect.x0 = 0; ellipse.rect.y0 = 224; ellipse.rect.x1 = 64; ellipse.rect.y1 = 288; ellipse.focus = false;
 	polygon.type = TYPE_SIDE; polygon.rect.x0 = 0; polygon.rect.y0 = 288; polygon.rect.x1 = 64; polygon.rect.y1 = 352; polygon.focus = false;
 	fill.type = TYPE_SIDE; fill.rect.x0 = 0; fill.rect.y0 = 352; fill.rect.x1 = 64; fill.rect.y1 = 416; fill.focus = false;
-	empty.type = TYPE_SIDE; empty.rect.x0 = 0; empty.rect.y0 = 416; empty.rect.x1 = 64; empty.rect.y1 = 480; empty.focus = false;
+	crop.type = TYPE_SIDE; crop.rect.x0 = 0; crop.rect.y0 = 416; crop.rect.x1 = 64; crop.rect.y1 = 480; crop.focus = false;
 	
 	side_panels[ 0 ] = select;
 	side_panels[ 1 ] = line;
@@ -53,7 +53,7 @@ void app_build_workspace( void ) {
 	side_panels[ 3 ] = ellipse;
 	side_panels[ 4 ] = polygon;
 	side_panels[ 5 ] = fill;
-	side_panels[ 6 ] = empty;
+	side_panels[ 6 ] = crop;
 }
 
 void app_draw_panel( rohmen_panel panel ) {
@@ -132,7 +132,7 @@ void app_handle_input( void ) {
 				
 			} else if ( side_focus == 5 ) { // FILL
 				
-			} else if ( side_focus == 6 ) { // EMPTY
+			} else if ( side_focus == 6 ) { // crop
 				// do nothing
 			}
 		}
@@ -150,7 +150,7 @@ void app_handle_input( void ) {
 			
 		} else if ( side_focus == 5 ) { // FILL
 			
-		} else if ( side_focus == 6 ) { // EMPTY
+		} else if ( side_focus == 6 ) { // crop
 			
 		}
 	} else if ( state.buttons == 0 && mouse_prev_state == 1 ) { // on mouse up ( left released )
@@ -167,7 +167,7 @@ void app_handle_input( void ) {
 			
 		} else if ( side_focus == 5 ) { // FILL
 			
-		} else if ( side_focus == 6 ) { // EMPTY
+		} else if ( side_focus == 6 ) { // crop
 			
 		}
 	} else if ( state.buttons == 2 && mouse_prev_state == 0 ) { // on mouse down ( right clicked )
@@ -358,7 +358,7 @@ void app_draw( void ) {
 	
 	// 6 - FILL
 	
-	// 7 - EMPTY
+	// 7 - crop
 	
 	canvas_end_draw();
 
