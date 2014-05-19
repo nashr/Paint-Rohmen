@@ -163,8 +163,8 @@ void canvas_fill_rectangle( int x0, int y0, int x1, int y1, int color ) {
 		inc_j = -1;
 	}
 
-	for ( i = x0 + 1; i < x1; i += inc_i ) {
-		for ( j = y0 + 1; j < y1; j += inc_j ) {
+	for ( i = x0 + inc_i; i != x1; i += inc_i ) {
+		for ( j = y0 + inc_j; j != y1; j += inc_j ) {
 			putpixel( i, j, color );
 		}
 	}

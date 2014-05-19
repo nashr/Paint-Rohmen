@@ -148,7 +148,7 @@ void app_handle_input( void ) {
 			} else if ( side_focus == 5 ) { // FILL
 				
 			} else if ( side_focus == 6 ) { // EMPTY
-				
+				// do nothing
 			}
 		}
 	} else if ( state.buttons == 1 && mouse_prev_state == 1 ) { // on mouse move ( left pressed )
