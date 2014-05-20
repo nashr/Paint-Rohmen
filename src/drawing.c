@@ -192,6 +192,7 @@ int drawing_finalize_line( int x, int y ) {
 	return false;
 }
 
+
 int drawing_prepare_polygon( int x, int y ) {
 	if ( n_polygon < MAX_POL ) {
 		if ( polygons[ n_polygon ].finish ) {
