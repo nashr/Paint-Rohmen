@@ -167,7 +167,7 @@ void drawing_draw( void ) {
     }
     
 	//Draw polygons
-	for ( i = 0; i < n_polygon; i++ ) {
+	for ( i = 0; i <= n_polygon; i++ ) {
 		for ( j = 0; j <= polygons[i].curr_line; j++) {
 			canvas_draw_line( polygons[i].poline[j].x0, polygons[i].poline[j].y0, polygons[i].poline[j].x1, polygons[i].poline[j].y1, 0);
 		}
@@ -235,8 +235,8 @@ int drawing_prepare_polygon( int x, int y ) {
 			int current = polygons[ n_polygon ].curr_line;
 			
 			//ambil titik akhir dari garis sebelumnya untuk titik awal
-			polygons[ n_polygon ].poline[current].x0 = polygons[ n_polygon ].poline[current-1].x0;
-			polygons[ n_polygon ].poline[current].y0 = polygons[ n_polygon ].poline[current-1].y0;
+			polygons[ n_polygon ].poline[current].x0 = polygons[ n_polygon ].poline[current-1].x1;
+			polygons[ n_polygon ].poline[current].y0 = polygons[ n_polygon ].poline[current-1].y1;
 			
 			polygons[ n_polygon ].poline[current].x1 = x; 
 			polygons[ n_polygon ].poline[current].y1 = y;
@@ -254,6 +254,7 @@ int drawing_process_polygon( int x, int y ) {
 		//curr_line : sisi poligon yang sedang digambar
 		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1 = x; 
 		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1 = y;
+		printf("\n%d, %d, %d, %d", polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1, polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1, polygons[ n_polygon ].curr_line, n_polygon);
 		return true;
 	}
 
@@ -265,12 +266,14 @@ int drawing_finalize_polygon( int x, int y ) {
 		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1 = x; 
 		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1 = y;
 		
-		if ( x == polygons[ n_polygon ].poline[0].x0 && y == polygons[ n_polygon ].poline[0].y0) 
+		int xAwal = polygons[ n_polygon ].poline[0].x0;
+		int yAwal = polygons[ n_polygon ].poline[0].y0;
+		if ( x == xAwal && y == yAwal || x == xAwal+1 && y == yAwal+1 || x == xAwal+1 && y == yAwal-1 || x == xAwal-1 && y == yAwal+1 || x == xAwal-1 && y == yAwal-1) 
 		//x & y sama dengan titik awal poligon
 		{
 			polygons[ n_polygon ].finish = true;
 			n_polygon++;
-		} else polygons[ n_polygon ].finish = false;
+		} //else polygons[ n_polygon ].finish = false;
 
 		return true;
 	}
