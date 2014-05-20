@@ -128,6 +128,7 @@ void drawing_rotation_calibrate( int* x, int* y, int r ) {
 
 void drawing_scale( int cx, int cy, float scale ) {
 	int i;
+	int j;
 	
 	// Take scale to lines
 	for ( i = 0; i < n_line; i++ ) {
@@ -149,6 +150,25 @@ void drawing_scale( int cx, int cy, float scale ) {
 		lines[ i ].x1 += cx;
 		lines[ i ].y1 += cy;
 	}
+	
+	// Take scale to polygons
+	for ( i = 0; i <= n_polygon; i++ ) {
+		for ( j = 0; j <= polygons[i].curr_line; j++) {
+			polygons[i].poline[j].x0 -= cx; 
+			polygons[i].poline[j].y0 -= cy; 
+			polygons[i].poline[j].x0 *= scale; 
+			polygons[i].poline[j].y0 *= scale; 
+			polygons[i].poline[j].x0 += cx; 
+			polygons[i].poline[j].y0 += cy; 
+			
+			polygons[i].poline[j].x1 -= cx; 
+			polygons[i].poline[j].y1 -= cy; 
+			polygons[i].poline[j].x1 *= scale; 
+			polygons[i].poline[j].y1 *= scale; 
+			polygons[i].poline[j].x1 += cx; 
+			polygons[i].poline[j].y1 += cy;
+		}
+	}
 
 	return;
 }
@@ -167,7 +187,7 @@ void drawing_draw( void ) {
     }
     
 	//Draw polygons
-	for ( i = 0; i < n_polygon; i++ ) {
+	for ( i = 0; i <= n_polygon; i++ ) {
 		for ( j = 0; j <= polygons[i].curr_line; j++) {
 			canvas_draw_line( polygons[i].poline[j].x0, polygons[i].poline[j].y0, polygons[i].poline[j].x1, polygons[i].poline[j].y1, 0);
 		}
@@ -214,6 +234,73 @@ int drawing_finalize_line( int x, int y ) {
 	return false;
 }
 
+
+int drawing_prepare_polygon( int x, int y ) {
+	if ( n_polygon < MAX_POL ) {
+		if ( polygons[ n_polygon ].finish ) {
+			polygons[ n_polygon ].poline[0].x0 = x;  
+			polygons[ n_polygon ].poline[0].y0 = y;  //inisialisasi titik awal garis pertama
+			                   
+			polygons[ n_polygon ].poline[0].x1 = x;
+			polygons[ n_polygon ].poline[0].y1 = y;
+			                  
+			polygons[ n_polygon ].finish = false;
+			
+			
+		}
+		else if ( polygons[ n_polygon ].curr_line < MAX_LINE_POL ){ //jumlah sisi poligon tidak lebih
+			polygons[ n_polygon ].curr_line++;
+			
+			int current = polygons[ n_polygon ].curr_line;
+			
+			//ambil titik akhir dari garis sebelumnya untuk titik awal
+			polygons[ n_polygon ].poline[current].x0 = polygons[ n_polygon ].poline[current-1].x1;
+			polygons[ n_polygon ].poline[current].y0 = polygons[ n_polygon ].poline[current-1].y1;
+			
+			polygons[ n_polygon ].poline[current].x1 = x; 
+			polygons[ n_polygon ].poline[current].y1 = y;
+		}
+		else return false;
+		
+		return true;
+	}
+
+	return false;
+}
+
+int drawing_process_polygon( int x, int y ) {
+	if ( x > 64 && y > 32 ) {
+		//curr_line : sisi poligon yang sedang digambar
+		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1 = x; 
+		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1 = y;
+		
+		return true;
+	}
+
+	return false;
+}
+
+int drawing_finalize_polygon( int x, int y ) {
+	if ( x > 64 && y > 32 ) {
+		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1 = x; 
+		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1 = y;
+		
+		int xAwal = polygons[ n_polygon ].poline[0].x0;
+		int yAwal = polygons[ n_polygon ].poline[0].y0;
+		if ( x == xAwal && y == yAwal || x == xAwal+10 && y == yAwal+10 || x == xAwal+10 && y == yAwal-10 || x == xAwal-10 && y == yAwal+10 || x == xAwal-10 && y == yAwal-10) 
+		//x & y sama dengan titik awal poligon
+		{
+			polygons[ n_polygon ].finish = true;
+			n_polygon++;
+		} 
+
+		return true;
+	}
+
+	return false;
+}
+
+
 int drawing_prepare_ellipse( int x, int y ) {
     if ( n_ellipse < MAX_ELLIPSE ) {
 		ellipses[ n_ellipse ].x0 = x;
@@ -223,41 +310,6 @@ int drawing_prepare_ellipse( int x, int y ) {
 		ellipses[ n_ellipse ].y1 = y;
 		
         n_ellipse++;
-	}
-
-	return false;
-}
-
-
-int drawing_prepare_polygon( int x, int y ) {
-	if ( n_polygon < MAX_POL ) {
-		if ( polygons[ n_polygon ].finish ) {
-			
-			polygons[ n_polygon ].poline[0].x0 = x;  
-			polygons[ n_polygon ].poline[0].y0 = y;  //inisialisasi titik awal garis pertama
-			
-			polygons[ n_polygon ].poline[0].x1 = x;
-			polygons[ n_polygon ].poline[0].y1 = y;
-			
-			polygons[ n_polygon ].finish = false;
-			
-			n_polygon++;
-		}
-		else if ( polygons[ n_polygon ].curr_line < MAX_LINE_POL ){ //jumlah sisi poligon tidak lebih
-			polygons[ n_polygon ].curr_line++;
-			
-			int current = polygons[ n_polygon ].curr_line;
-			
-			//ambil titik akhir dari garis sebelumnya untuk titik awal
-			polygons[ n_polygon ].poline[current].x0 = polygons[ n_polygon ].poline[current-1].x0;
-			polygons[ n_polygon ].poline[current].y0 = polygons[ n_polygon ].poline[current-1].y0;
-			
-			polygons[ n_polygon ].poline[current].x1 = x; 
-			polygons[ n_polygon ].poline[current].y1 = y;
-		}
-		else return false;
-		
-		return true;
 	}
 
 	return false;
@@ -283,31 +335,4 @@ int drawing_finalize_ellipse( int x, int y ) {
 	}
     
     return false;
-}
-
-int drawing_process_polygon( int x, int y ) {
-	if ( x > 64 && y > 32 ) {
-		//curr_line : sisi poligon yang sedang digambar
-		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1 = x; 
-		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1 = y;
-		return true;
-	}
-
-	return false;
-}
-
-int drawing_finalize_polygon( int x, int y ) {
-	if ( x > 64 && y > 32 ) {
-		if ( x == polygons[ n_polygon ].poline[0].x0 && y == polygons[ n_polygon ].poline[0].y0) 
-		//x & y sama dengan titik awal poligon
-		{
-			polygons[ n_polygon ].finish = true;
-		}
-		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1 = x; 
-		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1 = y;
-
-		return true;
-	}
-
-	return false;
 }
