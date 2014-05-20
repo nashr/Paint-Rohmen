@@ -19,7 +19,7 @@ void app_start( void ) {
 
 void app_build_workspace( void ) {
 	// Build menu
-	rohmen_panel cartesian, move, rotate, skew, zoom_in, zoom_out;
+	rohmen_panel cartesian, move, rotate, skew, zoom_in, zoom_out, pallete;
 	
 	cartesian.type = TYPE_MENU; cartesian.rect.x0 = 0; cartesian.rect.y0 = 0; cartesian.rect.x1 = 64; cartesian.rect.y1 = 32; cartesian.focus = false;
 	move.type = TYPE_MENU; move.rect.x0 = 64; move.rect.y0 = 0; move.rect.x1 = 128; move.rect.y1 = 32; move.focus = false;
@@ -27,6 +27,7 @@ void app_build_workspace( void ) {
 	skew.type = TYPE_MENU; skew.rect.x0 = 192; skew.rect.y0 = 0; skew.rect.x1 = 256; skew.rect.y1 = 32; skew.focus = false;
 	zoom_in.type = TYPE_MENU; zoom_in.rect.x0 = 256; zoom_in.rect.y0 = 0; zoom_in.rect.x1 = 320; zoom_in.rect.y1 = 32; zoom_in.focus = false;
 	zoom_out.type = TYPE_MENU; zoom_out.rect.x0 = 320; zoom_out.rect.y0 = 0; zoom_out.rect.x1 = 384; zoom_out.rect.y1 = 32; zoom_out.focus = false;
+	pallete.type = TYPE_MENU; pallete.rect.x0 = 384; pallete.rect.y0 = 0; pallete.rect.x1 = 640; pallete.rect.y1 = 32; pallete.focus = false;
 	
 	menu_panels[ 0 ] = cartesian;
 	menu_panels[ 1 ] = move;
@@ -34,7 +35,7 @@ void app_build_workspace( void ) {
 	menu_panels[ 3 ] = skew;
 	menu_panels[ 4 ] = zoom_in;
 	menu_panels[ 5 ] = zoom_out;
-	//menu_panels[ 6 ] = ;
+	menu_panels[ 6 ] = pallete;
 
 	// Build sidebar panel
 	rohmen_panel select, line, curve, ellipse, polygon, fill, crop;
@@ -102,6 +103,8 @@ void app_handle_input( void ) {
 					if ( i == 0 ) { // Special case for cartesian ( it's independent from others )
 						menu_panels[ i ].focus += 1;
 						menu_panels[ i ].focus %= 2;
+					} else if ( i == 6 ) { // Special case too for color pallete
+						// TO DO
 					} else {
 						menu_focus = i;
 					}
@@ -205,8 +208,6 @@ void app_handle_input( void ) {
 				// do nothing
 			} else if ( menu_focus == 5 ) { // ZOOM OUT
 				// do nothing
-			} else if ( menu_focus == 6 ) { // COLOR
-				
 			}
 		}
 		
@@ -235,10 +236,8 @@ void app_handle_input( void ) {
 			if ( canvas_zoom_out( state.x, state.y ) ) {
 				drawing_scale( state.x, state.y, DEFAULT_ZOOM_OUT );
 			}
-		} else if ( menu_focus == 6 ) { // COLOR
-			
 		}
-		
+
 		mouse_prev_x = state.x;
 		mouse_prev_y = state.y;
 	} else if ( state.buttons == 0 && mouse_prev_state == 2 ) { // on mouse up ( right released )
@@ -260,10 +259,8 @@ void app_handle_input( void ) {
 			// do nothing
 		} else if ( menu_focus == 5 ) { // ZOOM OUT
 			// do nothing
-		} else if ( menu_focus == 6 ) { // COLOR
-			
 		}
-		
+
 		mouse_prev_x = state.x;
 		mouse_prev_y = state.y;
 	} else if ( state.buttons == 3 ) { // both click ( not to be confused with double click )
@@ -277,7 +274,7 @@ void app_update( void ) {
 	int i;
 
 	// Focus handle
-	for ( i = 1; i < NUM_MENU; i++ ) { // i = 0 ( cartesian ) is an exception
+	for ( i = 1; i < NUM_MENU - 1; i++ ) { // i = 0 ( cartesian ) and i = 6 ( color pallete ) are exceptions
 		if ( i == menu_focus ) {
 			menu_panels[ i ].focus = true;
 		} else {
@@ -304,9 +301,6 @@ void app_draw( void ) {
 	// Draw cartesian if user wants it
 	if ( menu_panels[ 0 ].focus ) {
 		canvas_draw_cartesian( CARTESIAN_ABSIS_COLOR, CARTESIAN_COLOR );
-		int i;
-		for (i=0;i<16;i++)
-			canvas_draw_rectangle(64+32*i,416,64+32*(i+1),480,i,i);
 	}
 	
 	// Draw drawings
@@ -386,6 +380,15 @@ void app_draw( void ) {
 		canvas_draw_line( 341, 16, 363, 16, MENU_FONT_COLOR_FOCUS );
 	} else {
 		canvas_draw_line( 341, 16, 363, 16, MENU_FONT_COLOR );
+	}
+
+	// 7 - COLOR PALLETE
+	for ( i = 0; i < 16; i++ ) {
+		if ( i < 8 ) {
+			canvas_draw_rectangle(384 + 32 * i, 1, 384 + 32 * ( i + 1 ), 16, MENU_FONT_COLOR, i);
+		} else {
+			canvas_draw_rectangle(384 + 32 * ( i - 8 ), 16, 384 + 32 * ( i + 1 - 8 ), 31, MENU_FONT_COLOR, i);
+		}
 	}
 
 	// Draw side panels

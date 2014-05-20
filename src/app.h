@@ -5,7 +5,7 @@
 
 #define TYPE_MENU 0
 #define TYPE_SIDE 1
-#define NUM_MENU 6
+#define NUM_MENU 7
 #define NUM_SIDE 7
 
 typedef struct {
