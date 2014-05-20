@@ -150,6 +150,27 @@ void drawing_scale( int cx, int cy, float scale ) {
 		lines[ i ].x1 += cx;
 		lines[ i ].y1 += cy;
 	}
+    
+	// Take scale to ellipse
+	for ( i = 0; i < n_ellipse; i++ ) {
+		ellipses[ i ].x0 -= cx;
+		ellipses[ i ].y0 -= cy;
+		
+		ellipses[ i ].x0 *= scale;
+		ellipses[ i ].y0 *= scale;
+		
+		ellipses[ i ].x0 += cx;
+		ellipses[ i ].y0 += cy;
+		
+		ellipses[ i ].x1 -= cx;
+		ellipses[ i ].y1 -= cy;
+		
+		ellipses[ i ].x1 *= scale;
+		ellipses[ i ].y1 *= scale;
+		
+		ellipses[ i ].x1 += cx;
+		ellipses[ i ].y1 += cy;
+	}
 	
 	// Take scale to polygons
 	for ( i = 0; i <= n_polygon; i++ ) {
@@ -289,7 +310,7 @@ int drawing_finalize_polygon( int x, int y ) {
 		
 		int xAwal = polygons[ n_polygon ].poline[0].x0;
 		int yAwal = polygons[ n_polygon ].poline[0].y0;
-		if ( x == xAwal && y == yAwal || x == xAwal+10 && y == yAwal+10 || x == xAwal+10 && y == yAwal-10 || x == xAwal-10 && y == yAwal+10 || x == xAwal-10 && y == yAwal-10) 
+		if (( x == xAwal && y == yAwal) || (x == xAwal+10 && y == yAwal+10) || (x == xAwal+10 && y == yAwal-10) || (x == xAwal-10 && y == yAwal+10) || (x == xAwal-10 && y == yAwal-10))
 		//x & y sama dengan titik awal poligon
 		{
 			polygons[ n_polygon ].finish = true;
