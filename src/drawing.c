@@ -3,7 +3,8 @@
 #include <stdio.h>
 
 rohmen_line lines[ MAX_LINE ];
-int n_line;
+rohmen_polygon polygons;
+int n_line; 
 
 // Drawing's global variables
 int drawing_ox = -1, drawing_oy = -1;
@@ -184,6 +185,42 @@ int drawing_finalize_line( int x, int y ) {
 		lines[ n_line - 1 ].x1 = x;
 		lines[ n_line - 1 ].y1 = y;
 
+		return true;
+	}
+
+	return false;
+}
+
+int drawing_prepare_polygon( int x, int y ) {
+	if ( n_line < MAX_LINE ) {
+		n_line++;
+		if ( polygons.finish = true ) {
+			lines[ n_line - 1 ].x0 = x;
+			lines[ n_line - 1 ].y0 = y;
+			polygons.x0 = x;
+			polygons.y0 = y;
+			polygons.finish = false;
+		}
+		else {
+			lines[ n_line - 1 ].x0 = polygons.prevx;
+			lines[ n_line - 1 ].y0 = polygons.prevy;
+		}
+		
+		lines[ n_line - 1 ].x1 = x;
+		lines[ n_line - 1 ].y1 = y;
+		polygons.prevx = x;
+		polygons.prevy = y;
+		
+		return true;
+	}
+
+	return false;
+}
+
+int drawing_process_polygon( int x, int y ) {
+	if ( x > 64 && y > 32 ) {
+		lines[ n_line - 1 ].x1 = x;
+		lines[ n_line - 1 ].y1 = y;
 		return true;
 	}
 

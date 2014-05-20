@@ -27,4 +27,10 @@ int drawing_process_line( int x, int y );
 
 int drawing_finalize_line( int x, int y );
 
+int drawing_prepare_polygon( int x, int y );
+
+int drawing_process_polygon( int x, int y );
+
+int drawing_finalize_polygon( int x, int y );
+
 #endif

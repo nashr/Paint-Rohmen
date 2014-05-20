@@ -30,6 +30,12 @@ typedef struct {
 	int x1; int y1;
 } rohmen_rectangle;
 
+typedef struct {
+	int x0 = 0; int y0 = 0;
+	int prevx = 0; int prevy = 0;
+	int finish = true;
+} rohmen_polygon;
+
 // Canvas' global variables
 extern int page;
 extern int drawing;
