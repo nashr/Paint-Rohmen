@@ -7,6 +7,7 @@ int n_line;
 
 // Drawing's global variables
 int drawing_ox = -1, drawing_oy = -1;
+double drawing_or;
 
 void drawing_translate( int px, int py ) {
 	if ( drawing_ox == -1 || px == -1 ) {
@@ -33,12 +34,14 @@ void drawing_rotate( int px, int py ) {
 	if ( drawing_ox == -1 || px == -1 ) {
 		drawing_ox = px;
 		drawing_oy = py;
+		if ( drawing_ox != -1 ) {
+			drawing_or = sqrt( ( drawing_ox - rx ) * ( drawing_ox - rx ) + ( drawing_oy - ry ) * ( drawing_oy - ry ) );
+		}
 	} else {
 		double d = sqrt( ( drawing_ox - px ) * ( drawing_ox - px ) + ( drawing_oy - py ) * ( drawing_oy - py ) );
-		double r = sqrt( ( drawing_ox - rx ) * ( drawing_ox - rx ) + ( drawing_oy - ry ) * ( drawing_oy - ry ) );
-		double angle = d / r;
-		double s = sin( angle );
-		double c = cos( angle );
+		double angle = d / drawing_or;
+		double s = sin( PI / 18 );
+		double c = cos( PI / 18 );
 		
 		int i;
 		for ( i = 0; i < n_line; i++ ) {
