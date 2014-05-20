@@ -416,6 +416,22 @@ void app_draw( void ) {
 	}
     
 	// 5 - POLYGON
+	if ( side_panels[ 4 ].focus ) {
+		canvas_draw_line( 20, 298, 44, 298, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_line( 44, 298, 54, 320, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_line( 54, 320, 44, 342, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_line( 20, 342, 44, 342, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_line( 20, 342, 10, 320, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_line( 10, 320, 20, 298, PANEL_FONT_COLOR_FOCUS );
+	} else {
+		canvas_draw_line( 44, 298, 54, 320, PANEL_FONT_COLOR );
+		canvas_draw_line( 20, 298, 44, 298, PANEL_FONT_COLOR );
+		canvas_draw_line( 54, 320, 44, 342, PANEL_FONT_COLOR );
+		canvas_draw_line( 20, 342, 44, 342, PANEL_FONT_COLOR );
+		canvas_draw_line( 20, 342, 10, 320, PANEL_FONT_COLOR );
+		canvas_draw_line( 10, 320, 20, 298, PANEL_FONT_COLOR );
+		
+	}
 	
 	// 6 - FILL
 	
