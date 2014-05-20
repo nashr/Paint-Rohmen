@@ -128,6 +128,7 @@ void drawing_rotation_calibrate( int* x, int* y, int r ) {
 
 void drawing_scale( int cx, int cy, float scale ) {
 	int i;
+	int j;
 	
 	// Take scale to lines
 	for ( i = 0; i < n_line; i++ ) {
@@ -148,6 +149,25 @@ void drawing_scale( int cx, int cy, float scale ) {
 		
 		lines[ i ].x1 += cx;
 		lines[ i ].y1 += cy;
+	}
+	
+	// Take scale to polygons
+	for ( i = 0; i <= n_polygon; i++ ) {
+		for ( j = 0; j <= polygons[i].curr_line; j++) {
+			polygons[i].poline[j].x0 -= cx; 
+			polygons[i].poline[j].y0 -= cy; 
+			polygons[i].poline[j].x0 *= scale; 
+			polygons[i].poline[j].y0 *= scale; 
+			polygons[i].poline[j].x0 += cx; 
+			polygons[i].poline[j].y0 += cy; 
+			
+			polygons[i].poline[j].x1 -= cx; 
+			polygons[i].poline[j].y1 -= cy; 
+			polygons[i].poline[j].x1 *= scale; 
+			polygons[i].poline[j].y1 *= scale; 
+			polygons[i].poline[j].x1 += cx; 
+			polygons[i].poline[j].y1 += cy;
+		}
 	}
 
 	return;
@@ -218,7 +238,6 @@ int drawing_finalize_line( int x, int y ) {
 int drawing_prepare_polygon( int x, int y ) {
 	if ( n_polygon < MAX_POL ) {
 		if ( polygons[ n_polygon ].finish ) {
-			polygons[ n_polygon ].curr_line = 0;
 			polygons[ n_polygon ].poline[0].x0 = x;  
 			polygons[ n_polygon ].poline[0].y0 = y;  //inisialisasi titik awal garis pertama
 			                   
@@ -254,7 +273,7 @@ int drawing_process_polygon( int x, int y ) {
 		//curr_line : sisi poligon yang sedang digambar
 		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1 = x; 
 		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1 = y;
-		printf("\n%d, %d, %d, %d", polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1, polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1, polygons[ n_polygon ].curr_line, n_polygon);
+		
 		return true;
 	}
 
@@ -268,12 +287,12 @@ int drawing_finalize_polygon( int x, int y ) {
 		
 		int xAwal = polygons[ n_polygon ].poline[0].x0;
 		int yAwal = polygons[ n_polygon ].poline[0].y0;
-		if ( x == xAwal && y == yAwal || x == xAwal+1 && y == yAwal+1 || x == xAwal+1 && y == yAwal-1 || x == xAwal-1 && y == yAwal+1 || x == xAwal-1 && y == yAwal-1) 
+		if ( x == xAwal && y == yAwal || x == xAwal+10 && y == yAwal+10 || x == xAwal+10 && y == yAwal-10 || x == xAwal-10 && y == yAwal+10 || x == xAwal-10 && y == yAwal-10) 
 		//x & y sama dengan titik awal poligon
 		{
 			polygons[ n_polygon ].finish = true;
 			n_polygon++;
-		} //else polygons[ n_polygon ].finish = false;
+		} 
 
 		return true;
 	}
