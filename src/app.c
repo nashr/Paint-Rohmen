@@ -8,6 +8,7 @@ int mouse_prev_state, mouse_prev_x, mouse_prev_y, exit;
 rohmen_panel menu_panels[ NUM_MENU ];
 rohmen_panel side_panels[ NUM_SIDE ];
 int menu_focus = 1, side_focus = 0;
+int border_color = 0, fill_color = -1;
 
 void app_start( void ) {
 	exit = false;
@@ -385,7 +386,11 @@ void app_draw( void ) {
 	// 7 - COLOR PALLETE
 	for ( i = 0; i < 16; i++ ) {
 		if ( i < 8 ) {
-			canvas_draw_rectangle(384 + 32 * i, 1, 384 + 32 * ( i + 1 ), 16, MENU_FONT_COLOR, i);
+			if ( border_color == i ) {
+				canvas_draw_rectangle(384 + 32 * i, 1, 384 + 32 * ( i + 1 ), 16, MENU_FONT_COLOR_FOCUS, i);
+			} else {
+				canvas_draw_rectangle(384 + 32 * i, 1, 384 + 32 * ( i + 1 ), 16, MENU_FONT_COLOR, i);
+			}
 		} else {
 			canvas_draw_rectangle(384 + 32 * ( i - 8 ), 16, 384 + 32 * ( i + 1 - 8 ), 31, MENU_FONT_COLOR, i);
 		}

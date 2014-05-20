@@ -19,6 +19,7 @@ extern int mouse_prev_state, mouse_prev_x, mouse_prev_y, exit;
 extern rohmen_panel menu_panels[ NUM_MENU ];
 extern rohmen_panel side_panels[ NUM_SIDE ];
 extern int menu_focus, side_focus;
+extern int border_color, fill_color;
 
 // Functions and procedures prototype
 void app_start( void );
