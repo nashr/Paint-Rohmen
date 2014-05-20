@@ -1,4 +1,6 @@
 #include "canvas.h"
+#include <graphics.h>
+#include <math.h>
 #include <stdio.h>
 
 int page;
@@ -6,9 +8,11 @@ int drawing;
 int center_x, center_y;
 int width, height;
 int scale;
+int rx, ry, change_r;
+double angle;
 
 // Canvas' global variables
-int ox, oy;
+int ox = -1, oy = -1;
 
 void canvas_init( void ) {
 	page = 0;
@@ -25,8 +29,9 @@ void canvas_init( void ) {
 	
 	scale = DEFAULT_SCALE;
 	
-	ox = -1;
-	oy = -1;
+	rx = center_x / 2;
+	ry = center_y;
+	change_r = false;
 
 	return;
 }
@@ -60,6 +65,30 @@ const int canvas_inactive_page( void ) {
 	return ( page == 1 ) ? 0 : 1;
 }
 
+int canvas_change_rotation_center( int px, int py ) {
+	if ( change_r || ( fabs( px - rx ) < 5 && fabs( py - ry ) < 5 ) ) {
+		if ( px > OFFSET_X && px < width + OFFSET_X ) {
+			rx = px;
+		}
+		
+		if ( py > OFFSET_Y && py < height + OFFSET_Y ) {
+			ry = py;
+		}
+
+		if ( px == 999 ) {
+			change_r = false;
+		} else {
+			change_r = true;
+		}
+
+		return change_r;
+	}
+
+	change_r = false;
+
+	return false;
+}
+
 int canvas_translate( int px, int py ) {
 	if ( ox == -1 || px == -1 ) {
 		ox = px;
@@ -70,6 +99,77 @@ int canvas_translate( int px, int py ) {
 		
 		ox = px;
 		oy = py;
+	}
+
+	return true;
+}
+
+int canvas_rotate( int px, int py ) {
+	if ( ox == -1 ) {
+		ox = center_x;
+		oy = center_y;
+		angle = 0;
+	} else if ( px == 999 ) {
+		double r = sqrt( ( ox - rx ) * ( ox - rx ) + ( oy - ry ) * ( oy - ry ) );
+
+		center_x -= rx;
+		center_y -= ry;
+
+		if ( fabs( center_x ) > fabs( center_y ) && center_x > 0 ) {
+			center_x = sqrt( r * r - ( center_y ) * ( center_y ) ) + 0.5;
+		} else if ( fabs( center_x ) < fabs( center_y ) && center_y > 0 ) {
+			center_y = sqrt( r * r - ( center_x ) * ( center_x ) ) + 0.5;
+		} else if ( fabs( center_x ) > fabs( center_y ) && center_x < 0 ) {
+			center_x = ( -1 ) * ( sqrt( r * r - ( center_y ) * ( center_y ) ) + 0.5 );
+		} else if ( fabs( center_x ) < fabs( center_y ) && center_y < 0 ) {
+			center_y = ( -1 ) * ( sqrt( r * r - ( center_x ) * ( center_x ) ) + 0.5 );
+		} else {
+			if ( center_x > 0 && center_y < 0 ) {
+				center_x = sqrt( r * r - ( center_y ) * ( center_y ) ) + 0.5;
+			} else if ( center_x > 0 && center_y > 0 ) {
+				center_y = sqrt( r * r - ( center_x ) * ( center_x ) ) + 0.5;
+			} else if ( center_x < 0 && center_y > 0 ) {
+				center_x = ( -1 ) * ( sqrt( r * r - ( center_y ) * ( center_y ) ) + 0.5 );
+			} else if ( center_x < 0 && center_y < 0 ) {
+				center_y = ( -1 ) * ( sqrt( r * r - ( center_x ) * ( center_x ) ) + 0.5 );
+			}
+		}
+
+		center_x += rx;
+		center_y += ry;
+
+		ox = -1;
+		oy = -1;
+	} else if ( px != 0 || py != 0 ) {
+		if ( py < 0 ) {
+			angle += py;
+			if ( angle < 0 ) {
+				angle += 360;
+			}
+		} else if ( py > 0 ) {
+			angle += py;
+			if ( angle > 360 ) {
+				angle -= 360;
+			}
+		}
+
+		double s = sin( angle * PI / 180 );
+		double c = cos( angle * PI / 180 );
+		
+		center_x = ox;
+		center_y = oy;
+
+		center_x -= rx;
+		center_y -= ry;
+
+		int tx = center_x;
+		int ty = center_y;
+
+		center_x = tx * c - ty * s + 0.5;
+		center_y = tx * s + ty * c + 0.5;
+
+		center_x += rx;
+		center_y += ry;
 	}
 
 	return true;
@@ -107,6 +207,12 @@ int canvas_zoom_out( int px, int py ) {
 	}
 
 	return false;
+}
+
+void canvas_draw_rotation_center( void ) {
+	canvas_draw_rectangle( rx - 5, ry - 5, rx + 5, ry + 5, 12, 13 );
+
+	return;
 }
 
 void canvas_draw_cartesian( int absis_color, int cartesian_color ) {
@@ -225,6 +331,76 @@ void canvas_draw_line( int x0, int y0, int x1, int y1, int color ) {
 	}
 
 	return;
+}
+
+void canvas_ellipsePlotPoints(int xCenter, int yCenter, int x, int y, int color)
+{
+    putpixel(xCenter + x, yCenter + y, color);
+    putpixel(xCenter - x, yCenter + y, color);
+    putpixel(xCenter + x, yCenter - y, color);
+    putpixel(xCenter - x, yCenter - y, color);
+}
+
+void canvas_draw_ellipse_mouse(int xCenter, int yCenter, int x, int y, int color)
+{
+    // calculate radius
+    int Rx = x - xCenter;
+    int Ry = y - yCenter;
+    if(Rx < 0) Rx = -Rx;
+    if(Ry < 0) Ry = -Ry;
+    if(Rx > 0 && Ry > 0)
+        canvas_draw_ellipse(xCenter, yCenter, Rx, Ry, color);
+    
+    return;
+}
+
+void canvas_draw_ellipse(int xCenter, int yCenter, int Rx, int Ry, int color)
+{
+    int midx = xCenter;
+    int midy = yCenter;
+
+    float p;
+    float rxSq = Rx*Rx;
+    float rySq = Ry*Ry;
+    float rxSq2 = rxSq*2;
+    float rySq2 = rySq*2;
+    int x = 0, y = Ry;
+    float px = 0, py = 2*rxSq*y;
+
+   canvas_ellipsePlotPoints(midx, midy, x, y, color);
+
+    // Region1
+    p = rySq - (rxSq*Ry) + (rxSq * 0.25);
+    while(px < py) {
+        x++;
+        px += rySq2;
+        if(p < 0) {
+            p += rySq + px;
+        } else {
+            y--;
+            py -= rxSq2;
+            p += rySq + px - py;
+        }
+        canvas_ellipsePlotPoints(midx, midy, x, y, color);
+    }
+
+    // Region 2
+    p = (rySq*(x+0.5)*(x+0.5)) + (rxSq*(y - 1)*(y - 1)) - (rxSq*rySq);
+
+    while(y > 0) {
+        y--;
+        py -= rxSq2;
+        if(p > 0) {
+            p += rxSq - py;
+        } else {
+            x++;
+            px += 2*rySq2;
+            p += rxSq - py + px;
+        }
+        canvas_ellipsePlotPoints(midx, midy, x, y, color);
+    }
+    
+    return;
 }
 
 void canvas_draw_rectangle( int x0, int y0, int x1, int y1, int border_color, int fill_color ) {
