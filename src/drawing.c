@@ -202,20 +202,6 @@ int drawing_finalize_line( int x, int y ) {
 	return false;
 }
 
-int drawing_prepare_ellipse( int x, int y ) {
-    if ( n_ellipse < MAX_ELLIPSE ) {
-		ellipses[ n_ellipse ].x0 = x;
-		ellipses[ n_ellipse ].y0 = y;
-		
-		ellipses[ n_ellipse ].x1 = x;
-		ellipses[ n_ellipse ].y1 = y;
-		
-        n_ellipse++;
-	}
-
-	return false;
-}
-
 
 int drawing_prepare_polygon( int x, int y ) {
 	if ( n_polygon < MAX_POL ) {
@@ -223,13 +209,13 @@ int drawing_prepare_polygon( int x, int y ) {
 			polygons[ n_polygon ].curr_line = 0;
 			polygons[ n_polygon ].poline[0].x0 = x;  
 			polygons[ n_polygon ].poline[0].y0 = y;  //inisialisasi titik awal garis pertama
-			
+			                   
 			polygons[ n_polygon ].poline[0].x1 = x;
 			polygons[ n_polygon ].poline[0].y1 = y;
-			
+			                  
 			polygons[ n_polygon ].finish = false;
 			
-			n_polygon++;
+			
 		}
 		else if ( polygons[ n_polygon ].curr_line < MAX_LINE_POL ){ //jumlah sisi poligon tidak lebih
 			polygons[ n_polygon ].curr_line++;
@@ -246,6 +232,50 @@ int drawing_prepare_polygon( int x, int y ) {
 		else return false;
 		
 		return true;
+	}
+
+	return false;
+}
+
+int drawing_process_polygon( int x, int y ) {
+	if ( x > 64 && y > 32 ) {
+		//curr_line : sisi poligon yang sedang digambar
+		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1 = x; 
+		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1 = y;
+		return true;
+	}
+
+	return false;
+}
+
+int drawing_finalize_polygon( int x, int y ) {
+	if ( x > 64 && y > 32 ) {
+		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1 = x; 
+		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1 = y;
+		
+		if ( x == polygons[ n_polygon ].poline[0].x0 && y == polygons[ n_polygon ].poline[0].y0) 
+		//x & y sama dengan titik awal poligon
+		{
+			polygons[ n_polygon ].finish = true;
+			n_polygon++;
+		} else polygons[ n_polygon ].finish = false;
+
+		return true;
+	}
+
+	return false;
+}
+
+
+int drawing_prepare_ellipse( int x, int y ) {
+    if ( n_ellipse < MAX_ELLIPSE ) {
+		ellipses[ n_ellipse ].x0 = x;
+		ellipses[ n_ellipse ].y0 = y;
+		
+		ellipses[ n_ellipse ].x1 = x;
+		ellipses[ n_ellipse ].y1 = y;
+		
+        n_ellipse++;
 	}
 
 	return false;
@@ -271,32 +301,4 @@ int drawing_finalize_ellipse( int x, int y ) {
 	}
     
     return false;
-}
-
-int drawing_process_polygon( int x, int y ) {
-	if ( x > 64 && y > 32 ) {
-		//curr_line : sisi poligon yang sedang digambar
-		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1 = x; 
-		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1 = y;
-		return true;
-	}
-
-	return false;
-}
-
-int drawing_finalize_polygon( int x, int y ) {
-	if ( x > 64 && y > 32 ) {
-		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1 = x; 
-		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1 = y;
-		
-		if ( x == polygons[ n_polygon ].poline[0].x0 && y == polygons[ n_polygon ].poline[0].y0) 
-		//x & y sama dengan titik awal poligon
-		{
-			polygons[ n_polygon ].finish = true;
-		}
-
-		return true;
-	}
-
-	return false;
 }
