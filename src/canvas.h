@@ -32,6 +32,11 @@ typedef struct {
 } rohmen_rectangle;
 
 typedef struct {
+    int x0; int y0;
+    int x1; int y1;
+} rohmen_ellipse;
+
+typedef struct {
 	rohmen_line poline[MAX_LINE_POL]; //garis sisi yang membentuk poligon
 	int curr_line; //sisi poligon yang sedang digambar
 	int finish = true; //selesai membentuk poligon
@@ -72,6 +77,10 @@ void canvas_draw_rotation_center( void );
 void canvas_draw_cartesian( int absis_color, int cartesian_color );
 
 void canvas_draw_line( int x0, int y0, int x1, int y1, int color );
+
+void canvas_ellipsePlotPoints(int xCenter, int yCenter, int x, int y, int color);
+
+void canvas_draw_ellipse(int xCenter, int yCenter, int Rx, int Ry, int color);
 
 void canvas_draw_rectangle( int x0, int y0, int x1, int y1, int border_color, int fill_color );
 

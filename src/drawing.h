@@ -4,14 +4,16 @@
 #define DRAWING_H
 
 #define MAX_LINE 100
+#define MAX_ELLIPSE 30
 #define MAX_POL 10
 #define MAX_LINE_POL 50
 
-
 // Drawing's global variables
 extern rohmen_line lines[ MAX_LINE ];
+extern rohmen_ellipse ellipses[ MAX_ELLIPSE ];
 extern rohmen_polygon polygons[ MAX_POL ];
 extern int n_line;
+extern int n_ellipse;
 extern int n_polygon;
 
 void drawing_translate( int px, int py );
@@ -37,5 +39,11 @@ int drawing_prepare_polygon( int x, int y );
 int drawing_process_polygon( int x, int y );
 
 int drawing_finalize_polygon( int x, int y );
+
+int drawing_prepare_ellipse( int x, int y );
+
+int drawing_process_ellipse( int x, int y );
+
+int drawing_finalize_ellipse( int x, int y );
 
 #endif

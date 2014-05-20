@@ -333,6 +333,63 @@ void canvas_draw_line( int x0, int y0, int x1, int y1, int color ) {
 	return;
 }
 
+void canvas_ellipsePlotPoints(int xCenter, int yCenter, int x, int y, int color)
+{
+    putpixel(xCenter + x, yCenter + y, color);
+    //putpixel(xCenter - x, yCenter + y, color);
+    //putpixel(xCenter + x, yCenter - y, color);
+    //putpixel(xCenter - x, yCenter - y, color);
+}
+
+void canvas_draw_ellipse(int xCenter, int yCenter, int Rx, int Ry, int color)
+{
+    int midx = xCenter;
+    int midy = yCenter;
+
+    float p;
+    float rxSq = Rx*Rx;
+    float rySq = Ry*Ry;
+    float rxSq2 = rxSq*2;
+    float rySq2 = rySq*2;
+    int x = 0, y = Ry;
+    float px = 0, py = 2*rxSq*y;
+
+   canvas_ellipsePlotPoints(midx, midy, x, y, color);
+
+    // Region1
+    p = rySq - (rxSq*Ry) + (rxSq * 0.25);
+    while(px < py) {
+        x++;
+        px += rySq2;
+        if(p < 0) {
+            p += rySq + px;
+        } else {
+            y--;
+            py -= rxSq2;
+            p += rySq + px - py;
+        }
+        canvas_ellipsePlotPoints(midx, midy, x, y, color);
+    }
+
+    // Region 2
+    p = (rySq*(x+0.5)*(x+0.5)) + (rxSq*(y - 1)*(y - 1)) - (rxSq*rySq);
+
+    while(y > 0) {
+        y--;
+        py -= rxSq2;
+        if(p > 0) {
+            p += rxSq - py;
+        } else {
+            x++;
+            px += 2*rySq2;
+            p += rxSq - py + px;
+        }
+        canvas_ellipsePlotPoints(midx, midy, x, y, color);
+    }
+    
+    return;
+}
+
 void canvas_draw_rectangle( int x0, int y0, int x1, int y1, int border_color, int fill_color ) {
 	canvas_draw_line( x0, y0, x0, y1, border_color );
 	canvas_draw_line( x0, y1, x1, y1, border_color );
