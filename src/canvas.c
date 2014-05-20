@@ -84,36 +84,28 @@ int canvas_rotate( int px, int py ) {
 		ox = center_x;
 		oy = center_y;
 		angle = 0;
-	} else if ( px == -1 ) {
+	} else if ( px == 999 ) {
 		double r = sqrt( ( ox - rx ) * ( ox - rx ) + ( oy - ry ) * ( oy - ry ) );
 
 		center_x -= rx;
 		center_y -= ry;
 
 		if ( fabs( center_x ) > fabs( center_y ) && center_x > 0 ) {
-			center_y += 1;
 			center_x = sqrt( r * r - ( center_y ) * ( center_y ) ) + 0.5;
 		} else if ( fabs( center_x ) < fabs( center_y ) && center_y > 0 ) {
-			center_x -= 1;
 			center_y = sqrt( r * r - ( center_x ) * ( center_x ) ) + 0.5;
 		} else if ( fabs( center_x ) > fabs( center_y ) && center_x < 0 ) {
-			center_y -= 1;
 			center_x = ( -1 ) * ( sqrt( r * r - ( center_y ) * ( center_y ) ) + 0.5 );
 		} else if ( fabs( center_x ) < fabs( center_y ) && center_y < 0 ) {
-			center_x += 1;
 			center_y = ( -1 ) * ( sqrt( r * r - ( center_x ) * ( center_x ) ) + 0.5 );
 		} else {
 			if ( center_x > 0 && center_y < 0 ) {
-				center_y += 1;
 				center_x = sqrt( r * r - ( center_y ) * ( center_y ) ) + 0.5;
 			} else if ( center_x > 0 && center_y > 0 ) {
-				center_x -= 1;
 				center_y = sqrt( r * r - ( center_x ) * ( center_x ) ) + 0.5;
 			} else if ( center_x < 0 && center_y > 0 ) {
-				center_y -= 1;
 				center_x = ( -1 ) * ( sqrt( r * r - ( center_y ) * ( center_y ) ) + 0.5 );
 			} else if ( center_x < 0 && center_y < 0 ) {
-				center_x += 1;
 				center_y = ( -1 ) * ( sqrt( r * r - ( center_x ) * ( center_x ) ) + 0.5 );
 			}
 		}
@@ -121,12 +113,19 @@ int canvas_rotate( int px, int py ) {
 		center_x += rx;
 		center_y += ry;
 
-		ox = px;
-		oy = py;
-	} else {
-		angle += 1;
-		if ( angle > 360 ) {
-			angle -= 360;
+		ox = -1;
+		oy = -1;
+	} else if ( px != 0 || py != 0 ) {
+		if ( py < 0 ) {
+			angle += py;
+			if ( angle < 0 ) {
+				angle += 360;
+			}
+		} else if ( py > 0 ) {
+			angle += py;
+			if ( angle > 360 ) {
+				angle -= 360;
+			}
 		}
 
 		double s = sin( angle * PI / 180 );

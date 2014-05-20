@@ -4,7 +4,7 @@
 #include <graphics.h>
 #include <stdio.h>
 
-int mouse_prev_state, exit;
+int mouse_prev_state, mouse_prev_x, mouse_prev_y, exit;
 rohmen_panel menu_panels[ NUM_MENU ];
 rohmen_panel side_panels[ NUM_SIDE ];
 int menu_focus = 1, side_focus = 0;
@@ -89,10 +89,13 @@ void app_handle_input( void ) {
 
 	if ( state.buttons == 0 && mouse_prev_state == 0 ) { // hover ( no click )
 		mouse_prev_state = 0;
+		
+		mouse_prev_x = state.x;
+		mouse_prev_y = state.y;
 	} else if ( state.buttons == 1 && mouse_prev_state == 0 ) { // on mouse down ( left clicked )
 		int done = false;
-
 		mouse_prev_state = 1;
+		
 		if ( !done ) {
 			for ( i = 0; i < NUM_MENU; i++ ) {
 				if ( state.x > menu_panels[ i ].rect.x0 && state.x < menu_panels[ i ].rect.x1 
@@ -137,8 +140,12 @@ void app_handle_input( void ) {
 				
 			}
 		}
+		
+		mouse_prev_x = state.x;
+		mouse_prev_y = state.y;
 	} else if ( state.buttons == 1 && mouse_prev_state == 1 ) { // on mouse move ( left pressed )
 		mouse_prev_state = 1;
+		
 		if ( side_focus == 0 ) { // SELECT
 			
 		} else if ( side_focus == 1 ) { // LINE
@@ -154,8 +161,12 @@ void app_handle_input( void ) {
 		} else if ( side_focus == 6 ) { // crop
 			
 		}
+		
+		mouse_prev_x = state.x;
+		mouse_prev_y = state.y;
 	} else if ( state.buttons == 0 && mouse_prev_state == 1 ) { // on mouse up ( left released )
 		mouse_prev_state = 0;
+		
 		if ( side_focus == 0 ) { // SELECT
 			
 		} else if ( side_focus == 1 ) { // LINE
@@ -171,18 +182,21 @@ void app_handle_input( void ) {
 		} else if ( side_focus == 6 ) { // crop
 			
 		}
+		
+		mouse_prev_x = state.x;
+		mouse_prev_y = state.y;
 	} else if ( state.buttons == 2 && mouse_prev_state == 0 ) { // on mouse down ( right clicked )
 		int done = false;
-		
 		mouse_prev_state = 2;
+
 		if ( !done ) {
 			if ( menu_focus == 1 ) { // MOVE
 				if ( canvas_translate( state.x, state.y ) ) {
 					drawing_translate( state.x, state.y );
 				}
 			} else if ( menu_focus == 2 ) { // ROTATE
-				if ( canvas_rotate( state.x, state.y ) ) {
-					drawing_rotate( state.x, state.y );
+				if ( canvas_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y ) ) {
+					drawing_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y );
 				}
 			} else if ( menu_focus == 3 ) { // SKEW
 				
@@ -194,15 +208,19 @@ void app_handle_input( void ) {
 				// do nothing
 			}
 		}
+		
+		mouse_prev_x = state.x;
+		mouse_prev_y = state.y;
 	} else if ( state.buttons == 2 && mouse_prev_state == 2 ) { // on mouse move ( right pressed )
 		mouse_prev_state = 2;
+
 		if ( menu_focus == 1 ) { // MOVE
 			if ( canvas_translate( state.x, state.y ) ) {
 				drawing_translate( state.x, state.y );
 			}
 		} else if ( menu_focus == 2 ) { // ROTATE
-			if ( canvas_rotate( state.x, state.y ) ) {
-				drawing_rotate( state.x, state.y );
+			if ( canvas_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y ) ) {
+				drawing_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y );
 			}
 		} else if ( menu_focus == 3 ) { // SKEW
 			
@@ -217,11 +235,15 @@ void app_handle_input( void ) {
 				drawing_scale( state.x, state.y, DEFAULT_ZOOM_OUT );
 			}
 		}
+		
+		mouse_prev_x = state.x;
+		mouse_prev_y = state.y;
 	} else if ( state.buttons == 0 && mouse_prev_state == 2 ) { // on mouse up ( right released )
 		mouse_prev_state = 0;
+
 		if ( menu_focus == 1 ) { // MOVE
-			if ( canvas_translate( -1, -1 ) ) {
-				drawing_translate( -1, -1 );
+			if ( canvas_translate( 999, 999 ) ) {
+				drawing_translate( 999, 999 );
 			}
 		} else if ( menu_focus == 2 ) { // ROTATE
 			if ( canvas_rotate( -1, -1 ) ) {
@@ -236,8 +258,11 @@ void app_handle_input( void ) {
 		} else if ( menu_focus == 6 ) { // ZOOM OUT
 			// do nothing
 		}
-	} else if ( state.buttons == 3 ) { // both click ( not to be confused with double click )
 		
+		mouse_prev_x = state.x;
+		mouse_prev_y = state.y;
+	} else if ( state.buttons == 3 ) { // both click ( not to be confused with double click )
+		// do nothing
 	}
 
 	return;
