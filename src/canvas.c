@@ -336,9 +336,22 @@ void canvas_draw_line( int x0, int y0, int x1, int y1, int color ) {
 void canvas_ellipsePlotPoints(int xCenter, int yCenter, int x, int y, int color)
 {
     putpixel(xCenter + x, yCenter + y, color);
-    //putpixel(xCenter - x, yCenter + y, color);
-    //putpixel(xCenter + x, yCenter - y, color);
-    //putpixel(xCenter - x, yCenter - y, color);
+    putpixel(xCenter - x, yCenter + y, color);
+    putpixel(xCenter + x, yCenter - y, color);
+    putpixel(xCenter - x, yCenter - y, color);
+}
+
+void canvas_draw_ellipse_mouse(int xCenter, int yCenter, int x, int y, int color)
+{
+    // calculate radius
+    int Rx = x - xCenter;
+    int Ry = y - yCenter;
+    if(Rx < 0) Rx = -Rx;
+    if(Ry < 0) Ry = -Ry;
+    if(Rx > 0 && Ry > 0)
+        canvas_draw_ellipse(xCenter, yCenter, Rx, Ry, color);
+    
+    return;
 }
 
 void canvas_draw_ellipse(int xCenter, int yCenter, int Rx, int Ry, int color)

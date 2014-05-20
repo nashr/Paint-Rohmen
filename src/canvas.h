@@ -80,6 +80,8 @@ void canvas_draw_line( int x0, int y0, int x1, int y1, int color );
 
 void canvas_ellipsePlotPoints(int xCenter, int yCenter, int x, int y, int color);
 
+void canvas_draw_ellipse_mouse(int xCenter, int yCenter, int x, int y, int color);
+
 void canvas_draw_ellipse(int xCenter, int yCenter, int Rx, int Ry, int color);
 
 void canvas_draw_rectangle( int x0, int y0, int x1, int y1, int border_color, int fill_color );

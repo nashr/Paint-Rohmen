@@ -413,9 +413,11 @@ void app_draw( void ) {
 	
 	// 4 - ELLIPSE
 	if ( side_panels[ 3 ].focus ) {
-		canvas_draw_ellipse( 32, 256, 48, 256, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_ellipse_mouse( 32, 256, 57, 272, PANEL_FONT_COLOR_FOCUS );
+		//canvas_draw_ellipse( 32, 256, 25, 16, PANEL_FONT_COLOR_FOCUS );
 	} else {
-		canvas_draw_ellipse( 32, 256, 48, 256, PANEL_FONT_COLOR );
+		canvas_draw_ellipse_mouse( 32, 256, 57, 272, PANEL_FONT_COLOR );
+		//canvas_draw_ellipse( 32, 256, 25, 16, PANEL_FONT_COLOR );
 	}
     
 	// 5 - POLYGON
