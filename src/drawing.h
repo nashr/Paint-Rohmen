@@ -8,6 +8,8 @@
 #define MAX_POL 10
 #define MAX_LINE_POL 50
 
+#define MARGIN 5
+
 // Drawing's global variables
 extern rohmen_line lines[ MAX_LINE ];
 extern rohmen_ellipse ellipses[ MAX_ELLIPSE ];

@@ -310,7 +310,7 @@ int drawing_finalize_polygon( int x, int y ) {
 		
 		int xAwal = polygons[ n_polygon ].poline[0].x0;
 		int yAwal = polygons[ n_polygon ].poline[0].y0;
-		if (( x == xAwal && y == yAwal) || (x == xAwal+10 && y == yAwal+10) || (x == xAwal+10 && y == yAwal-10) || (x == xAwal-10 && y == yAwal+10) || (x == xAwal-10 && y == yAwal-10))
+		if ( fabs( x - xAwal ) < MARGIN && fabs( y - yAwal) < MARGIN )
 		//x & y sama dengan titik awal poligon
 		{
 			polygons[ n_polygon ].finish = true;
