@@ -30,6 +30,11 @@ typedef struct {
 	int x1; int y1;
 } rohmen_rectangle;
 
+typedef struct {
+    int x0; int y0;
+    int x1; int y1;
+} rohmen_ellipse;
+
 // Canvas' global variables
 extern int page;
 extern int drawing;
@@ -64,6 +69,10 @@ void canvas_draw_rotation_center( void );
 void canvas_draw_cartesian( int absis_color, int cartesian_color );
 
 void canvas_draw_line( int x0, int y0, int x1, int y1, int color );
+
+void canvas_ellipsePlotPoints(int xCenter, int yCenter, int x, int y, int color);
+
+void canvas_draw_ellipse(int xCenter, int yCenter, int Rx, int Ry, int color);
 
 void canvas_draw_rectangle( int x0, int y0, int x1, int y1, int border_color, int fill_color );
 

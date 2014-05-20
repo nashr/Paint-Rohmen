@@ -3,7 +3,9 @@
 #include <stdio.h>
 
 rohmen_line lines[ MAX_LINE ];
+rohmen_ellipse ellipses[ MAX_ELLIPSE ];
 int n_line;
+int n_ellipse;
 
 // Drawing's global variables
 int drawing_ox = -1, drawing_oy = -1;
@@ -151,4 +153,42 @@ int drawing_finalize_line( int x, int y ) {
 	}
 
 	return false;
+}
+
+int drawing_prepare_ellipse( int x, int y ) {
+    if ( n_ellipse < MAX_ELLIPSE ) {
+		ellipses[ n_ellipse ].x0 = x;
+		ellipses[ n_ellipse ].y0 = y;
+		
+		ellipses[ n_ellipse ].x1 = x;
+		ellipses[ n_ellipse ].y1 = y;
+		
+        n_ellipse++;
+        
+		return true;
+	}
+
+	return false;
+}
+
+int drawing_process_ellipse( int x, int y ) {
+    if ( x > 64 && y > 32 ) {
+		ellipses[ n_ellipse - 1 ].x1 = x;
+		ellipses[ n_ellipse - 1 ].y1 = y;
+		
+		return true;
+	}
+    
+    return false;
+}
+
+int drawing_finalize_ellipse( int x, int y ) {
+    if ( x > 64 && y > 32 ) {
+		ellipses[ n_ellipse - 1 ].x1 = x;
+		ellipses[ n_ellipse - 1 ].y1 = y;
+
+		return true;
+	}
+    
+    return false;
 }

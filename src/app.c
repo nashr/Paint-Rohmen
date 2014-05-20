@@ -131,7 +131,7 @@ void app_handle_input( void ) {
 			} else if ( side_focus == 2 ) { // CURVE
 				
 			} else if ( side_focus == 3 ) { // ELLIPSE
-				
+				drawing_prepare_ellipse( state.x, state.y );
 			} else if ( side_focus == 4 ) { // POLYGON
 				
 			} else if ( side_focus == 5 ) { // FILL
@@ -153,7 +153,7 @@ void app_handle_input( void ) {
 		} else if ( side_focus == 2 ) { // CURVE
 			
 		} else if ( side_focus == 3 ) { // ELLIPSE
-			
+			drawing_process_ellipse( state.x, state.y );
 		} else if ( side_focus == 4 ) { // POLYGON
 			
 		} else if ( side_focus == 5 ) { // FILL
@@ -174,7 +174,7 @@ void app_handle_input( void ) {
 		} else if ( side_focus == 2 ) { // CURVE
 			
 		} else if ( side_focus == 3 ) { // ELLIPSE
-			
+			drawing_finalize_ellipse( state.x, state.y );
 		} else if ( side_focus == 4 ) { // POLYGON
 			
 		} else if ( side_focus == 5 ) { // FILL
@@ -403,7 +403,12 @@ void app_draw( void ) {
 	// 3 - CURVE
 	
 	// 4 - ELLIPSE
-	
+	if ( side_panels[ 3 ].focus ) {
+		canvas_draw_ellipse( 32, 256, 48, 256, PANEL_FONT_COLOR_FOCUS );
+	} else {
+		canvas_draw_ellipse( 32, 256, 48, 256, PANEL_FONT_COLOR );
+	}
+    
 	// 5 - POLYGON
 	
 	// 6 - FILL
