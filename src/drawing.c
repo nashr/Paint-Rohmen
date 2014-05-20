@@ -313,6 +313,9 @@ int drawing_finalize_polygon( int x, int y ) {
 		if ( fabs( x - xAwal ) < MARGIN && fabs( y - yAwal) < MARGIN )
 		//x & y sama dengan titik awal poligon
 		{
+			polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1 = xAwal; 
+			polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1 = yAwal;
+
 			polygons[ n_polygon ].finish = true;
 			n_polygon++;
 		} 
