@@ -9,7 +9,7 @@ int n_polygon;
 
 // Drawing's global variables
 int drawing_ox = -1, drawing_oy = -1;
-double drawing_or;
+rohmen_line olines[ MAX_LINE ];
 
 void drawing_translate( int px, int py ) {
 	if ( drawing_ox == -1 || px == -1 ) {
@@ -33,48 +33,85 @@ void drawing_translate( int px, int py ) {
 }
 
 void drawing_rotate( int px, int py ) {
-	if ( drawing_ox == -1 || px == -1 ) {
-		drawing_ox = px;
-		drawing_oy = py;
-		if ( drawing_ox != -1 ) {
-			drawing_or = sqrt( ( drawing_ox - rx ) * ( drawing_ox - rx ) + ( drawing_oy - ry ) * ( drawing_oy - ry ) );
-		}
-	} else {
-		double d = sqrt( ( drawing_ox - px ) * ( drawing_ox - px ) + ( drawing_oy - py ) * ( drawing_oy - py ) );
-		double angle = d / drawing_or;
-		double s = sin( PI / 18 );
-		double c = cos( PI / 18 );
+	if ( drawing_ox == -1 ) {
+		drawing_ox = 999;
 		
 		int i;
 		for ( i = 0; i < n_line; i++ ) {
-			lines[ i ].x0 -= rx;
-			lines[ i ].y0 -= ry;
-			
-			int tx = lines[ i ].x0;
-			int ty = lines[ i ].y0;
-
-			lines[ i ].x0 = tx * c - ty * s;
-			lines[ i ].y0 = tx * s + ty * c;
-
-			lines[ i ].x0 += rx;
-			lines[ i ].y0 += ry;
-
-			lines[ i ].x1 -= rx;
-			lines[ i ].y1 -= ry;
-			
-			tx = lines[ i ].x1;
-			ty = lines[ i ].y1;
-
-			lines[ i ].x1 = tx * c - ty * s;
-			lines[ i ].y1 = tx * s + ty * c;
-
-			lines[ i ].x1 += rx;
-			lines[ i ].y1 += ry;
+			olines[ i ] = lines[ i ];
 		}
-		
-		drawing_ox = px;
-		drawing_oy = py;
+	} else if ( px == 999 ) {
+		int i;
+		for ( i = 0; i < n_line; i++ ) {
+			double r;
+
+			r = sqrt( ( olines[ i ].x0 - rx ) * ( olines[ i ].x0 - rx ) + ( olines[ i ].y0 - ry ) * ( olines[ i ].y0 - ry ) );
+			drawing_rotation_calibrate( &lines[ i ].x0, &lines[ i ].y0, r );
+
+			r = sqrt( ( olines[ i ].x1 - rx ) * ( olines[ i ].x1 - rx ) + ( olines[ i ].y1 - ry ) * ( olines[ i ].y1 - ry ) );
+			drawing_rotation_calibrate( &lines[ i ].x1, &lines[ i ].y1, r );
+		}
+
+		drawing_ox = -1;
+		drawing_oy = -1;
+	} else {
+		int i;
+		for ( i = 0; i < n_line; i++ ) {
+			lines[ i ] = olines[ i ];
+
+			drawing_rotate_point( &lines[ i ].x0, &lines[ i ].y0 );
+			drawing_rotate_point( &lines[ i ].x1, &lines[ i ].y1 );
+		}
 	}
+
+	return;
+}
+
+void drawing_rotate_point( int* x, int* y ) {
+	double s = sin( angle * PI / 180 );
+	double c = cos( angle * PI / 180 );
+
+	*x -= rx;
+	*y -= ry;
+	
+	int tx = *x;
+	int ty = *y;
+
+	*x = tx * c - ty * s;
+	*y = tx * s + ty * c;
+
+	*x += rx;
+	*y += ry;
+
+	return;
+}
+
+void drawing_rotation_calibrate( int* x, int* y, int r ) {
+	*x -= rx;
+	*y -= ry;
+
+	if ( fabs( *x ) > fabs( *y ) && ( *x ) > 0 ) {
+		*x = sqrt( r * r - ( *y ) * ( *y ) ) + 0.5;
+	} else if ( fabs( *x ) < fabs( *y ) && ( *y ) > 0 ) {
+		*y = sqrt( r * r - ( *x ) * ( *x ) ) + 0.5;
+	} else if ( fabs( *x ) > fabs( *y ) && ( *x ) < 0 ) {
+		*x = ( -1 ) * ( sqrt( r * r - ( *y ) * ( *y ) ) + 0.5 );
+	} else if ( fabs( *x ) < fabs( *y ) && ( *y ) < 0 ) {
+		*y = ( -1 ) * ( sqrt( r * r - ( *x ) * ( *x ) ) + 0.5 );
+	} else {
+		if ( ( *x ) > 0 && ( *y ) < 0 ) {
+			*x = sqrt( r * r - ( *y ) * ( *y ) ) + 0.5;
+		} else if ( ( *x ) > 0 && ( *y ) > 0 ) {
+			*y = sqrt( r * r - ( *x ) * ( *x ) ) + 0.5;
+		} else if ( ( *x ) < 0 && ( *y ) > 0 ) {
+			*x = ( -1 ) * ( sqrt( r * r - ( *y ) * ( *y ) ) + 0.5 );
+		} else if ( ( *x ) < 0 && y < 0 ) {
+			*y = ( -1 ) * ( sqrt( r * r - ( *x ) * ( *x ) ) + 0.5 );
+		}
+	}
+
+	*x += rx;
+	*y += ry;
 
 	return;
 }
