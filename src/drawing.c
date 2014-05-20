@@ -179,3 +179,13 @@ int drawing_prepare_polygon( int x, int y ) {
 
 	return false;
 }
+
+int drawing_process_polygon( int x, int y ) {
+	if ( x > 64 && y > 32 ) {
+		lines[ n_line - 1 ].x1 = x;
+		lines[ n_line - 1 ].y1 = y;
+		return true;
+	}
+
+	return false;
+}
