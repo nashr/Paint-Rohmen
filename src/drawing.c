@@ -204,7 +204,7 @@ int drawing_finalize_line( int x, int y ) {
 int drawing_prepare_polygon( int x, int y ) {
 	if ( n_polygon < MAX_POL ) {
 		if ( polygons[ n_polygon ].finish ) {
-			
+			polygons[ n_polygon ].curr_line = 0;
 			polygons[ n_polygon ].poline[0].x0 = x;  
 			polygons[ n_polygon ].poline[0].y0 = y;  //inisialisasi titik awal garis pertama
 			
@@ -249,13 +249,14 @@ int drawing_process_polygon( int x, int y ) {
 
 int drawing_finalize_polygon( int x, int y ) {
 	if ( x > 64 && y > 32 ) {
+		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1 = x; 
+		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1 = y;
+		
 		if ( x == polygons[ n_polygon ].poline[0].x0 && y == polygons[ n_polygon ].poline[0].y0) 
 		//x & y sama dengan titik awal poligon
 		{
 			polygons[ n_polygon ].finish = true;
 		}
-		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1 = x; 
-		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1 = y;
 
 		return true;
 	}

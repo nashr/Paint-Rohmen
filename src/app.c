@@ -135,6 +135,7 @@ void app_handle_input( void ) {
 			} else if ( side_focus == 3 ) { // ELLIPSE
 				
 			} else if ( side_focus == 4 ) { // POLYGON
+				drawing_prepare_polygon( state.x, state.y );
 				
 			} else if ( side_focus == 5 ) { // FILL
 				
@@ -157,6 +158,7 @@ void app_handle_input( void ) {
 		} else if ( side_focus == 3 ) { // ELLIPSE
 			
 		} else if ( side_focus == 4 ) { // POLYGON
+			drawing_process_polygon( state.x, state.y );
 			
 		} else if ( side_focus == 5 ) { // FILL
 			
@@ -178,6 +180,7 @@ void app_handle_input( void ) {
 		} else if ( side_focus == 3 ) { // ELLIPSE
 			
 		} else if ( side_focus == 4 ) { // POLYGON
+			drawing_finalize_polygon( state.x, state.y );
 			
 		} else if ( side_focus == 5 ) { // FILL
 			
