@@ -26,6 +26,14 @@ void drawing_translate( int px, int py ) {
 			lines[ i ].x1 += ( px - drawing_ox );
 			lines[ i ].y1 += ( py - drawing_oy );
 		}
+        
+        for ( i = 0; i < n_ellipse; i++ ) {
+			ellipses[ i ].x0 += ( px - drawing_ox );
+			ellipses[ i ].y0 += ( py - drawing_oy );
+
+			ellipses[ i ].x1 += ( px - drawing_ox );
+			ellipses[ i ].y1 += ( py - drawing_oy );
+		}
 		
 		drawing_ox = px;
 		drawing_oy = py;
@@ -154,6 +162,10 @@ void drawing_draw( void ) {
 		canvas_draw_line( lines[ i ].x0, lines[ i ].y0, lines[ i ].x1, lines[ i ].y1, 0 );
 	}
 	
+    for (i = 0; i < n_ellipse; i++) {
+        canvas_draw_ellipse_mouse( ellipses[ i ].x0, ellipses[ i ].y0, ellipses[ i ].x1, ellipses[ i ].y1, 0);
+    }
+    
 	//Draw polygons
 	for ( i = 0; i < n_polygon; i++ ) {
 		for ( j = 0; j <= polygons[i].curr_line; j++) {
