@@ -12,7 +12,7 @@ int rx, ry;
 
 // Canvas' global variables
 int ox = -1, oy = -1;
-double r, angle;
+double angle;
 
 void canvas_init( void ) {
 	page = 0;
@@ -85,42 +85,11 @@ int canvas_rotate( int px, int py ) {
 		oy = center_y;
 		angle = 0;
 	} else if ( px == -1 ) {
-		ox = px;
-		oy = py;
-	} else {
-		angle += 1;
-
-		double s = sin( angle * PI / 180 );
-		double c = cos( angle * PI / 180 );
-		
-		center_x = ox;
-		center_y = oy;
+		double r = sqrt( ( ox - rx ) * ( ox - rx ) + ( oy - ry ) * ( oy - ry ) );
 
 		center_x -= rx;
 		center_y -= ry;
 
-		int tx = center_x;
-		int ty = center_y;
-
-		center_x = tx * c - ty * s;
-		center_y = tx * s + ty * c;
-
-		center_x += rx;
-		center_y += ry;
-	}
-
-	return true;
-}
-
-/*int canvas_rotate( int px, int py ) {
-	if ( ox == -1 || px == -1 ) {
-		ox = px;
-		oy = py;
-		r = sqrt( ( center_x - rx ) * ( center_x - rx ) + ( center_y - ry ) * ( center_y - ry ) );
-	} else {
-		center_x -= rx;
-		center_y -= ry;
-		
 		if ( fabs( center_x ) > fabs( center_y ) && center_x > 0 ) {
 			center_y += 1;
 			center_x = sqrt( r * r - ( center_y ) * ( center_y ) ) + 0.5;
@@ -154,10 +123,33 @@ int canvas_rotate( int px, int py ) {
 
 		ox = px;
 		oy = py;
+	} else {
+		angle += 1;
+		if ( angle > 360 ) {
+			angle -= 360;
+		}
+
+		double s = sin( angle * PI / 180 );
+		double c = cos( angle * PI / 180 );
+		
+		center_x = ox;
+		center_y = oy;
+
+		center_x -= rx;
+		center_y -= ry;
+
+		int tx = center_x;
+		int ty = center_y;
+
+		center_x = tx * c - ty * s + 0.5;
+		center_y = tx * s + ty * c + 0.5;
+
+		center_x += rx;
+		center_y += ry;
 	}
 
 	return true;
-}*/
+}
 
 int canvas_zoom_in( int px, int py ) {
 	center_x -= px;
