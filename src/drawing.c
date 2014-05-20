@@ -3,8 +3,9 @@
 #include <stdio.h>
 
 rohmen_line lines[ MAX_LINE ];
-rohmen_polygon polygons;
+rohmen_polygon polygons [ MAX_POL ];
 int n_line; 
+int n_polygon;
 
 // Drawing's global variables
 int drawing_ox = -1, drawing_oy = -1;
@@ -144,10 +145,18 @@ void drawing_scale( int cx, int cy, float scale ) {
 
 void drawing_draw( void ) {
 	int i;
+	int j;
 	
 	// Draw lines
 	for ( i = 0; i < n_line; i++ ) {
 		canvas_draw_line( lines[ i ].x0, lines[ i ].y0, lines[ i ].x1, lines[ i ].y1, 0 );
+	}
+	
+	//Draw polygons
+	for ( i = 0; i < n_polygon; i++ ) {
+		for ( j = 0; j <= polygons[i].curr_line; j++) {
+			canvas_draw_line( polygons[i].poline[j].x0, polygons[i].poline[j].y0, polygons[i].poline[j].x1, polygons[i].poline[j].y1, 0);
+		}
 	}
 	
 	return;
@@ -191,25 +200,34 @@ int drawing_finalize_line( int x, int y ) {
 	return false;
 }
 
+
 int drawing_prepare_polygon( int x, int y ) {
-	if ( n_line < MAX_LINE ) {
-		n_line++;
-		if ( polygons.finish = true ) {
-			lines[ n_line - 1 ].x0 = x;
-			lines[ n_line - 1 ].y0 = y;
-			polygons.x0 = x;
-			polygons.y0 = y;
-			polygons.finish = false;
+	if ( n_polygon < MAX_POL ) {
+		if ( polygons[ n_polygon ].finish ) {
+			
+			polygons[ n_polygon ].poline[0].x0 = x;  
+			polygons[ n_polygon ].poline[0].y0 = y;  //inisialisasi titik awal garis pertama
+			
+			polygons[ n_polygon ].poline[0].x1 = x;
+			polygons[ n_polygon ].poline[0].y1 = y;
+			
+			polygons[ n_polygon ].finish = false;
+			
+			n_polygon++;
 		}
-		else {
-			lines[ n_line - 1 ].x0 = polygons.prevx;
-			lines[ n_line - 1 ].y0 = polygons.prevy;
+		else if ( polygons[ n_polygon ].curr_line < MAX_LINE_POL ){ //jumlah sisi poligon tidak lebih
+			polygons[ n_polygon ].curr_line++;
+			
+			int current = polygons[ n_polygon ].curr_line;
+			
+			//ambil titik akhir dari garis sebelumnya untuk titik awal
+			polygons[ n_polygon ].poline[current].x0 = polygons[ n_polygon ].poline[current-1].x0;
+			polygons[ n_polygon ].poline[current].y0 = polygons[ n_polygon ].poline[current-1].y0;
+			
+			polygons[ n_polygon ].poline[current].x1 = x; 
+			polygons[ n_polygon ].poline[current].y1 = y;
 		}
-		
-		lines[ n_line - 1 ].x1 = x;
-		lines[ n_line - 1 ].y1 = y;
-		polygons.prevx = x;
-		polygons.prevy = y;
+		else return false;
 		
 		return true;
 	}
@@ -219,8 +237,26 @@ int drawing_prepare_polygon( int x, int y ) {
 
 int drawing_process_polygon( int x, int y ) {
 	if ( x > 64 && y > 32 ) {
-		lines[ n_line - 1 ].x1 = x;
-		lines[ n_line - 1 ].y1 = y;
+		//curr_line : sisi poligon yang sedang digambar
+		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1 = x; 
+		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1 = y;
+		return true;
+	}
+
+	return false;
+}
+
+
+int drawing_finalize_polygon( int x, int y ) {
+	if ( x > 64 && y > 32 ) {
+		if ( x == polygons[ n_polygon ].poline[0].x0 && y == polygons[ n_polygon ].poline[0].y0) 
+		//x & y sama dengan titik awal poligon
+		{
+			polygons[ n_polygon ].finish = true;
+		}
+		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].x1 = x; 
+		polygons[ n_polygon ].poline[polygons[ n_polygon ].curr_line].y1 = y;
+
 		return true;
 	}
 

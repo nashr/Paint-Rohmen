@@ -14,6 +14,7 @@
 #define DEFAULT_ZOOM_IN 1.05
 #define DEFAULT_ZOOM_OUT 0.95
 #define MAX_ZOOM_OUT 32
+#define MAX_LINE_POL 50
 
 typedef struct {
 	int x;
@@ -31,9 +32,9 @@ typedef struct {
 } rohmen_rectangle;
 
 typedef struct {
-	int x0 = 0; int y0 = 0;
-	int prevx = 0; int prevy = 0;
-	int finish = true;
+	rohmen_line poline[MAX_LINE_POL]; //garis sisi yang membentuk poligon
+	int curr_line = 0; //sisi poligon yang sedang digambar
+	int finish = true; //selesai membentuk poligon
 } rohmen_polygon;
 
 // Canvas' global variables
