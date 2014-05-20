@@ -145,10 +145,18 @@ void drawing_scale( int cx, int cy, float scale ) {
 
 void drawing_draw( void ) {
 	int i;
+	int j;
 	
 	// Draw lines
 	for ( i = 0; i < n_line; i++ ) {
 		canvas_draw_line( lines[ i ].x0, lines[ i ].y0, lines[ i ].x1, lines[ i ].y1, 0 );
+	}
+	
+	//Draw polygons
+	for ( i = 0; i < n_polygon; i++ ) {
+		for ( j = 0; j <= polygons[i].curr_line; j++) {
+			canvas_draw_line( polygons[i].poline[j].x0, polygons[i].poline[j].y0, polygons[i].poline[j].x1, polygons[i].poline[j].y1, 0);
+		}
 	}
 	
 	return;
@@ -211,6 +219,7 @@ int drawing_prepare_polygon( int x, int y ) {
 			polygons[ n_polygon ].curr_line++;
 			
 			int current = polygons[ n_polygon ].curr_line;
+			
 			//ambil titik akhir dari garis sebelumnya untuk titik awal
 			polygons[ n_polygon ].poline[current].x0 = polygons[ n_polygon ].poline[current-1].x0;
 			polygons[ n_polygon ].poline[current].y0 = polygons[ n_polygon ].poline[current-1].y0;
