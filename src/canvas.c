@@ -8,7 +8,7 @@ int drawing;
 int center_x, center_y;
 int width, height;
 int scale;
-int rx, ry;
+int rx, ry, change_r;
 
 // Canvas' global variables
 int ox = -1, oy = -1;
@@ -31,6 +31,7 @@ void canvas_init( void ) {
 	
 	rx = center_x / 2;
 	ry = center_y;
+	change_r = false;
 
 	return;
 }
@@ -62,6 +63,30 @@ void canvas_end_draw( void ) {
 
 const int canvas_inactive_page( void ) {
 	return ( page == 1 ) ? 0 : 1;
+}
+
+int canvas_change_rotation_center( int px, int py ) {
+	if ( change_r || ( fabs( px - rx ) < 5 && fabs( py - ry ) < 5 ) ) {
+		if ( px > OFFSET_X && px < width + OFFSET_X ) {
+			rx = px;
+		}
+		
+		if ( py > OFFSET_Y && py < height + OFFSET_Y ) {
+			ry = py;
+		}
+
+		if ( px == 999 ) {
+			change_r = false;
+		} else {
+			change_r = true;
+		}
+
+		return true;
+	}
+
+	change_r = false;
+
+	return false;
 }
 
 int canvas_translate( int px, int py ) {

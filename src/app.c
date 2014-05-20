@@ -195,8 +195,10 @@ void app_handle_input( void ) {
 					drawing_translate( state.x, state.y );
 				}
 			} else if ( menu_focus == 2 ) { // ROTATE
-				if ( canvas_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y ) ) {
-					drawing_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y );
+				if ( !canvas_change_rotation_center( state.x, state.y ) ) {
+					if ( canvas_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y ) ) {
+						drawing_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y );
+					}	
 				}
 			} else if ( menu_focus == 3 ) { // SKEW
 				
@@ -219,8 +221,10 @@ void app_handle_input( void ) {
 				drawing_translate( state.x, state.y );
 			}
 		} else if ( menu_focus == 2 ) { // ROTATE
-			if ( canvas_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y ) ) {
-				drawing_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y );
+			if ( !canvas_change_rotation_center( state.x, state.y ) ) {
+				if ( canvas_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y ) ) {
+					drawing_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y );
+				}	
 			}
 		} else if ( menu_focus == 3 ) { // SKEW
 			
@@ -242,12 +246,14 @@ void app_handle_input( void ) {
 		mouse_prev_state = 0;
 
 		if ( menu_focus == 1 ) { // MOVE
-			if ( canvas_translate( 999, 999 ) ) {
-				drawing_translate( 999, 999 );
+			if ( canvas_translate( -1, -1 ) ) {
+				drawing_translate( -1, -1 );
 			}
 		} else if ( menu_focus == 2 ) { // ROTATE
-			if ( canvas_rotate( -1, -1 ) ) {
-				drawing_rotate( -1, -1 );
+			if ( !canvas_change_rotation_center( 999, 999 ) ) {
+				if ( canvas_rotate( 999, 999 ) ) {
+					drawing_rotate( 999, 999 );
+				}
 			}
 		} else if ( menu_focus == 3 ) { // SKEW
 			

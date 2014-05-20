@@ -36,7 +36,7 @@ extern int drawing;
 extern int width, height;
 extern int center_x, center_y;
 extern int scale;
-extern int rx, ry;
+extern int rx, ry, change_r;
 
 // Functions and procedures prototype
 void canvas_init( void );
@@ -48,6 +48,8 @@ void canvas_begin_draw( void );
 void canvas_end_draw( void );
 
 const int canvas_inactive_page( void );
+
+int canvas_change_rotation_center( int px, int py );
 
 int canvas_translate( int px, int py );
 
