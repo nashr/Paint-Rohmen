@@ -28,7 +28,7 @@ void drawing_scale( int cx, int cy, float scale );
 
 void drawing_draw( void );
 
-int drawing_prepare_line( int x, int y );
+int drawing_prepare_line( int x, int y, int color );
 
 int drawing_process_line( int x, int y );
 

@@ -179,7 +179,7 @@ void drawing_draw( void ) {
 	
 	// Draw lines
 	for ( i = 0; i < n_line; i++ ) {
-		canvas_draw_line( lines[ i ].x0, lines[ i ].y0, lines[ i ].x1, lines[ i ].y1, 0 );
+		canvas_draw_line( lines[ i ].x0, lines[ i ].y0, lines[ i ].x1, lines[ i ].y1, lines[ i ].color );
 	}
 	
     for (i = 0; i < n_ellipse; i++) {
@@ -196,7 +196,7 @@ void drawing_draw( void ) {
 	return;
 }
 
-int drawing_prepare_line( int x, int y ) {
+int drawing_prepare_line( int x, int y, int color ) {
 	if ( n_line < MAX_LINE ) {
 		n_line++;
 
@@ -205,6 +205,8 @@ int drawing_prepare_line( int x, int y ) {
 		
 		lines[ n_line - 1 ].x1 = x;
 		lines[ n_line - 1 ].y1 = y;
+		
+		lines[ n_line - 1 ].color = color;
 		
 		return true;
 	}
