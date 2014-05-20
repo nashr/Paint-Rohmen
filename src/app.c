@@ -19,23 +19,23 @@ void app_start( void ) {
 
 void app_build_workspace( void ) {
 	// Build menu
-	rohmen_panel cartesian, move, rotate, skew, mirror, zoom_in, zoom_out;
+	rohmen_panel cartesian, move, rotate, skew, zoom_in, zoom_out, pallete;
 	
 	cartesian.type = TYPE_MENU; cartesian.rect.x0 = 0; cartesian.rect.y0 = 0; cartesian.rect.x1 = 64; cartesian.rect.y1 = 32; cartesian.focus = false;
-	move.type = TYPE_MENU; move.rect.x0 = 64; move.rect.y0 = 0; move.rect.x1 = 160; move.rect.y1 = 32; move.focus = false;
-	rotate.type = TYPE_MENU; rotate.rect.x0 = 160; rotate.rect.y0 = 0; rotate.rect.x1 = 256; rotate.rect.y1 = 32; rotate.focus = false;
-	skew.type = TYPE_MENU; skew.rect.x0 = 256; skew.rect.y0 = 0; skew.rect.x1 = 352; skew.rect.y1 = 32; skew.focus = false;
-	mirror.type = TYPE_MENU; mirror.rect.x0 = 352; mirror.rect.y0 = 0; mirror.rect.x1 = 448; mirror.rect.y1 = 32; mirror.focus = false;
-	zoom_in.type = TYPE_MENU; zoom_in.rect.x0 = 448; zoom_in.rect.y0 = 0; zoom_in.rect.x1 = 544; zoom_in.rect.y1 = 32; zoom_in.focus = false;
-	zoom_out.type = TYPE_MENU; zoom_out.rect.x0 = 544; zoom_out.rect.y0 = 0; zoom_out.rect.x1 = 640; zoom_out.rect.y1 = 32; zoom_out.focus = false;
+	move.type = TYPE_MENU; move.rect.x0 = 64; move.rect.y0 = 0; move.rect.x1 = 128; move.rect.y1 = 32; move.focus = false;
+	rotate.type = TYPE_MENU; rotate.rect.x0 = 128; rotate.rect.y0 = 0; rotate.rect.x1 = 192; rotate.rect.y1 = 32; rotate.focus = false;
+	skew.type = TYPE_MENU; skew.rect.x0 = 192; skew.rect.y0 = 0; skew.rect.x1 = 256; skew.rect.y1 = 32; skew.focus = false;
+	zoom_in.type = TYPE_MENU; zoom_in.rect.x0 = 256; zoom_in.rect.y0 = 0; zoom_in.rect.x1 = 320; zoom_in.rect.y1 = 32; zoom_in.focus = false;
+	zoom_out.type = TYPE_MENU; zoom_out.rect.x0 = 320; zoom_out.rect.y0 = 0; zoom_out.rect.x1 = 384; zoom_out.rect.y1 = 32; zoom_out.focus = false;
+	pallete.type = TYPE_MENU; pallete.rect.x0 = 384; pallete.rect.y0 = 0; pallete.rect.x1 = 640; pallete.rect.y1 = 32; pallete.focus = false;
 	
 	menu_panels[ 0 ] = cartesian;
 	menu_panels[ 1 ] = move;
 	menu_panels[ 2 ] = rotate;
 	menu_panels[ 3 ] = skew;
-	menu_panels[ 4 ] = mirror;
-	menu_panels[ 5 ] = zoom_in;
-	menu_panels[ 6 ] = zoom_out;
+	menu_panels[ 4 ] = zoom_in;
+	menu_panels[ 5 ] = zoom_out;
+	menu_panels[ 6 ] = pallete;
 
 	// Build sidebar panel
 	rohmen_panel select, line, curve, ellipse, polygon, fill, crop;
@@ -103,6 +103,8 @@ void app_handle_input( void ) {
 					if ( i == 0 ) { // Special case for cartesian ( it's independent from others )
 						menu_panels[ i ].focus += 1;
 						menu_panels[ i ].focus %= 2;
+					} else if ( i == 6 ) { // Special case too for color pallete
+						// TO DO
 					} else {
 						menu_focus = i;
 					}
@@ -136,7 +138,7 @@ void app_handle_input( void ) {
 				
 			} else if ( side_focus == 5 ) { // FILL
 				
-			} else if ( side_focus == 6 ) { // crop
+			} else if ( side_focus == 6 ) { // CROP
 				
 			}
 		}
@@ -158,7 +160,7 @@ void app_handle_input( void ) {
 			
 		} else if ( side_focus == 5 ) { // FILL
 			
-		} else if ( side_focus == 6 ) { // crop
+		} else if ( side_focus == 6 ) { // CROP
 			
 		}
 		
@@ -179,7 +181,7 @@ void app_handle_input( void ) {
 			
 		} else if ( side_focus == 5 ) { // FILL
 			
-		} else if ( side_focus == 6 ) { // crop
+		} else if ( side_focus == 6 ) { // CROP
 			
 		}
 		
@@ -202,11 +204,9 @@ void app_handle_input( void ) {
 				}
 			} else if ( menu_focus == 3 ) { // SKEW
 				
-			} else if ( menu_focus == 4 ) { // MIRROR
-				
-			} else if ( menu_focus == 5 ) { // ZOOM IN
+			} else if ( menu_focus == 4 ) { // ZOOM IN
 				// do nothing
-			} else if ( menu_focus == 6 ) { // ZOOM OUT
+			} else if ( menu_focus == 5 ) { // ZOOM OUT
 				// do nothing
 			}
 		}
@@ -228,18 +228,16 @@ void app_handle_input( void ) {
 			}
 		} else if ( menu_focus == 3 ) { // SKEW
 			
-		} else if ( menu_focus == 4 ) { // MIRROR
-			
-		} else if ( menu_focus == 5 ) { // ZOOM IN
+		} else if ( menu_focus == 4 ) { // ZOOM IN
 			if ( canvas_zoom_in( state.x, state.y ) ) {
 				drawing_scale( state.x, state.y, DEFAULT_ZOOM_IN );
 			}
-		} else if ( menu_focus == 6 ) { // ZOOM OUT
+		} else if ( menu_focus == 5 ) { // ZOOM OUT
 			if ( canvas_zoom_out( state.x, state.y ) ) {
 				drawing_scale( state.x, state.y, DEFAULT_ZOOM_OUT );
 			}
 		}
-		
+
 		mouse_prev_x = state.x;
 		mouse_prev_y = state.y;
 	} else if ( state.buttons == 0 && mouse_prev_state == 2 ) { // on mouse up ( right released )
@@ -257,14 +255,12 @@ void app_handle_input( void ) {
 			}
 		} else if ( menu_focus == 3 ) { // SKEW
 			
-		} else if ( menu_focus == 4 ) { // MIRROR
-			
-		} else if ( menu_focus == 5 ) { // ZOOM IN
+		} else if ( menu_focus == 4 ) { // ZOOM IN
 			// do nothing
-		} else if ( menu_focus == 6 ) { // ZOOM OUT
+		} else if ( menu_focus == 5 ) { // ZOOM OUT
 			// do nothing
 		}
-		
+
 		mouse_prev_x = state.x;
 		mouse_prev_y = state.y;
 	} else if ( state.buttons == 3 ) { // both click ( not to be confused with double click )
@@ -278,7 +274,7 @@ void app_update( void ) {
 	int i;
 
 	// Focus handle
-	for ( i = 1; i < NUM_MENU; i++ ) { // i = 0 ( cartesian ) is an exception
+	for ( i = 1; i < NUM_MENU - 1; i++ ) { // i = 0 ( cartesian ) and i = 6 ( color pallete ) are exceptions
 		if ( i == menu_focus ) {
 			menu_panels[ i ].focus = true;
 		} else {
@@ -305,9 +301,6 @@ void app_draw( void ) {
 	// Draw cartesian if user wants it
 	if ( menu_panels[ 0 ].focus ) {
 		canvas_draw_cartesian( CARTESIAN_ABSIS_COLOR, CARTESIAN_COLOR );
-		int i;
-		for (i=0;i<16;i++)
-			canvas_draw_rectangle(64+32*i,416,64+32*(i+1),480,i,i);
 	}
 	
 	// Draw drawings
@@ -332,57 +325,70 @@ void app_draw( void ) {
 	
 	// 2 - MOVE
 	if ( menu_panels[ 1 ].focus ) {
-		canvas_draw_line( 96, 16, 101, 11, MENU_FONT_COLOR_FOCUS );
-		canvas_draw_line( 96, 16, 101, 21, MENU_FONT_COLOR_FOCUS );
-		canvas_draw_line( 101, 16, 123, 16, MENU_FONT_COLOR_FOCUS );
-		canvas_draw_line( 123, 11, 128, 16, MENU_FONT_COLOR_FOCUS );
-		canvas_draw_line( 123, 21, 128, 16, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 80, 16, 85, 11, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 80, 16, 85, 21, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 85, 16, 107, 16, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 107, 11, 112, 16, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 107, 21, 112, 16, MENU_FONT_COLOR_FOCUS );
 
-		canvas_draw_line( 107, 10, 112, 5, MENU_FONT_COLOR_FOCUS );
-		canvas_draw_line( 112, 5, 117, 10, MENU_FONT_COLOR_FOCUS );
-		canvas_draw_line( 112, 5, 112, 27, MENU_FONT_COLOR_FOCUS );
-		canvas_draw_line( 107, 22, 112, 27, MENU_FONT_COLOR_FOCUS );
-		canvas_draw_line( 112, 27, 117, 22, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 91, 10, 96, 5, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 96, 5, 101, 10, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 96, 5, 96, 27, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 91, 22, 96, 27, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 96, 27, 101, 22, MENU_FONT_COLOR_FOCUS );
 	} else {
-		canvas_draw_line( 96, 16, 101, 11, MENU_FONT_COLOR );
-		canvas_draw_line( 96, 16, 101, 21, MENU_FONT_COLOR );
-		canvas_draw_line( 101, 16, 123, 16, MENU_FONT_COLOR );
-		canvas_draw_line( 123, 11, 128, 16, MENU_FONT_COLOR );
-		canvas_draw_line( 123, 21, 128, 16, MENU_FONT_COLOR );
+		canvas_draw_line( 80, 16, 85, 11, MENU_FONT_COLOR );
+		canvas_draw_line( 80, 16, 85, 21, MENU_FONT_COLOR );
+		canvas_draw_line( 85, 16, 107, 16, MENU_FONT_COLOR );
+		canvas_draw_line( 107, 11, 112, 16, MENU_FONT_COLOR );
+		canvas_draw_line( 107, 21, 112, 16, MENU_FONT_COLOR );
 
-		canvas_draw_line( 107, 10, 112, 5, MENU_FONT_COLOR );
-		canvas_draw_line( 112, 5, 117, 10, MENU_FONT_COLOR );
-		canvas_draw_line( 112, 5, 112, 27, MENU_FONT_COLOR );
-		canvas_draw_line( 107, 22, 112, 27, MENU_FONT_COLOR );
-		canvas_draw_line( 112, 27, 117, 22, MENU_FONT_COLOR );
+		canvas_draw_line( 91, 10, 96, 5, MENU_FONT_COLOR );
+		canvas_draw_line( 96, 5, 101, 10, MENU_FONT_COLOR );
+		canvas_draw_line( 96, 5, 96, 27, MENU_FONT_COLOR );
+		canvas_draw_line( 91, 22, 96, 27, MENU_FONT_COLOR );
+		canvas_draw_line( 96, 27, 101, 22, MENU_FONT_COLOR );
 	}
 
 	// 3 - ROTATE
 	if ( menu_panels[ 2 ].focus ) {
-		canvas_draw_line( 208, 6, 213, 1, MENU_FONT_COLOR_FOCUS );
-		canvas_draw_line( 208, 6, 213, 11, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 160, 6, 165, 1, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 160, 6, 165, 11, MENU_FONT_COLOR_FOCUS );
 	} else {
-		canvas_draw_line( 208, 6, 213, 1, MENU_FONT_COLOR );
-		canvas_draw_line( 208, 6, 213, 11, MENU_FONT_COLOR );
-	}
-	// 4 - SKEW
-	
-	// 5 - MIRROR
-	
-	// 6 - ZOOM IN
-	if ( menu_panels[ 5 ].focus ) {
-		canvas_draw_line( 485, 16, 507, 16, MENU_FONT_COLOR_FOCUS );
-		canvas_draw_line( 496, 5, 496, 27, MENU_FONT_COLOR_FOCUS );
-	} else {
-		canvas_draw_line( 485, 16, 507, 16, MENU_FONT_COLOR );
-		canvas_draw_line( 496, 5, 496, 27, MENU_FONT_COLOR );
+		canvas_draw_line( 160, 6, 165, 1, MENU_FONT_COLOR );
+		canvas_draw_line( 160, 6, 165, 11, MENU_FONT_COLOR );
 	}
 
-	// 7 - ZOOM OUT
-	if ( menu_panels[ 6 ].focus ) {
-		canvas_draw_line( 581, 16, 603, 16, MENU_FONT_COLOR_FOCUS );
+	// 4 - SKEW
+	if ( menu_panels[ 3 ].focus ) {
+		
 	} else {
-		canvas_draw_line( 581, 16, 603, 16, MENU_FONT_COLOR );
+		
+	}
+	
+	// 5 - ZOOM IN
+	if ( menu_panels[ 4 ].focus ) {
+		canvas_draw_line( 277, 16, 299, 16, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 288, 5, 288, 27, MENU_FONT_COLOR_FOCUS );
+	} else {
+		canvas_draw_line( 277, 16, 299, 16, MENU_FONT_COLOR );
+		canvas_draw_line( 288, 5, 288, 27, MENU_FONT_COLOR );
+	}
+
+	// 6 - ZOOM OUT
+	if ( menu_panels[ 5 ].focus ) {
+		canvas_draw_line( 341, 16, 363, 16, MENU_FONT_COLOR_FOCUS );
+	} else {
+		canvas_draw_line( 341, 16, 363, 16, MENU_FONT_COLOR );
+	}
+
+	// 7 - COLOR PALLETE
+	for ( i = 0; i < 16; i++ ) {
+		if ( i < 8 ) {
+			canvas_draw_rectangle(384 + 32 * i, 1, 384 + 32 * ( i + 1 ), 16, MENU_FONT_COLOR, i);
+		} else {
+			canvas_draw_rectangle(384 + 32 * ( i - 8 ), 16, 384 + 32 * ( i + 1 - 8 ), 31, MENU_FONT_COLOR, i);
+		}
 	}
 
 	// Draw side panels

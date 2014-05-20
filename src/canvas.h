@@ -14,6 +14,7 @@
 #define DEFAULT_ZOOM_IN 1.05
 #define DEFAULT_ZOOM_OUT 0.95
 #define MAX_ZOOM_OUT 32
+#define MAX_LINE_POL 50
 
 typedef struct {
 	int x;
@@ -35,6 +36,12 @@ typedef struct {
     int x1; int y1;
 } rohmen_ellipse;
 
+typedef struct {
+	rohmen_line poline[MAX_LINE_POL]; //garis sisi yang membentuk poligon
+	int curr_line = 0; //sisi poligon yang sedang digambar
+	int finish = true; //selesai membentuk poligon
+} rohmen_polygon;
+
 // Canvas' global variables
 extern int page;
 extern int drawing;
@@ -42,6 +49,7 @@ extern int width, height;
 extern int center_x, center_y;
 extern int scale;
 extern int rx, ry, change_r;
+extern double angle;
 
 // Functions and procedures prototype
 void canvas_init( void );

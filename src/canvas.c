@@ -9,10 +9,10 @@ int center_x, center_y;
 int width, height;
 int scale;
 int rx, ry, change_r;
+double angle;
 
 // Canvas' global variables
 int ox = -1, oy = -1;
-double angle;
 
 void canvas_init( void ) {
 	page = 0;
@@ -81,7 +81,7 @@ int canvas_change_rotation_center( int px, int py ) {
 			change_r = true;
 		}
 
-		return true;
+		return change_r;
 	}
 
 	change_r = false;
