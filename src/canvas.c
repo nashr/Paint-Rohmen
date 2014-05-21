@@ -440,3 +440,17 @@ void canvas_fill_rectangle( int x0, int y0, int x1, int y1, int color ) {
 
 	return;
 }
+
+void canvas_fill ( int x, int y, int fillColor, int boundaryColor, int limit ) {
+	int current;
+	current = getpixel ( x, y );
+	if ((current != boundaryColor) && (current  !=  fillColor) && limit < 10)  {
+		setcolor( fillColor );
+		setpixel( x, y );
+		int newLimit = limit++;
+		canvas_fill( x+1, y, fill, boundaryColor, newLimit );
+		canvas_fill( x-1, y, fill, boundaryColor, newLimit );
+		canvas_fill( x,   y+1, fill, boundaryColor, newLimit );
+		canvas_fill( x,   y-1, fill, boundaryColor, newLimit );
+	}
+}
