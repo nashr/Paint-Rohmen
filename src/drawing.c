@@ -12,13 +12,14 @@ int n_polygon;
 // Drawing's global variables
 int drawing_ox = -1, drawing_oy = -1;
 rohmen_line olines[ MAX_LINE ];
+rohmen_polygon opolygons[ MAX_POL ];
 
 void drawing_translate( int px, int py ) {
 	if ( drawing_ox == -1 || px == -1 ) {
 		drawing_ox = px;
 		drawing_oy = py;
 	} else {
-		int i;
+		int i, j;
 		for ( i = 0; i < n_line; i++ ) {
 			lines[ i ].x0 += ( px - drawing_ox );
 			lines[ i ].y0 += ( py - drawing_oy );
@@ -33,6 +34,16 @@ void drawing_translate( int px, int py ) {
 
 			ellipses[ i ].x1 += ( px - drawing_ox );
 			ellipses[ i ].y1 += ( py - drawing_oy );
+		}
+		
+		for ( i = 0; i <= n_polygon; i++ ) {
+			for ( j = 0; j <= polygons[i].curr_line; j++ ) {
+				polygons[i].poline[j].x0 += ( px - drawing_ox );
+				polygons[i].poline[j].y0 += ( py - drawing_oy );
+				
+				polygons[i].poline[j].x1 += ( px - drawing_ox );
+				polygons[i].poline[j].y1 += ( py - drawing_oy );
+			}
 		}
 		
 		drawing_ox = px;
@@ -50,8 +61,12 @@ void drawing_rotate( int px, int py ) {
 		for ( i = 0; i < n_line; i++ ) {
 			olines[ i ] = lines[ i ];
 		}
+		for ( i = 0; i < n_polygon; i++ ) {
+			opolygons[ i ] = polygons[ i ];
+		}
+		
 	} else if ( px == 999 ) {
-		int i;
+		int i, j;
 		for ( i = 0; i < n_line; i++ ) {
 			double r;
 
@@ -61,16 +76,41 @@ void drawing_rotate( int px, int py ) {
 			r = sqrt( ( olines[ i ].x1 - rx ) * ( olines[ i ].x1 - rx ) + ( olines[ i ].y1 - ry ) * ( olines[ i ].y1 - ry ) );
 			drawing_rotation_calibrate( &lines[ i ].x1, &lines[ i ].y1, r );
 		}
+		
+		for ( i = 0; i <= n_polygon; i++ ) {
+			for ( j = 0; j <= opolygons[i].curr_line; j++ ) {
+				double r;
+				
+				r = sqrt( ( opolygons[i].poline[j].x0 - rx ) * ( opolygons[i].poline[j].x0 - rx ) + ( opolygons[i].poline[j].y0 - ry ) * ( opolygons[i].poline[j].y0 - ry ) );
+				drawing_rotation_calibrate( &polygons[i].poline[j].x0, &polygons[i].poline[j].y0, r );
+
+				r = sqrt( ( opolygons[i].poline[j].x1 - rx ) * ( opolygons[i].poline[j].x1 - rx ) + ( opolygons[i].poline[j].y1 - ry ) * ( opolygons[i].poline[j].y1 - ry ) );
+				drawing_rotation_calibrate( &polygons[i].poline[j].x1, &polygons[i].poline[j].y1, r );
+				printf("\n rotate1");
+			}
+		}
 
 		drawing_ox = -1;
 		drawing_oy = -1;
 	} else {
-		int i;
+		int i,j;
 		for ( i = 0; i < n_line; i++ ) {
 			lines[ i ] = olines[ i ];
 
 			drawing_rotate_point( &lines[ i ].x0, &lines[ i ].y0 );
 			drawing_rotate_point( &lines[ i ].x1, &lines[ i ].y1 );
+			
+		}
+		
+		for ( i = 0; i <= n_polygon; i++ ) {
+			for ( j = 0; j <= polygons[i].curr_line; j++ ) {
+				polygons[i] = opolygons[i];
+
+				drawing_rotate_point( &polygons[i].poline[j].x0, &polygons[i].poline[j].y0 );
+				drawing_rotate_point( &polygons[i].poline[j].x1, &polygons[i].poline[j].y1 );
+				printf("\n rotate2");
+			
+			}
 		}
 	}
 

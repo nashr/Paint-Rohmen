@@ -81,7 +81,13 @@ Deskripsi
          terbentuk;
       d. Lepaskan click setelah selesai.
   3.3 Curve
-      a. ???
+      a. Click kiri pada tombol Polygon;
+      b. Click kiri pertama pada canvas untuk mengambil 
+         titik pertama;
+      c. Tahan dan gerakkan mouse untuk melihat garis yang
+         terbentuk;
+      d. Lepaskan click untuk membentuk garis pertama
+
   3.4 Ellipse
       a. ???
   3.5 Polygon
