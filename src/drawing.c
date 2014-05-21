@@ -18,7 +18,7 @@ void drawing_translate( int px, int py ) {
 		drawing_ox = px;
 		drawing_oy = py;
 	} else {
-		int i;
+		int i, j;
 		for ( i = 0; i < n_line; i++ ) {
 			lines[ i ].x0 += ( px - drawing_ox );
 			lines[ i ].y0 += ( py - drawing_oy );
@@ -33,6 +33,16 @@ void drawing_translate( int px, int py ) {
 
 			ellipses[ i ].x1 += ( px - drawing_ox );
 			ellipses[ i ].y1 += ( py - drawing_oy );
+		}
+		
+		for ( i = 0; i <= n_polygon; i++ ) {
+			for ( j = 0; j <= polygons[i].curr_line; j++ ) {
+				polygons[i].poline[j].x0 += ( px - drawing_ox );
+				polygons[i].poline[j].y0 += ( py - drawing_oy );
+				
+				polygons[i].poline[j].x1 += ( px - drawing_ox );
+				polygons[i].poline[j].y1 += ( py - drawing_oy );
+			}
 		}
 		
 		drawing_ox = px;

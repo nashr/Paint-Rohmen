@@ -43,6 +43,8 @@ typedef struct {
 	rohmen_line poline[MAX_LINE_POL]; //garis sisi yang membentuk poligon
 	int curr_line; //sisi poligon yang sedang digambar
 	int finish = true; //selesai membentuk poligon
+	int color_border;
+	int color_fill;
 } rohmen_polygon;
 
 // Canvas' global variables
