@@ -219,7 +219,7 @@ void app_handle_input( void ) {
 					}	
 				}
 			} else if ( menu_focus == 3 ) { // SKEW
-				
+				// do nothing
 			} else if ( menu_focus == 4 ) { // ZOOM IN
 				// do nothing
 			} else if ( menu_focus == 5 ) { // ZOOM OUT
@@ -243,7 +243,17 @@ void app_handle_input( void ) {
 				}	
 			}
 		} else if ( menu_focus == 3 ) { // SKEW
-			
+			int dx = state.x - mouse_prev_x;
+			int dy = state.y - mouse_prev_y;
+			if ( dx < dy ) {
+				if ( canvas_shear( 0, dy ) ) {
+					// TO DO
+				}
+			} else {
+				if ( canvas_shear( dx, 0 ) ) {
+					// TO DO
+				}
+			}
 		} else if ( menu_focus == 4 ) { // ZOOM IN
 			if ( canvas_zoom_in( state.x, state.y ) ) {
 				drawing_scale( state.x, state.y, DEFAULT_ZOOM_IN );
@@ -270,7 +280,7 @@ void app_handle_input( void ) {
 				}
 			}
 		} else if ( menu_focus == 3 ) { // SKEW
-			
+			// do nothing
 		} else if ( menu_focus == 4 ) { // ZOOM IN
 			// do nothing
 		} else if ( menu_focus == 5 ) { // ZOOM OUT

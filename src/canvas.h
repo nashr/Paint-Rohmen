@@ -41,8 +41,8 @@ typedef struct {
 
 typedef struct {
 	int length;
-	int[100] px;
-	int[100] py;
+	int px[100];
+	int py[100];
 	int color;
 } rohmen_bezier;
 
@@ -78,11 +78,11 @@ int canvas_translate( int px, int py );
 
 int canvas_rotate( int px, int py );
 
+int canvas_shear( int px, int py );
+
 int canvas_zoom_in( int px, int py );
 
 int canvas_zoom_out( int px, int py );
-
-int canvas_shear( int px, int py );
 
 void canvas_draw_rotation_center( void );
 
@@ -99,6 +99,8 @@ void canvas_draw_ellipse(int xCenter, int yCenter, int Rx, int Ry, int color);
 void canvas_draw_rectangle( int x0, int y0, int x1, int y1, int border_color, int fill_color );
 
 void canvas_draw_bezier( int length, int* px, int* py, int color );
+
+void canvas_fill_rectangle( int x0, int y0, int x1, int y1, int color );
 
 void canvas_fill( int x, int y, int fillColor, int boundaryColor );
 

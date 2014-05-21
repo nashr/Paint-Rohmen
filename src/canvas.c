@@ -175,6 +175,16 @@ int canvas_rotate( int px, int py ) {
 	return true;
 }
 
+int canvas_shear( int px, int py ) {
+	if ( px == 0 ) {
+		center_y += py * center_x;
+	} else { // PY == 0
+		center_x += px * center_y;
+	}
+
+	return true;
+}
+
 int canvas_zoom_in( int px, int py ) {
 	center_x -= px;
 	center_y -= py;
@@ -207,16 +217,6 @@ int canvas_zoom_out( int px, int py ) {
 	}
 
 	return false;
-}
-
-int canvas_shear( int px, int py ) {
-	if ( px == 0 ) {
-		center_y += py * center_x;
-	} else { // PY == 0
-		center_x += px * center_y;
-	}
-
-	return true;
 }
 
 void canvas_draw_rotation_center( void ) {
@@ -456,11 +456,11 @@ void canvas_fill ( int x, int y, int fillColor, int boundaryColor, int limit ) {
 	current = getpixel ( x, y );
 	if ((current != boundaryColor) && (current  !=  fillColor) && limit < 10)  {
 		setcolor( fillColor );
-		setpixel( x, y );
+		putpixel( x, y, 0 );
 		int newLimit = limit++;
-		canvas_fill( x+1, y, fill, boundaryColor, newLimit );
-		canvas_fill( x-1, y, fill, boundaryColor, newLimit );
-		canvas_fill( x,   y+1, fill, boundaryColor, newLimit );
-		canvas_fill( x,   y-1, fill, boundaryColor, newLimit );
+		canvas_fill( x+1, y, fillColor, boundaryColor, newLimit );
+		canvas_fill( x-1, y, fillColor, boundaryColor, newLimit );
+		canvas_fill( x,   y+1, fillColor, boundaryColor, newLimit );
+		canvas_fill( x,   y-1, fillColor, boundaryColor, newLimit );
 	}
 }
