@@ -385,9 +385,21 @@ void app_draw( void ) {
 
 	// 4 - SKEW
 	if ( menu_panels[ 3 ].focus ) {
-		
+		canvas_draw_line( 237, 3, 242, 8, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 220, 8, 242, 8, MENU_FONT_COLOR_FOCUS );
+
+		canvas_draw_line( 220, 12, 207, 27, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 207, 27, 229, 27, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 229, 27, 242, 12, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 242, 12, 220, 12, MENU_FONT_COLOR_FOCUS );
 	} else {
-		
+		canvas_draw_line( 237, 3, 242, 8, MENU_FONT_COLOR );
+		canvas_draw_line( 220, 8, 242, 8, MENU_FONT_COLOR );
+
+		canvas_draw_line( 220, 12, 207, 27, MENU_FONT_COLOR );
+		canvas_draw_line( 207, 27, 229, 27, MENU_FONT_COLOR );
+		canvas_draw_line( 229, 27, 242, 12, MENU_FONT_COLOR );
+		canvas_draw_line( 242, 12, 220, 12, MENU_FONT_COLOR );
 	}
 	
 	// 5 - ZOOM IN

@@ -209,6 +209,16 @@ int canvas_zoom_out( int px, int py ) {
 	return false;
 }
 
+int canvas_shear( int px, int py ) {
+	if ( px == 0 ) {
+		center_y += py * center_x;
+	} else { // PY == 0
+		center_x += px * center_y;
+	}
+
+	return true;
+}
+
 void canvas_draw_rotation_center( void ) {
 	canvas_draw_ellipse( rx, ry, 3, 3, 13 );
 	canvas_draw_ellipse( rx, ry, 5, 5, 12 );

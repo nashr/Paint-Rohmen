@@ -75,6 +75,8 @@ int canvas_zoom_in( int px, int py );
 
 int canvas_zoom_out( int px, int py );
 
+int canvas_shear( int px, int py );
+
 void canvas_draw_rotation_center( void );
 
 void canvas_draw_cartesian( int absis_color, int cartesian_color );
