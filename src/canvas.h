@@ -41,8 +41,8 @@ typedef struct {
 
 typedef struct {
 	int length;
-	int[100] px;
-	int[100] py;
+	int px[100];
+	int py[100];
 	int color;
 } rohmen_bezier;
 
