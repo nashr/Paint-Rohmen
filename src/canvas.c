@@ -209,6 +209,16 @@ int canvas_zoom_out( int px, int py ) {
 	return false;
 }
 
+int canvas_shear( int px, int py ) {
+	if ( px == 0 ) {
+		center_y += py * center_x;
+	} else { // PY == 0
+		center_x += px * center_y;
+	}
+
+	return true;
+}
+
 void canvas_draw_rotation_center( void ) {
 	canvas_draw_ellipse( rx, ry, 3, 3, 13 );
 	canvas_draw_ellipse( rx, ry, 5, 5, 12 );
@@ -439,4 +449,18 @@ void canvas_fill_rectangle( int x0, int y0, int x1, int y1, int color ) {
 	}
 
 	return;
+}
+
+void canvas_fill ( int x, int y, int fillColor, int boundaryColor, int limit ) {
+	int current;
+	current = getpixel ( x, y );
+	if ((current != boundaryColor) && (current  !=  fillColor) && limit < 10)  {
+		setcolor( fillColor );
+		setpixel( x, y );
+		int newLimit = limit++;
+		canvas_fill( x+1, y, fill, boundaryColor, newLimit );
+		canvas_fill( x-1, y, fill, boundaryColor, newLimit );
+		canvas_fill( x,   y+1, fill, boundaryColor, newLimit );
+		canvas_fill( x,   y-1, fill, boundaryColor, newLimit );
+	}
 }

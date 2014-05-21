@@ -385,9 +385,21 @@ void app_draw( void ) {
 
 	// 4 - SKEW
 	if ( menu_panels[ 3 ].focus ) {
-		
+		canvas_draw_line( 237, 3, 242, 8, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 220, 8, 242, 8, MENU_FONT_COLOR_FOCUS );
+
+		canvas_draw_line( 220, 12, 207, 27, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 207, 27, 229, 27, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 229, 27, 242, 12, MENU_FONT_COLOR_FOCUS );
+		canvas_draw_line( 242, 12, 220, 12, MENU_FONT_COLOR_FOCUS );
 	} else {
-		
+		canvas_draw_line( 237, 3, 242, 8, MENU_FONT_COLOR );
+		canvas_draw_line( 220, 8, 242, 8, MENU_FONT_COLOR );
+
+		canvas_draw_line( 220, 12, 207, 27, MENU_FONT_COLOR );
+		canvas_draw_line( 207, 27, 229, 27, MENU_FONT_COLOR );
+		canvas_draw_line( 229, 27, 242, 12, MENU_FONT_COLOR );
+		canvas_draw_line( 242, 12, 220, 12, MENU_FONT_COLOR );
 	}
 	
 	// 5 - ZOOM IN
@@ -469,6 +481,24 @@ void app_draw( void ) {
 	}
 	
 	// 6 - FILL
+	if ( side_panels[ 5 ].focus ) {
+		canvas_draw_line( 20, 372, 44, 362, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_line( 20, 392, 44, 382, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_line( 20, 402, 44, 392, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_line( 20, 422, 44, 402, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_line( 20, 372, 20, 422, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_line( 44, 362, 44, 402, PANEL_FONT_COLOR_FOCUS );
+		canvas_fill( 21, 403, BLACK);
+	} else {
+		canvas_draw_line( 20, 372, 44, 362, PANEL_FONT_COLOR );
+		canvas_draw_line( 20, 392, 44, 382, PANEL_FONT_COLOR );
+		canvas_draw_line( 20, 402, 44, 392, PANEL_FONT_COLOR );
+		canvas_draw_line( 20, 422, 44, 402, PANEL_FONT_COLOR );
+		canvas_draw_line( 20, 372, 20, 422, PANEL_FONT_COLOR );
+		canvas_draw_line( 44, 362, 44, 402, PANEL_FONT_COLOR );
+		canvas_fill( 21, 403, BLACK);
+	}
+	
 	
 	// 7 - CROP
 	

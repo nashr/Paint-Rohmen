@@ -84,6 +84,8 @@ int canvas_zoom_in( int px, int py );
 
 int canvas_zoom_out( int px, int py );
 
+int canvas_shear( int px, int py );
+
 void canvas_draw_rotation_center( void );
 
 void canvas_draw_cartesian( int absis_color, int cartesian_color );
@@ -100,6 +102,6 @@ void canvas_draw_rectangle( int x0, int y0, int x1, int y1, int border_color, in
 
 void canvas_draw_bezier( int length, int* px, int* py, int color );
 
-void canvas_fill_rectangle( int x0, int y0, int x1, int y1, int color );
+void canvas_fill( int x, int y, int fillColor, int boundaryColor );
 
 #endif
