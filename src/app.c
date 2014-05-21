@@ -8,7 +8,7 @@ int mouse_prev_state, mouse_prev_x, mouse_prev_y, exit;
 rohmen_panel menu_panels[ NUM_MENU ];
 rohmen_panel side_panels[ NUM_SIDE ];
 int menu_focus = 1, side_focus = 0;
-int border_color = 0, fill_color = -1;
+int chosen_color = 0;
 
 void app_start( void ) {
 	exit = false;
@@ -105,7 +105,19 @@ void app_handle_input( void ) {
 						menu_panels[ i ].focus += 1;
 						menu_panels[ i ].focus %= 2;
 					} else if ( i == 6 ) { // Special case too for color pallete
-						// TO DO
+						for ( i = 0; i < 16; i++ ) {
+							if ( i < 8 ) {
+								if ( state.x > 384 + 32 * i && state.x < 384 + 32 * ( i + 1 ) && state.y > 0 && state.y < 16 ) {
+									chosen_color = i;
+									done = true;
+								}
+							} else {
+								if ( state.x > 384 + 32 * ( i - 8 ) && state.x < 384 + 32 * ( i + 1 - 8 ) && state.y > 16 && state.y < 32 ) {
+									chosen_color = i;
+									done = true;
+								}
+							}
+						}
 					} else {
 						menu_focus = i;
 					}
@@ -130,7 +142,7 @@ void app_handle_input( void ) {
 			if ( side_focus == 0 ) { // SELECT
 				
 			} else if ( side_focus == 1 ) { // LINE
-				drawing_prepare_line( state.x, state.y );
+				drawing_prepare_line( state.x, state.y, chosen_color );
 			} else if ( side_focus == 2 ) { // CURVE
 				
 			} else if ( side_focus == 3 ) { // ELLIPSE
@@ -389,14 +401,19 @@ void app_draw( void ) {
 	// 7 - COLOR PALLETE
 	for ( i = 0; i < 16; i++ ) {
 		if ( i < 8 ) {
-			if ( border_color == i ) {
-				canvas_draw_rectangle(384 + 32 * i, 1, 384 + 32 * ( i + 1 ), 16, MENU_FONT_COLOR_FOCUS, i);
+			if ( chosen_color == i ) {
+				canvas_draw_rectangle( 384 + 32 * i, 1, 384 + 32 * ( i + 1 ), 16, MENU_FONT_COLOR_FOCUS, i );
 			} else {
-				canvas_draw_rectangle(384 + 32 * i, 1, 384 + 32 * ( i + 1 ), 16, MENU_FONT_COLOR, i);
+				canvas_draw_rectangle( 384 + 32 * i, 1, 384 + 32 * ( i + 1 ), 16, MENU_FONT_COLOR, i );
 			}
 		} else {
-			canvas_draw_rectangle(384 + 32 * ( i - 8 ), 16, 384 + 32 * ( i + 1 - 8 ), 31, MENU_FONT_COLOR, i);
+			if ( chosen_color == i ) {
+				canvas_draw_rectangle( 384 + 32 * ( i - 8 ), 16, 384 + 32 * ( i + 1 - 8 ), 31, MENU_FONT_COLOR_FOCUS, i );
+			} else {
+				canvas_draw_rectangle( 384 + 32 * ( i - 8 ), 16, 384 + 32 * ( i + 1 - 8 ), 31, MENU_FONT_COLOR, i );
+			}
 		}
+		canvas_draw_line( 384, 31, 640, 31, 0 );
 	}
 
 	// Draw side panels

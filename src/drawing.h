@@ -8,6 +8,8 @@
 #define MAX_POL 10
 #define MAX_LINE_POL 50
 
+#define MARGIN 5
+
 // Drawing's global variables
 extern rohmen_line lines[ MAX_LINE ];
 extern rohmen_ellipse ellipses[ MAX_ELLIPSE ];
@@ -28,7 +30,7 @@ void drawing_scale( int cx, int cy, float scale );
 
 void drawing_draw( void );
 
-int drawing_prepare_line( int x, int y );
+int drawing_prepare_line( int x, int y, int color );
 
 int drawing_process_line( int x, int y );
 

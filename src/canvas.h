@@ -17,18 +17,21 @@
 #define MAX_LINE_POL 50
 
 typedef struct {
-	int x;
-	int y;
+	int x; int y;
+	int color;
 } rohmen_point;
 
 typedef struct {
 	int x0; int y0;
 	int x1; int y1;
+	int color;
 } rohmen_line;
 
 typedef struct {
 	int x0; int y0;
 	int x1; int y1;
+	int color_border;
+	int color_fill;
 } rohmen_rectangle;
 
 typedef struct {
