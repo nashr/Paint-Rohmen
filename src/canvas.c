@@ -210,7 +210,8 @@ int canvas_zoom_out( int px, int py ) {
 }
 
 void canvas_draw_rotation_center( void ) {
-	canvas_draw_rectangle( rx - 5, ry - 5, rx + 5, ry + 5, 12, 13 );
+	canvas_draw_ellipse( rx, ry, 3, 3, 13 );
+	canvas_draw_ellipse( rx, ry, 5, 5, 12 );
 
 	return;
 }

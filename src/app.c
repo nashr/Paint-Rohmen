@@ -368,9 +368,17 @@ void app_draw( void ) {
 
 	// 3 - ROTATE
 	if ( menu_panels[ 2 ].focus ) {
+		canvas_draw_ellipse( 160, 16, 10, 10, MENU_FONT_COLOR_FOCUS );
+		
+		canvas_draw_rectangle( 150, 6, 160, 20, MENU_COLOR_FOCUS, MENU_COLOR_FOCUS );
+		
 		canvas_draw_line( 160, 6, 165, 1, MENU_FONT_COLOR_FOCUS );
 		canvas_draw_line( 160, 6, 165, 11, MENU_FONT_COLOR_FOCUS );
 	} else {
+		canvas_draw_ellipse( 160, 16, 10, 10, MENU_FONT_COLOR );
+
+		canvas_draw_rectangle( 150, 6, 160, 20, MENU_COLOR, MENU_COLOR );
+
 		canvas_draw_line( 160, 6, 165, 1, MENU_FONT_COLOR );
 		canvas_draw_line( 160, 6, 165, 11, MENU_FONT_COLOR );
 	}
