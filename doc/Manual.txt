@@ -9,9 +9,9 @@ Daftar Isi
 +-+-> 2.1 Move
 | +-> 2.2 Rotate
 | +-> 2.3 Skew
-| +-> 2.4 Mirror
-| +-> 2.5 Zoom In
-| +-> 2.6 Zoom Out
+| +-> 2.4 Zoom In
+| +-> 2.5 Zoom Out
+| +-> 2.6 Warna
 |
 +-> 3.Gambar
 +-+-> 3.1 Select
@@ -23,6 +23,12 @@ Daftar Isi
 | +-> 3.7 Crop
 |
 +-> 4.Algoritma
++-+-> 4.1 Line
+  +-> 4.2 Curve
+  +-> 4.3 Ellipse
+  +-> 4.4 Fill
+  +-> 4.5 Crop
+  +-> 4.6 Anticlipping
 
 Deskripsi
 ===========================================================
@@ -35,28 +41,33 @@ Deskripsi
   2.1 Move
       a. Click kiri pada tombol Move;
       b. Click kanan pada canvas;
-      c. Tahan dan gerakan mouse untuk bergerak;
+      c. Tahan dan gerakkan mouse untuk bergerak;
       d. Lepas click setelah selesai.
   2.2 Rotate
       a. Click kiri pada tombol Rotate;
-      b. Click kanan pertama pada canvas untuk mengambil
-         titik pusat rotasi;
-      c. Click kanan kedua pada canvas untuk merotasi;
+      b. Click kanan pada canvas;
+      c. Tahan dan gerakkan mouse ke atas untuk merotasi
+         berlawanan arah jarum jam; ke bawah searah jarum
+         jam;
+      e. Pusat rotasi ditandai dengan 2 lingkaran merah
+         pada canvas. Click kanan pada titik, tahan, dan
+         gerakkan mouse untuk mengubah posisinya;
       d. Lepas click setelah selesai.
   2.3 Skew
       a. ???
-  2.4 Mirror
-      a. ???
-  2.5 Zoom In
+  2.4 Zoom In
       a. Click kiri pada tombol Zoom In;
       b. Click kanan pada canvas untuk memperbesar canvas
          dengan pusat titik tersebut;
       c. Lepas click setelah selesai.
-  2.6 Zoom Out
+  2.5 Zoom Out
       a. Click kiri pada tombol Zoom Out;
       b. Click kanan pada canvas untuk memperkecil canvas
          dengan pusat titik tersebut;
       c. Lepas click setelah selesai.
+  2.6 Warna
+      a. Warna untuk menggambar dapat dipilih dengan meng-
+         click palet warna yang tersedia.
 
 3.Gambar
   Semua aksi gambar menggunakan click kiri.
@@ -81,7 +92,18 @@ Deskripsi
       a. ???
 
 4.Algoritma
-  ???
+  4.1 Line
+      Penggambaran garis menggunakan algoritma Bresenham.
+  4.2 Curve
+      ???
+  4.3 Ellipse
+      ???
+  4.4 Fill
+      ???
+  4.5 Crop
+      ???
+  4.6 Anticlipping
+      ???
 
 Copyright
 ===========================================================
