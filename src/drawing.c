@@ -89,7 +89,7 @@ void drawing_rotate( int px, int py ) {
 
 				r = sqrt( ( opolygons[i].poline[j].x1 - rx ) * ( opolygons[i].poline[j].x1 - rx ) + ( opolygons[i].poline[j].y1 - ry ) * ( opolygons[i].poline[j].y1 - ry ) );
 				drawing_rotation_calibrate( &polygons[i].poline[j].x1, &polygons[i].poline[j].y1, r );
-				printf("\n rotate1");
+				
 			}
 		}
 
@@ -106,12 +106,13 @@ void drawing_rotate( int px, int py ) {
 		}
 		
 		for ( i = 0; i <= n_polygon; i++ ) {
+			polygons[i] = opolygons[i];
 			for ( j = 0; j <= polygons[i].curr_line; j++ ) {
-				polygons[i] = opolygons[i];
+				
 
 				drawing_rotate_point( &polygons[i].poline[j].x0, &polygons[i].poline[j].y0 );
 				drawing_rotate_point( &polygons[i].poline[j].x1, &polygons[i].poline[j].y1 );
-				printf("\n rotate2");
+				
 			
 			}
 		}
@@ -294,7 +295,7 @@ void drawing_draw( void ) {
 	//Draw polygons
 	for ( i = 0; i <= n_polygon; i++ ) {
 		for ( j = 0; j <= polygons[i].curr_line; j++) {
-			canvas_draw_line( polygons[i].poline[j].x0, polygons[i].poline[j].y0, polygons[i].poline[j].x1, polygons[i].poline[j].y1, 0);
+			canvas_draw_line( polygons[i].poline[j].x0, polygons[i].poline[j].y0, polygons[i].poline[j].x1, polygons[i].poline[j].y1, polygons[i].color_border);
 		}
 	}
 	
@@ -394,9 +395,10 @@ int drawing_finalize_curve( int x, int y ) {
 
 }
 
-int drawing_prepare_polygon( int x, int y ) {
+int drawing_prepare_polygon( int x, int y, int color ) {
 	if ( n_polygon < MAX_POL ) {
 		if ( polygons[ n_polygon ].finish ) {
+			polygons[ n_polygon ].color_border = color;
 			polygons[ n_polygon ].poline[0].x0 = x;  
 			polygons[ n_polygon ].poline[0].y0 = y;  //inisialisasi titik awal garis pertama
 			                   
@@ -404,7 +406,6 @@ int drawing_prepare_polygon( int x, int y ) {
 			polygons[ n_polygon ].poline[0].y1 = y;
 			                  
 			polygons[ n_polygon ].finish = false;
-			
 			
 		}
 		else if ( polygons[ n_polygon ].curr_line < MAX_LINE_POL ){ //jumlah sisi poligon tidak lebih

@@ -49,7 +49,7 @@ int drawing_process_curve( int x, int y );
 
 int drawing_finalize_curve( int x, int y );
 
-int drawing_prepare_polygon( int x, int y );
+int drawing_prepare_polygon( int x, int y , int color);
 
 int drawing_process_polygon( int x, int y );
 

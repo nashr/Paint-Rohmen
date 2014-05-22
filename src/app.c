@@ -141,7 +141,7 @@ void _app_handle_input( void ) {
 			} else if ( side_focus == 3 ) { // ELLIPSE
 				drawing_prepare_ellipse( state.x, state.y, chosen_color );
 			} else if ( side_focus == 4 ) { // POLYGON
-				drawing_prepare_polygon( state.x, state.y );
+				drawing_prepare_polygon( state.x, state.y, chosen_color );
 				
 			} else if ( side_focus == 5 ) { // FILL
 				canvas_fill( state.x, state.y, chosen_color );
