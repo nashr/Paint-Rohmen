@@ -580,7 +580,8 @@ void app_run() {
 		_app_draw();
 		
 		// We are working on a single thread program, so we do not need delay.
-		// delay( 1000 / FRAME_PER_SECOND );
+		// My machine works really hard that it sounds terrible, unless I use it
+		delay( 1000 / FPS );
 	}
 
 	canvas_close();
