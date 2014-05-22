@@ -182,7 +182,7 @@ void _app_handle_input( void ) {
 		} else if ( side_focus == 1 ) { // LINE
 			drawing_finalize_line( state.x, state.y );
 		} else if ( side_focus == 2 ) { // CURVE
-			
+			drawing_finalize_curve( state.x, state.y );
 		} else if ( side_focus == 3 ) { // ELLIPSE
 			drawing_finalize_ellipse( state.x, state.y );
 		} else if ( side_focus == 4 ) { // POLYGON

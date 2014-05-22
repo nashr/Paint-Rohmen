@@ -42,7 +42,7 @@ typedef struct {
 	int px[4];
 	int py[4];
 	int color;
-	int finish;
+	int finish = true;
 	int curr_point; //jumlah point saat ini
 } rohmen_curve;
 
@@ -106,7 +106,7 @@ void canvas_draw_ellipse(int xCenter, int yCenter, int Rx, int Ry, int color);
 
 void canvas_draw_rectangle( int x0, int y0, int x1, int y1, int border_color, int fill_color );
 
-void canvas_draw_bezier( int length, int* px, int* py, int color );
+void canvas_draw_bezier( int* px, int* py, int color );
 
 void canvas_fill_rectangle( int x0, int y0, int x1, int y1, int color );
 
