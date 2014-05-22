@@ -36,8 +36,12 @@ void app_draw( void );
 
 void app_run( void );
 
-const int app_is_exit( void );
+/// Gets the exit variable.
+/// If the exit variable is set to true, the app will close on the next loop.
+const bool app_is_exit();
 
-void app_set_exit( int val );
+/// Sets the exit variable.
+/// If the exit variable is set to true, the app will close on the next loop.
+void app_set_exit( const bool val );
 
 #endif

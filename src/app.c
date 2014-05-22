@@ -536,12 +536,10 @@ void app_run( void ) {
 	return;
 }
 
-const int app_is_exit( void ) {
+const bool app_is_exit() {
 	return exit;
 }
 
-void app_set_exit( int val ) {
-	exit = val;
-
-	return;
+void app_set_exit( const bool _exit ) {
+	exit = _exit;
 }
