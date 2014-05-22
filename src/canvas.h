@@ -110,6 +110,6 @@ void canvas_draw_bezier( int* px, int* py, int color );
 
 void canvas_fill_rectangle( int x0, int y0, int x1, int y1, int color );
 
-void canvas_fill( int x, int y, int fillColor );
+void canvas_fill( int x, int y, int fillColor, int oldColor );
 
 #endif

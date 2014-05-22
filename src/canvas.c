@@ -510,16 +510,16 @@ void canvas_fill_rectangle( int x0, int y0, int x1, int y1, int color ) {
 	return;
 }
 
-void canvas_fill ( int x, int y, int fillColor ) {
+void canvas_fill ( int x, int y, int fillColor, int oldColor ) {
 	int current;
 	current = getpixel ( x, y );
-	if (current  !=  fillColor)  {
+	if (current  !=  fillColor && current == oldColor)  {
 		setcolor( fillColor );
 		putpixel( x, y, 0 );
-		canvas_fill( x+1, y, fillColor );
-		canvas_fill( x-1, y, fillColor );
-		canvas_fill( x,   y+1, fillColor );
-		canvas_fill( x,   y-1, fillColor );
+		canvas_fill( x+1, y, fillColor, oldColor );
+		canvas_fill( x-1, y, fillColor, oldColor );
+		canvas_fill( x,   y+1, fillColor, oldColor );
+		canvas_fill( x,   y-1, fillColor, oldColor );
 	}
 }
 
