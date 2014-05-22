@@ -2,7 +2,7 @@ MANUAL PAINT-ROHMEN
 oleh kelompok Grafika-Rohmen
 
 Daftar Isi
-===========================================================
+================================================================
 +-> 1.Koordinat
 |
 +-> 2.Transformasi
@@ -31,7 +31,7 @@ Daftar Isi
   +-> 4.6 Anticlipping
 
 Deskripsi
-===========================================================
+================================================================
 1.Koordinat
   Paint-Rohmen dapat menampilkan/menyembunyikan koordinat
   kartesian dengan meng-click kiri pada tombol Koordinat.
@@ -117,7 +117,7 @@ Deskripsi
       ???
 
 Copyright
-===========================================================
+================================================================
 13511018 Tito D. Kesumo Siregar
 13511020 Arief Rahman
 13511044 Muhammad Nassirudin
