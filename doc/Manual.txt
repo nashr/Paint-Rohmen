@@ -46,15 +46,21 @@ Deskripsi
   2.2 Rotate
       a. Click kiri pada tombol Rotate;
       b. Click kanan pada canvas;
-      c. Tahan dan gerakkan mouse ke atas untuk merotasi
-         berlawanan arah jarum jam; ke bawah searah jarum
-         jam;
+      c. Tahan dan gerakkan mouse ke atas atau ke bawah
+	     untuk merotasi;
       e. Pusat rotasi ditandai dengan 2 lingkaran merah
-         pada canvas. Click kanan pada titik, tahan, dan
-         gerakkan mouse untuk mengubah posisinya;
+         pada canvas. Click kanan pada lingkaran, tahan, 
+		 dan gerakkan mouse untuk mengubah posisinya;
       d. Lepas click setelah selesai.
   2.3 Skew
-      a. ???
+      a. Click kiri pada tombol Skew;
+	  b. Click kanan pada canvas;
+	  c. Tahan dan gerakkan mouse ke atas/bawah atau ke 
+	     kiri/kanan untuk memiringkan (skew);
+	  d. Pusat skew ditandai dengan tanda silang merah
+	     pada canvas. Click kanan pada tanda silang, tahan, 
+		 dan gerakkan mouse untuk mengubah posisinya;
+	  e. Lepas click setelah selesai.
   2.4 Zoom In
       a. Click kiri pada tombol Zoom In;
       b. Click kanan pada canvas untuk memperbesar canvas
