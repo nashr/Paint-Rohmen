@@ -512,7 +512,7 @@ void _app_draw( void ) {
 	return;
 }
 
-void app_run( void ) {
+void app_run() {
 	
 	app_set_exit( false );
 	app_build_workspace();
