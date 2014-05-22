@@ -4,10 +4,13 @@
 
 rohmen_line lines[ MAX_LINE ];
 rohmen_ellipse ellipses[ MAX_ELLIPSE ];
+rohmen_curve curves[ MAX_CURVE ];
 rohmen_polygon polygons [ MAX_POL ];
 int n_line;
 int n_ellipse;
+int n_curve;
 int n_polygon;
+
 
 // Drawing's global variables
 int drawing_ox = -1, drawing_oy = -1;
@@ -338,6 +341,36 @@ int drawing_finalize_line( int x, int y ) {
 	return false;
 }
 
+int drawing_prepare_curve( int x, int y ) {
+	if ( n_curve < MAX_CURVE ) {
+		n_curve++;
+
+		curves[ n_curve - 1 ].px[0] = x;
+		curves[ n_curve - 1 ].py[0] = y;
+		
+		curves[ n_curve - 1 ].px[1] = x;
+		curves[ n_curve - 1 ].py[1] = y;
+		
+		curves[ n_curve - 1 ].color = color;
+		
+		return true;
+	}
+
+	return false;
+}
+
+int drawing_process_curve( int x, int y ) {
+	if ( x > 64 && y > 32 ) {
+		curve[ n_curve - 1 ].px[1]= x;
+		curve[ n_curve - 1 ].py[1]= y;
+	}
+	
+	return true;
+}
+
+int drawing_finalize_curve( int x, int y ) {
+
+}
 
 int drawing_prepare_polygon( int x, int y ) {
 	if ( n_polygon < MAX_POL ) {

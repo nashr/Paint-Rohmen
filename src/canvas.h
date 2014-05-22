@@ -39,11 +39,11 @@ typedef struct {
 } rohmen_ellipse;
 
 typedef struct {
-	int length;
-	int px[100];
-	int py[100];
+	int px[4];
+	int py[4];
 	int color;
-} rohmen_bezier;
+	int finish;
+} rohmen_curve;
 
 typedef struct {
 	rohmen_line poline[MAX_LINE_POL]; //garis sisi yang membentuk poligon

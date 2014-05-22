@@ -137,7 +137,7 @@ void _app_handle_input( void ) {
 			} else if ( side_focus == 1 ) { // LINE
 				drawing_prepare_line( state.x, state.y, chosen_color );
 			} else if ( side_focus == 2 ) { // CURVE
-				
+				drawing_prepare_curve( state.x, state.y, chosen_color );
 			} else if ( side_focus == 3 ) { // ELLIPSE
 				drawing_prepare_ellipse( state.x, state.y, chosen_color );
 			} else if ( side_focus == 4 ) { // POLYGON
@@ -160,7 +160,7 @@ void _app_handle_input( void ) {
 		} else if ( side_focus == 1 ) { // LINE
 			drawing_process_line( state.x, state.y );
 		} else if ( side_focus == 2 ) { // CURVE
-			
+			drawing_process_curve (state.x, state.y);
 		} else if ( side_focus == 3 ) { // ELLIPSE
 			drawing_process_ellipse( state.x, state.y );
 		} else if ( side_focus == 4 ) { // POLYGON

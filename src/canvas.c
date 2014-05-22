@@ -522,3 +522,23 @@ void canvas_fill ( int x, int y, int fillColor, int boundaryColor) {
 		canvas_fill( x,   y-1, fillColor, boundaryColor );
 	}
 }
+
+void canvas_draw_bezier( int length, int* px, int* py, int color ){
+	int i;
+	double t;
+	for (t = 0.0; t < 1.0; t += 0.0005)
+	{
+		double xt,yt = 0;
+		for (i=0; i<legth; i++){
+			xt += sp[i] * pow(1-t, length-i) * pow (t,i) * x[i]
+			yt += sp[i] * pow(1-t, length-i) * pow (t,i) * y[i]
+			m--;
+			n++;
+			putpixel (xt, yt, WHITE);
+		}
+	}
+	for (i=0; i<3; i++)
+		putpixel (x[i], y[i], YELLOW);
+
+	return;	
+}
