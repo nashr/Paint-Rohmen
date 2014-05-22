@@ -529,16 +529,21 @@ void canvas_draw_bezier( int length, int* px, int* py, int color ){
 	for (t = 0.0; t < 1.0; t += 0.0005)
 	{
 		double xt,yt = 0;
-		for (i=0; i<legth; i++){
-			xt += sp[i] * pow(1-t, length-i) * pow (t,i) * x[i]
+		for (i=0; i<length; i++){
+			double xt = pow (1-t, 3) * px[0] + 3 * t * pow (1-t, 2) * px[1] +
+					3 * pow (t, 2) * (1-t) * px[2] + pow (t, 3) * px[3];
+			double yt = pow (1-t, 3) * py[0] + 3 * t * pow (1-t, 2) * py[1] +
+					3 * pow (t, 2) * (1-t) * py[2] + pow (t, 3) * py[3];  
+			putpixel (xt, yt, WHITE);
+			/*xt += sp[i] * pow(1-t, length-i) * pow (t,i) * x[i]
 			yt += sp[i] * pow(1-t, length-i) * pow (t,i) * y[i]
 			m--;
 			n++;
-			putpixel (xt, yt, WHITE);
+			putpixel (xt, yt, WHITE);*/
 		}
 	}
 	for (i=0; i<3; i++)
-		putpixel (x[i], y[i], YELLOW);
+		putpixel (px[i], py[i], YELLOW);
 
 	return;	
 }

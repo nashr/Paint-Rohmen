@@ -341,17 +341,39 @@ int drawing_finalize_line( int x, int y ) {
 	return false;
 }
 
-int drawing_prepare_curve( int x, int y ) {
+int drawing_prepare_curve( int x, int y, int color ) {
 	if ( n_curve < MAX_CURVE ) {
-		n_curve++;
-
-		curves[ n_curve - 1 ].px[0] = x;
-		curves[ n_curve - 1 ].py[0] = y;
-		
-		curves[ n_curve - 1 ].px[1] = x;
-		curves[ n_curve - 1 ].py[1] = y;
-		
-		curves[ n_curve - 1 ].color = color;
+		if ( curves[ n_curve ].finish ) {
+			curves[ n_curve ].px[0] = x;  
+			curves[ n_curve ].py[0] = y;  //inisialisasi titik awal garis pertama
+			                   
+			curves[ n_curve ].px[1] = x;
+			curves[ n_curve ].py[1] = y;
+			                  
+			curves[ n_curve ].finish = false;
+			
+			
+		}
+		else if ( curves[ n_curve ].curr_point == 2 ){ //titik ada 2
+			curves[ n_curve ].curr_point++;
+			
+			int current = curves[ n_curve ].curr_point;
+			
+			//ambil titik akhir dari garis sebelumnya untuk titik awal
+			curves[ n_curve ].px[2] = curves[ n_curve ].px[1];
+			curves[ n_curve ].py[2] = curves[ n_curve ].py[1];
+			
+		}
+		else if ( curves[ n_curve ].curr_point == 3 ){ //titik ada 3
+			curves[ n_curve ].curr_point++;
+			
+			int current = curves[ n_curve ].curr_point;
+			
+			//ambil titik akhir dari garis sebelumnya untuk titik awal
+			curves[ n_curve ].px[3] = curves[ n_curve ].px[2];
+			curves[ n_curve ].py[3] = curves[ n_curve ].py[2];
+		}
+		else return false;
 		
 		return true;
 	}
@@ -361,8 +383,8 @@ int drawing_prepare_curve( int x, int y ) {
 
 int drawing_process_curve( int x, int y ) {
 	if ( x > 64 && y > 32 ) {
-		curve[ n_curve - 1 ].px[1]= x;
-		curve[ n_curve - 1 ].py[1]= y;
+		curves[ n_curve - 1 ].px[1]= x;
+		curves[ n_curve - 1 ].py[1]= y;
 	}
 	
 	return true;

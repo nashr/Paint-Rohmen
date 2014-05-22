@@ -43,7 +43,7 @@ int drawing_process_line( int x, int y );
 
 int drawing_finalize_line( int x, int y );
 
-int drawing_prepare_curve( int x, int y );
+int drawing_prepare_curve( int x, int y, int color );
 
 int drawing_process_curve( int x, int y );
 

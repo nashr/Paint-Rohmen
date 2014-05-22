@@ -43,6 +43,7 @@ typedef struct {
 	int py[4];
 	int color;
 	int finish;
+	int curr_point; //jumlah point saat ini
 } rohmen_curve;
 
 typedef struct {
