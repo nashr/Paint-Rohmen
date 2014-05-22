@@ -11,14 +11,6 @@ rohmen_panel side_panels[ NUM_SIDE ];
 int menu_focus = 1, side_focus = 0;
 int chosen_color = 0;
 
-void app_start( void ) {
-	exit = false;
-	
-	app_build_workspace();
-
-	return;
-}
-
 void app_build_workspace( void ) {
 	// Build menu
 	rohmen_panel cartesian, move, rotate, skew, zoom_in, zoom_out, pallete;
@@ -83,7 +75,7 @@ void app_draw_panel( rohmen_panel panel ) {
 	canvas_draw_rectangle( panel.rect.x0, panel.rect.y0, panel.rect.x1, panel.rect.y1, border_color, fill_color );
 }
 
-void app_handle_input( void ) {
+void _app_handle_input( void ) {
 	int i;
 
 	g_mousestate state;
@@ -347,7 +339,7 @@ void app_handle_input( void ) {
 	return;
 }
 
-void app_update( void ) {
+void _app_update( void ) {
 	int i;
 
 	// Focus handle
@@ -370,7 +362,7 @@ void app_update( void ) {
 	return;
 }
 
-void app_draw( void ) {
+void _app_draw( void ) {
 	int i;
 
 	canvas_begin_draw();
@@ -575,28 +567,29 @@ void app_draw( void ) {
 	return;
 }
 
-void app_run( void ) {
+void app_run() {
+	
+	app_set_exit( false );
+	app_build_workspace();
+	
 	canvas_init();
 
 	while ( !app_is_exit() ) {
-		app_handle_input();
-		app_update();
-		app_draw();
-
-		delay( 1000 / 30 );
+		_app_handle_input();
+		_app_update();
+		_app_draw();
+		
+		// We are working on a single thread program, so we do not need delay.
+		// delay( 1000 / FRAME_PER_SECOND );
 	}
 
 	canvas_close();
-
-	return;
 }
 
-const int app_is_exit( void ) {
+const bool app_is_exit() {
 	return exit;
 }
 
-void app_set_exit( int val ) {
-	exit = val;
-
-	return;
+void app_set_exit( const bool _exit ) {
+	exit = _exit;
 }

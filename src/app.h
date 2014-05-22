@@ -1,7 +1,8 @@
-#include "canvas.h"
-
 #ifndef APP_H
 #define APP_H
+
+#include "config.h"
+#include "canvas.h"
 
 #define TYPE_MENU 0
 #define TYPE_SIDE 1
@@ -22,22 +23,24 @@ extern int menu_focus, side_focus;
 extern int chosen_color;
 
 // Functions and procedures prototype
-void app_start( void );
-
 void app_build_workspace( void );
 
 void app_draw_panel( rohmen_panel panel );
 
-void app_handle_input( void );
+/// The main function containing the loop.
+void app_run();
 
-void app_update( void );
+/// Gets the exit variable.
+/// If the exit variable is set to true, the app will close on the next loop.
+const bool app_is_exit();
 
-void app_draw( void );
+/// Sets the exit variable.
+/// If the exit variable is set to true, the app will close on the next loop.
+void app_set_exit( const bool val );
 
-void app_run( void );
-
-const int app_is_exit( void );
-
-void app_set_exit( int val );
+// == Private functions ========================================================================= //
+void _app_handle_input();
+void _app_update();
+void _app_draw();
 
 #endif

@@ -1,5 +1,3 @@
-#include "boolean.h"
-
 #ifndef CANVAS_H
 #define CANVAS_H
 
