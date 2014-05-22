@@ -87,13 +87,12 @@ Deskripsi
       c. Tahan dan gerakkan mouse untuk melihat garis yang
          terbentuk;
       d. Lepaskan click untuk membentuk garis pertama
-
   3.4 Ellipse
       a. ???
   3.5 Polygon
       a. ???
   3.6 Fill
-      a. ???
+      Klik pada daerah yang ingin di-fill.
   3.7 Crop
       a. ???
 
@@ -105,7 +104,7 @@ Deskripsi
   4.3 Ellipse
       ???
   4.4 Fill
-      ???
+      Fill dilakukan dengan menggunakan algoritma flood fill.
   4.5 Crop
       ???
   4.6 Anticlipping
