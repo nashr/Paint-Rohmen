@@ -178,17 +178,28 @@ void drawing_shear( int px, int py ) {
 		for ( i = 0; i < n_line; i++ ) {
 			olines[ i ] = lines[ i ];
 		}
+		for ( i = 0; i < n_polygon; i++ ) {
+			opolygons[ i ] = polygons[ i ];
+		}
+		
 	} else if ( px == 999 ) {
 		drawing_ox = -1;
 		drawing_oy = -1;
 	} else {
-		int i;
+		int i,j;
 		for ( i = 0; i < n_line; i++ ) {
 			lines[ i ] = olines[ i ];
 
 			drawing_shear_point( &lines[ i ].x0, &lines[ i ].y0 );
 			drawing_shear_point( &lines[ i ].x1, &lines[ i ].y1 );
 			
+		}
+		for ( i = 0; i <= n_polygon; i++ ) {
+			polygons[ i ] = opolygons[ i ];
+			for ( j = 0; j <= polygons[ i ].curr_line; j++ ) {
+				drawing_shear_point( &polygons[i].poline[j].x0, &polygons[i].poline[j].y0 );
+				drawing_shear_point( &polygons[i].poline[j].x1, &polygons[i].poline[j].y1 );
+			}
 		}
 	}
 
