@@ -62,6 +62,7 @@ extern int center_x, center_y;
 extern int scale;
 extern int rx, ry, change_r;
 extern double angle;
+extern int sx, sy, change_s;
 
 // Functions and procedures prototype
 void canvas_init( void );

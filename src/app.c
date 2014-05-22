@@ -214,9 +214,17 @@ void app_handle_input( void ) {
 				}
 			} else if ( menu_focus == 2 ) { // ROTATE
 				if ( !canvas_change_rotation_center( state.x, state.y ) ) {
-					if ( canvas_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y ) ) {
-						drawing_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y );
-					}	
+					int dx = state.x - mouse_prev_x;
+					int dy = state.y - mouse_prev_y;
+
+					if ( state.x < rx ) {
+						dx *= -1;
+						dy *= -1;
+					}
+
+					if ( canvas_rotate( dx, dy ) ) {
+						drawing_rotate( dx, dy );
+					}
 				}
 			} else if ( menu_focus == 3 ) { // SKEW
 				// do nothing
@@ -238,8 +246,16 @@ void app_handle_input( void ) {
 			}
 		} else if ( menu_focus == 2 ) { // ROTATE
 			if ( !canvas_change_rotation_center( state.x, state.y ) ) {
-				if ( canvas_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y ) ) {
-					drawing_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y );
+				int dx = state.x - mouse_prev_x;
+				int dy = state.y - mouse_prev_y;
+
+				if ( state.x < rx ) {
+					dx *= -1;
+					dy *= -1;
+				}
+
+				if ( canvas_rotate( dx, dy ) ) {
+					drawing_rotate( dx, dy );
 				}	
 			}
 		} else if ( menu_focus == 3 ) { // SKEW
