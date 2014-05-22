@@ -98,7 +98,8 @@ Deskripsi
   3.5 Polygon
       a. ???
   3.6 Fill
-      Klik pada daerah yang ingin di-fill.
+      a. Klik kiri pada tombol Fill (gambar paint bucket).
+	  b. Klik kiri pada daerah yang ingin di-fill.
   3.7 Crop
       a. ???
 
@@ -111,6 +112,8 @@ Deskripsi
       ???
   4.4 Fill
       Fill dilakukan dengan menggunakan algoritma flood fill.
+	  Warna fill diambil dari chosen_color. Warna yang akan 
+	  diambil dari warna pada posisi awal fill dilakukan
   4.5 Crop
       ???
   4.6 Anticlipping
