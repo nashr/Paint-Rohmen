@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -m32 -std=c++11 -Wall -Iopenbgi
+CFLAGS = -Wall -m32 -std=c++11 -Wall -Iopenbgi
 
 OBJS = main.o app.o drawing.o canvas.o
 

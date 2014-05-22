@@ -2,6 +2,7 @@
 #include "config.h"
 #include "drawing.h"
 #include "graphics.h"
+#include <math.h>
 #include <stdio.h>
 
 int mouse_prev_state, mouse_prev_x, mouse_prev_y, exit;
@@ -9,14 +10,6 @@ rohmen_panel menu_panels[ NUM_MENU ];
 rohmen_panel side_panels[ NUM_SIDE ];
 int menu_focus = 1, side_focus = 0;
 int chosen_color = 0;
-
-void app_start( void ) {
-	exit = false;
-	
-	app_build_workspace();
-
-	return;
-}
 
 void app_build_workspace( void ) {
 	// Build menu
@@ -82,7 +75,7 @@ void app_draw_panel( rohmen_panel panel ) {
 	canvas_draw_rectangle( panel.rect.x0, panel.rect.y0, panel.rect.x1, panel.rect.y1, border_color, fill_color );
 }
 
-void app_handle_input( void ) {
+void _app_handle_input( void ) {
 	int i;
 
 	g_mousestate state;
@@ -146,7 +139,7 @@ void app_handle_input( void ) {
 			} else if ( side_focus == 2 ) { // CURVE
 				
 			} else if ( side_focus == 3 ) { // ELLIPSE
-				drawing_prepare_ellipse( state.x, state.y );
+				drawing_prepare_ellipse( state.x, state.y, chosen_color );
 			} else if ( side_focus == 4 ) { // POLYGON
 				drawing_prepare_polygon( state.x, state.y );
 				
@@ -214,12 +207,40 @@ void app_handle_input( void ) {
 				}
 			} else if ( menu_focus == 2 ) { // ROTATE
 				if ( !canvas_change_rotation_center( state.x, state.y ) ) {
-					if ( canvas_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y ) ) {
-						drawing_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y );
-					}	
+					int dx = state.x - mouse_prev_x;
+					int dy = state.y - mouse_prev_y;
+
+					if ( state.x < rx ) {
+						dy *= -1;
+					}
+
+					if ( canvas_rotate( dx, dy ) ) {
+						drawing_rotate( dx, dy );
+					}
 				}
 			} else if ( menu_focus == 3 ) { // SKEW
-				// do nothing
+				if ( !canvas_change_shearing_center( state.x, state.y ) ) {
+					int dx = state.x - mouse_prev_x;
+					int dy = state.y - mouse_prev_y;
+
+					if ( state.x < sx ) {
+						dy *= -1;
+					}
+					
+					if ( state.y < sy ) {
+						dx *= -1;
+					}
+
+					if ( fabs( dx ) < fabs( dy ) ) {
+						if ( canvas_shear( 0, dy ) ) {
+							drawing_shear( 0, dy );
+						}
+					} else {
+						if ( canvas_shear( dx, 0 ) ) {
+							drawing_shear( dx, 0 );
+						}
+					}
+				}
 			} else if ( menu_focus == 4 ) { // ZOOM IN
 				// do nothing
 			} else if ( menu_focus == 5 ) { // ZOOM OUT
@@ -238,20 +259,38 @@ void app_handle_input( void ) {
 			}
 		} else if ( menu_focus == 2 ) { // ROTATE
 			if ( !canvas_change_rotation_center( state.x, state.y ) ) {
-				if ( canvas_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y ) ) {
-					drawing_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y );
+				int dx = state.x - mouse_prev_x;
+				int dy = state.y - mouse_prev_y;
+
+				if ( state.x < rx ) {
+					dy *= -1;
+				}
+
+				if ( canvas_rotate( dx, dy ) ) {
+					drawing_rotate( dx, dy );
 				}	
 			}
 		} else if ( menu_focus == 3 ) { // SKEW
-			int dx = state.x - mouse_prev_x;
-			int dy = state.y - mouse_prev_y;
-			if ( dx < dy ) {
-				if ( canvas_shear( 0, dy ) ) {
-					// TO DO
+			if ( !canvas_change_shearing_center( state.x, state.y ) ) {
+				int dx = state.x - mouse_prev_x;
+				int dy = state.y - mouse_prev_y;
+
+				if ( state.x < sx ) {
+					dy *= -1;
 				}
-			} else {
-				if ( canvas_shear( dx, 0 ) ) {
-					// TO DO
+
+				if ( state.y < sy ) {
+					dx *= -1;
+				}
+
+				if ( fabs( dx ) < fabs( dy ) ) {
+					if ( canvas_shear( 0, dy ) ) {
+						drawing_shear( 0, dy );
+					}
+				} else {
+					if ( canvas_shear( dx, 0 ) ) {
+						drawing_shear( dx, 0 );
+					}
 				}
 			}
 		} else if ( menu_focus == 4 ) { // ZOOM IN
@@ -280,7 +319,11 @@ void app_handle_input( void ) {
 				}
 			}
 		} else if ( menu_focus == 3 ) { // SKEW
-			// do nothing
+			if ( !canvas_change_shearing_center( 999, 999 ) ) {
+				if ( canvas_shear( 999, 999 ) ) {
+					drawing_shear( 999, 999 );
+				}
+			}
 		} else if ( menu_focus == 4 ) { // ZOOM IN
 			// do nothing
 		} else if ( menu_focus == 5 ) { // ZOOM OUT
@@ -296,7 +339,7 @@ void app_handle_input( void ) {
 	return;
 }
 
-void app_update( void ) {
+void _app_update( void ) {
 	int i;
 
 	// Focus handle
@@ -319,19 +362,26 @@ void app_update( void ) {
 	return;
 }
 
-void app_draw( void ) {
+void _app_draw( void ) {
 	int i;
 
 	canvas_begin_draw();
+	
+	// Draw drawings
+	drawing_draw();
 	
 	// Draw cartesian if user wants it
 	if ( menu_panels[ 0 ].focus ) {
 		canvas_draw_cartesian( CARTESIAN_ABSIS_COLOR, CARTESIAN_COLOR );
 	}
-	
-	// Draw drawings
-	drawing_draw();
-	
+
+	// Draw rotation/shearing center if it's active
+	if ( menu_panels[ 2 ].focus ) {
+		canvas_draw_rotation_center();
+	} else if ( menu_panels[ 3 ].focus ) {
+		canvas_draw_shearing_center();
+	}
+
 	// Draw menu panels
 	for ( i = 0; i < NUM_MENU; i++ ) {
 		app_draw_panel( menu_panels[ i ] );
@@ -512,38 +562,35 @@ void app_draw( void ) {
 	
 	// 7 - CROP
 	
-	// Draw rotation center if it's active
-	if ( menu_panels[ 2 ].focus ) {
-		canvas_draw_rotation_center();
-	}
-	
 	canvas_end_draw();
 
 	return;
 }
 
-void app_run( void ) {
+void app_run() {
+	
+	app_set_exit( false );
+	app_build_workspace();
+	
 	canvas_init();
 
 	while ( !app_is_exit() ) {
-		app_handle_input();
-		app_update();
-		app_draw();
-
-		delay( 1000 / 30 );
+		_app_handle_input();
+		_app_update();
+		_app_draw();
+		
+		// We are working on a single thread program, so we do not need delay.
+		// My machine works really hard that it sounds terrible, unless I use it
+		delay( 1000 / FPS );
 	}
 
 	canvas_close();
-
-	return;
 }
 
-const int app_is_exit( void ) {
+const bool app_is_exit() {
 	return exit;
 }
 
-void app_set_exit( int val ) {
-	exit = val;
-
-	return;
+void app_set_exit( const bool _exit ) {
+	exit = _exit;
 }
