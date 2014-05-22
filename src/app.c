@@ -151,7 +151,7 @@ void app_handle_input( void ) {
 				drawing_prepare_polygon( state.x, state.y );
 				
 			} else if ( side_focus == 5 ) { // FILL
-				
+				canvas_fill( state.x, state.y, chosen_color );
 			} else if ( side_focus == 6 ) { // CROP
 				
 			}
