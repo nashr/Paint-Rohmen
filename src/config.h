@@ -3,6 +3,8 @@
 
 #include <graphics.h>
 
+// == Colors ==================================================================================== //
+
 #define MENU_BORDER_COLOR			BLACK
 #define MENU_BORDER_COLOR_FOCUS		WHITE
 
@@ -23,5 +25,9 @@
 
 #define CARTESIAN_ABSIS_COLOR		DARKGRAY
 #define CARTESIAN_COLOR				LIGHTGRAY
+
+// == Miscellaneous ============================================================================= //
+
+#define FPS 30
 
 #endif
