@@ -35,6 +35,7 @@ typedef struct {
 typedef struct {
     int x0; int y0;
     int x1; int y1;
+    int color_border;
 } rohmen_ellipse;
 
 typedef struct {

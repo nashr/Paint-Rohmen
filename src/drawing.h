@@ -42,7 +42,7 @@ int drawing_process_polygon( int x, int y );
 
 int drawing_finalize_polygon( int x, int y );
 
-int drawing_prepare_ellipse( int x, int y );
+int drawing_prepare_ellipse( int x, int y, int color );
 
 int drawing_process_ellipse( int x, int y );
 

@@ -243,8 +243,9 @@ void drawing_draw( void ) {
 		canvas_draw_line( lines[ i ].x0, lines[ i ].y0, lines[ i ].x1, lines[ i ].y1, lines[ i ].color );
 	}
 	
+    // Draw Ellipses
     for (i = 0; i < n_ellipse; i++) {
-        canvas_draw_ellipse_mouse( ellipses[ i ].x0, ellipses[ i ].y0, ellipses[ i ].x1, ellipses[ i ].y1, 0);
+        canvas_draw_ellipse_mouse( ellipses[ i ].x0, ellipses[ i ].y0, ellipses[ i ].x1, ellipses[ i ].y1, ellipses[ i ].color_border);
     }
     
 	//Draw polygons
@@ -367,8 +368,10 @@ int drawing_finalize_polygon( int x, int y ) {
 }
 
 
-int drawing_prepare_ellipse( int x, int y ) {
+int drawing_prepare_ellipse( int x, int y, int color ) {
     if ( n_ellipse < MAX_ELLIPSE ) {
+		ellipses[ n_ellipse ].color_border = color;
+
 		ellipses[ n_ellipse ].x0 = x;
 		ellipses[ n_ellipse ].y0 = y;
 		
