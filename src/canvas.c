@@ -1,5 +1,5 @@
 #include "canvas.h"
-#include <graphics.h>
+#include "graphics.h"
 #include <math.h>
 #include <stdio.h>
 
@@ -451,16 +451,15 @@ void canvas_fill_rectangle( int x0, int y0, int x1, int y1, int color ) {
 	return;
 }
 
-void canvas_fill ( int x, int y, int fillColor, int boundaryColor, int limit ) {
+void canvas_fill ( int x, int y, int fillColor, int boundaryColor) {
 	int current;
 	current = getpixel ( x, y );
-	if ((current != boundaryColor) && (current  !=  fillColor) && limit < 10)  {
+	if ((current != boundaryColor) && (current  !=  fillColor))  {
 		setcolor( fillColor );
 		putpixel( x, y, 0 );
-		int newLimit = limit++;
-		canvas_fill( x+1, y, fillColor, boundaryColor, newLimit );
-		canvas_fill( x-1, y, fillColor, boundaryColor, newLimit );
-		canvas_fill( x,   y+1, fillColor, boundaryColor, newLimit );
-		canvas_fill( x,   y-1, fillColor, boundaryColor, newLimit );
+		canvas_fill( x+1, y, fillColor, boundaryColor );
+		canvas_fill( x-1, y, fillColor, boundaryColor );
+		canvas_fill( x,   y+1, fillColor, boundaryColor );
+		canvas_fill( x,   y-1, fillColor, boundaryColor );
 	}
 }
