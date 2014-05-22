@@ -303,6 +303,13 @@ void drawing_draw( void ) {
         canvas_draw_ellipse_mouse( ellipses[ i ].x0, ellipses[ i ].y0, ellipses[ i ].x1, ellipses[ i ].y1, ellipses[ i ].color_border);
     }
     
+	// Draw Curve
+	for (i = 0; i < n_curve; i++){
+		canvas_draw_bezier( curves[i].px, curves[i].py, curves[i].color );
+
+	}
+	
+	
 	//Draw polygons
 	for ( i = 0; i <= n_polygon; i++ ) {
 		for ( j = 0; j <= polygons[i].curr_line; j++) {
@@ -356,14 +363,36 @@ int drawing_finalize_line( int x, int y ) {
 int drawing_prepare_curve( int x, int y, int color ) {
 	if ( n_curve < MAX_CURVE ) {
 		if ( curves[ n_curve ].finish ) {
+			curves[ n_curve ].color = color;
 			curves[ n_curve ].px[0] = x;  
 			curves[ n_curve ].py[0] = y;  //inisialisasi titik awal garis pertama
 			                   
 			curves[ n_curve ].px[1] = x;
 			curves[ n_curve ].py[1] = y;
-			                  
+			curves[ n_curve ].curr_point = 1;                  
 			curves[ n_curve ].finish = false;
 			
+		}
+		else if ( curves[ n_curve ].curr_point <4 ){ //titik ada 2
+			curves[ n_curve ].curr_point++;
+			
+			int current = curves[ n_curve ].curr_point;
+			
+			//ambil titik akhir dari garis sebelumnya untuk titik awal
+			curves[ n_curve ].px[current] = x;
+			curves[ n_curve ].py[current] = y;
+			printf("\n%d %d", curves[ n_curve ].px[current], curves[ n_curve ].py[current]);
+
+		}
+		/*
+		else if ( curves[ n_curve ].curr_point == 1 ){ //titik ada 2
+			curves[ n_curve ].curr_point++;
+			
+			int current = curves[ n_curve ].curr_point;
+			
+			//ambil titik akhir dari garis sebelumnya untuk titik awal
+			curves[ n_curve ].px[2] = curves[ n_curve ].px[1];
+			curves[ n_curve ].py[2] = curves[ n_curve ].py[1];
 			
 		}
 		else if ( curves[ n_curve ].curr_point == 2 ){ //titik ada 2
@@ -384,7 +413,7 @@ int drawing_prepare_curve( int x, int y, int color ) {
 			//ambil titik akhir dari garis sebelumnya untuk titik awal
 			curves[ n_curve ].px[3] = curves[ n_curve ].px[2];
 			curves[ n_curve ].py[3] = curves[ n_curve ].py[2];
-		}
+		}*/
 		else return false;
 		
 		return true;
@@ -395,15 +424,23 @@ int drawing_prepare_curve( int x, int y, int color ) {
 
 int drawing_process_curve( int x, int y ) {
 	if ( x > 64 && y > 32 ) {
-		curves[ n_curve - 1 ].px[1]= x;
-		curves[ n_curve - 1 ].py[1]= y;
+		curves[ n_curve ].px[curves[ n_curve ].curr_point]= x;
+		curves[ n_curve ].py[curves[ n_curve ].curr_point]= y;
+		return true;
 	}
 	
-	return true;
+	return false;
 }
 
 int drawing_finalize_curve( int x, int y ) {
-
+	if ( x > 64 && y > 32 ) {
+		curves[ n_curve ].px[curves[ n_curve ].curr_point]= x;
+		curves[ n_curve ].py[curves[ n_curve ].curr_point]= y;
+		if (curves[ n_curve ].curr_point == 3) curves[ n_curve ].finish = true;
+		return true;
+	}
+	
+	return false;
 }
 
 int drawing_prepare_polygon( int x, int y, int color ) {
