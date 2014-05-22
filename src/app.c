@@ -241,11 +241,11 @@ void app_handle_input( void ) {
 
 					if ( fabs( dx ) < fabs( dy ) ) {
 						if ( canvas_shear( 0, dy ) ) {
-							// TO DO
+							drawing_shear( 0, dy );
 						}
 					} else {
 						if ( canvas_shear( dx, 0 ) ) {
-							// TO DO
+							drawing_shear( dx, 0 );
 						}
 					}
 				}
@@ -293,11 +293,11 @@ void app_handle_input( void ) {
 
 				if ( fabs( dx ) < fabs( dy ) ) {
 					if ( canvas_shear( 0, dy ) ) {
-						// TO DO
+						drawing_shear( 0, dy );
 					}
 				} else {
 					if ( canvas_shear( dx, 0 ) ) {
-						// TO DO
+						drawing_shear( dx, 0 );
 					}
 				}
 			}

@@ -167,6 +167,41 @@ void drawing_rotation_calibrate( int* x, int* y, int r ) {
 }
 
 void drawing_shear( int px, int py ) {
+	if ( drawing_ox == -1 ) {
+		drawing_ox = 999;
+		
+		int i;
+		for ( i = 0; i < n_line; i++ ) {
+			olines[ i ] = lines[ i ];
+		}
+	} else if ( px == 999 ) {
+		drawing_ox = -1;
+		drawing_oy = -1;
+	} else {
+		int i;
+		for ( i = 0; i < n_line; i++ ) {
+			lines[ i ] = olines[ i ];
+
+			drawing_shear_point( &lines[ i ].x0, &lines[ i ].y0 );
+			drawing_shear_point( &lines[ i ].x1, &lines[ i ].y1 );
+			
+		}
+	}
+
+	return;
+}
+
+void drawing_shear_point( int* x, int* y ) {
+	int tx = *x;
+	int ty = *y;
+
+	*y -= sy;
+	*y += factor_y * ( tx - sx ) / 100;
+	*y += sy;
+
+	*x -= sx;
+	*x += factor_x * ( ty - sy ) / 100;
+	*x += sx;
 
 	return;
 }
