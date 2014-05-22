@@ -166,6 +166,11 @@ void drawing_rotation_calibrate( int* x, int* y, int r ) {
 	return;
 }
 
+void drawing_shear( int px, int py ) {
+
+	return;
+}
+
 void drawing_scale( int cx, int cy, float scale ) {
 	int i;
 	int j;

@@ -63,6 +63,7 @@ extern int scale;
 extern int rx, ry, change_r;
 extern double angle;
 extern int sx, sy, change_s;
+extern double factor_x, factor_y;
 
 // Functions and procedures prototype
 void canvas_init( void );
@@ -77,6 +78,8 @@ const int canvas_inactive_page( void );
 
 int canvas_change_rotation_center( int px, int py );
 
+int canvas_change_shearing_center( int px, int py );
+
 int canvas_translate( int px, int py );
 
 int canvas_rotate( int px, int py );
@@ -88,6 +91,8 @@ int canvas_zoom_in( int px, int py );
 int canvas_zoom_out( int px, int py );
 
 void canvas_draw_rotation_center( void );
+
+void canvas_draw_shearing_center( void );
 
 void canvas_draw_cartesian( int absis_color, int cartesian_color );
 

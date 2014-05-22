@@ -10,6 +10,8 @@ int width, height;
 int scale;
 int rx, ry, change_r;
 double angle;
+int sx, sy, change_s;
+double factor_x, factor_y;
 
 // Canvas' global variables
 int ox = -1, oy = -1;
@@ -29,9 +31,13 @@ void canvas_init( void ) {
 	
 	scale = DEFAULT_SCALE;
 	
-	rx = center_x / 2;
+	rx = center_x;
 	ry = center_y;
 	change_r = false;
+	
+	sx = center_x;
+	sy = center_y;
+	change_s = false;
 
 	return;
 }
@@ -85,6 +91,30 @@ int canvas_change_rotation_center( int px, int py ) {
 	}
 
 	change_r = false;
+
+	return false;
+}
+
+int canvas_change_shearing_center( int px, int py ) {
+	if ( change_s || ( fabs( px - sx ) < 5 && fabs( py - sy ) < 5 ) ) {
+		if ( px > OFFSET_X && px < width + OFFSET_X ) {
+			sx = px;
+		}
+		
+		if ( py > OFFSET_Y && py < height + OFFSET_Y ) {
+			sy = py;
+		}
+
+		if ( px == 999 ) {
+			change_s = false;
+		} else {
+			change_s = true;
+		}
+
+		return change_s;
+	}
+
+	change_s = false;
 
 	return false;
 }
@@ -176,10 +206,32 @@ int canvas_rotate( int px, int py ) {
 }
 
 int canvas_shear( int px, int py ) {
-	if ( px == 0 ) {
-		center_y += py * center_x;
-	} else { // PY == 0
-		center_x += px * center_y;
+	if ( ox == -1 ) {
+		ox = center_x;
+		oy = center_y;
+		factor_x = 0;
+		factor_y = 0;
+	} else if ( px == 999 ) {
+		ox = -1;
+		oy = -1;
+	} else if ( px == 0 && py != 0 ) {
+		factor_y += py;
+		
+		center_x = ox;
+		center_y = oy;
+
+		center_y -= sy;
+		center_y += factor_y * ( center_x - sx ) / 100;
+		center_y += sy;
+	} else if ( px != 0 && py == 0 ) {
+		factor_x += px;
+
+		center_x = ox;
+		center_y = oy;
+
+		center_x -= sx;
+		center_x += factor_x * ( center_y - sy ) / 100;
+		center_x += sx;
 	}
 
 	return true;
@@ -222,6 +274,13 @@ int canvas_zoom_out( int px, int py ) {
 void canvas_draw_rotation_center( void ) {
 	canvas_draw_ellipse( rx, ry, 3, 3, 13 );
 	canvas_draw_ellipse( rx, ry, 5, 5, 12 );
+
+	return;
+}
+
+void canvas_draw_shearing_center( void ) {
+	canvas_draw_line( sx - 5, sy - 5, sx + 5, sy + 5, 13 );
+	canvas_draw_line( sx - 5, sy + 5, sx + 5, sy - 5, 13 );
 
 	return;
 }
