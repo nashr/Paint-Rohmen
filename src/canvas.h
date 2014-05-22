@@ -49,7 +49,7 @@ typedef struct {
 typedef struct {
 	rohmen_line poline[MAX_LINE_POL]; //garis sisi yang membentuk poligon
 	int curr_line; //sisi poligon yang sedang digambar
-	int finish = true; //selesai membentuk poligon
+	int finish; //selesai membentuk poligon
 	int color_border;
 	int color_fill;
 } rohmen_polygon;
@@ -104,5 +104,7 @@ void canvas_draw_rectangle( int x0, int y0, int x1, int y1, int border_color, in
 void canvas_draw_bezier( int length, int* px, int* py, int color );
 
 void canvas_fill_rectangle( int x0, int y0, int x1, int y1, int color );
+
+void canvas_fill( int x, int y, int fillColor, int boundaryColor );
 
 #endif
