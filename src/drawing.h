@@ -26,6 +26,10 @@ void drawing_rotate_point( int* x, int* y );
 
 void drawing_rotation_calibrate( int* x, int* y, int r );
 
+void drawing_shear( int px, int py );
+
+void drawing_shear_point( int* x, int* y );
+
 void drawing_scale( int cx, int cy, float scale );
 
 void drawing_draw( void );

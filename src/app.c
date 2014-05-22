@@ -2,6 +2,7 @@
 #include "config.h"
 #include "drawing.h"
 #include "graphics.h"
+#include <math.h>
 #include <stdio.h>
 
 int mouse_prev_state, mouse_prev_x, mouse_prev_y, exit;
@@ -210,7 +211,6 @@ void _app_handle_input( void ) {
 					int dy = state.y - mouse_prev_y;
 
 					if ( state.x < rx ) {
-						dx *= -1;
 						dy *= -1;
 					}
 
@@ -219,7 +219,28 @@ void _app_handle_input( void ) {
 					}
 				}
 			} else if ( menu_focus == 3 ) { // SKEW
-				// do nothing
+				if ( !canvas_change_shearing_center( state.x, state.y ) ) {
+					int dx = state.x - mouse_prev_x;
+					int dy = state.y - mouse_prev_y;
+
+					if ( state.x < sx ) {
+						dy *= -1;
+					}
+					
+					if ( state.y < sy ) {
+						dx *= -1;
+					}
+
+					if ( fabs( dx ) < fabs( dy ) ) {
+						if ( canvas_shear( 0, dy ) ) {
+							drawing_shear( 0, dy );
+						}
+					} else {
+						if ( canvas_shear( dx, 0 ) ) {
+							drawing_shear( dx, 0 );
+						}
+					}
+				}
 			} else if ( menu_focus == 4 ) { // ZOOM IN
 				// do nothing
 			} else if ( menu_focus == 5 ) { // ZOOM OUT
@@ -242,7 +263,6 @@ void _app_handle_input( void ) {
 				int dy = state.y - mouse_prev_y;
 
 				if ( state.x < rx ) {
-					dx *= -1;
 					dy *= -1;
 				}
 
@@ -251,15 +271,26 @@ void _app_handle_input( void ) {
 				}	
 			}
 		} else if ( menu_focus == 3 ) { // SKEW
-			int dx = state.x - mouse_prev_x;
-			int dy = state.y - mouse_prev_y;
-			if ( dx < dy ) {
-				if ( canvas_shear( 0, dy ) ) {
-					// TO DO
+			if ( !canvas_change_shearing_center( state.x, state.y ) ) {
+				int dx = state.x - mouse_prev_x;
+				int dy = state.y - mouse_prev_y;
+
+				if ( state.x < sx ) {
+					dy *= -1;
 				}
-			} else {
-				if ( canvas_shear( dx, 0 ) ) {
-					// TO DO
+
+				if ( state.y < sy ) {
+					dx *= -1;
+				}
+
+				if ( fabs( dx ) < fabs( dy ) ) {
+					if ( canvas_shear( 0, dy ) ) {
+						drawing_shear( 0, dy );
+					}
+				} else {
+					if ( canvas_shear( dx, 0 ) ) {
+						drawing_shear( dx, 0 );
+					}
 				}
 			}
 		} else if ( menu_focus == 4 ) { // ZOOM IN
@@ -288,7 +319,11 @@ void _app_handle_input( void ) {
 				}
 			}
 		} else if ( menu_focus == 3 ) { // SKEW
-			// do nothing
+			if ( !canvas_change_shearing_center( 999, 999 ) ) {
+				if ( canvas_shear( 999, 999 ) ) {
+					drawing_shear( 999, 999 );
+				}
+			}
 		} else if ( menu_focus == 4 ) { // ZOOM IN
 			// do nothing
 		} else if ( menu_focus == 5 ) { // ZOOM OUT
@@ -332,14 +367,21 @@ void _app_draw( void ) {
 
 	canvas_begin_draw();
 	
+	// Draw drawings
+	drawing_draw();
+	
 	// Draw cartesian if user wants it
 	if ( menu_panels[ 0 ].focus ) {
 		canvas_draw_cartesian( CARTESIAN_ABSIS_COLOR, CARTESIAN_COLOR );
 	}
-	
-	// Draw drawings
-	drawing_draw();
-	
+
+	// Draw rotation/shearing center if it's active
+	if ( menu_panels[ 2 ].focus ) {
+		canvas_draw_rotation_center();
+	} else if ( menu_panels[ 3 ].focus ) {
+		canvas_draw_shearing_center();
+	}
+
 	// Draw menu panels
 	for ( i = 0; i < NUM_MENU; i++ ) {
 		app_draw_panel( menu_panels[ i ] );
@@ -520,11 +562,6 @@ void _app_draw( void ) {
 	
 	// 7 - CROP
 	
-	// Draw rotation center if it's active
-	if ( menu_panels[ 2 ].focus ) {
-		canvas_draw_rotation_center();
-	}
-	
 	canvas_end_draw();
 
 	return;
@@ -543,7 +580,8 @@ void app_run() {
 		_app_draw();
 		
 		// We are working on a single thread program, so we do not need delay.
-		// delay( 1000 / FRAME_PER_SECOND );
+		// My machine works really hard that it sounds terrible, unless I use it
+		delay( 1000 / FPS );
 	}
 
 	canvas_close();
