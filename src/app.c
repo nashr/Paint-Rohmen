@@ -1,7 +1,7 @@
 #include "app.h"
 #include "config.h"
 #include "drawing.h"
-#include <graphics.h>
+#include "graphics.h"
 #include <stdio.h>
 
 int mouse_prev_state, mouse_prev_x, mouse_prev_y, exit;
@@ -206,9 +206,17 @@ void _app_handle_input( void ) {
 				}
 			} else if ( menu_focus == 2 ) { // ROTATE
 				if ( !canvas_change_rotation_center( state.x, state.y ) ) {
-					if ( canvas_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y ) ) {
-						drawing_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y );
-					}	
+					int dx = state.x - mouse_prev_x;
+					int dy = state.y - mouse_prev_y;
+
+					if ( state.x < rx ) {
+						dx *= -1;
+						dy *= -1;
+					}
+
+					if ( canvas_rotate( dx, dy ) ) {
+						drawing_rotate( dx, dy );
+					}
 				}
 			} else if ( menu_focus == 3 ) { // SKEW
 				// do nothing
@@ -230,8 +238,16 @@ void _app_handle_input( void ) {
 			}
 		} else if ( menu_focus == 2 ) { // ROTATE
 			if ( !canvas_change_rotation_center( state.x, state.y ) ) {
-				if ( canvas_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y ) ) {
-					drawing_rotate( state.x - mouse_prev_x, state.y - mouse_prev_y );
+				int dx = state.x - mouse_prev_x;
+				int dy = state.y - mouse_prev_y;
+
+				if ( state.x < rx ) {
+					dx *= -1;
+					dy *= -1;
+				}
+
+				if ( canvas_rotate( dx, dy ) ) {
+					drawing_rotate( dx, dy );
 				}	
 			}
 		} else if ( menu_focus == 3 ) { // SKEW
@@ -484,19 +500,21 @@ void _app_draw( void ) {
 	
 	// 6 - FILL
 	if ( side_panels[ 5 ].focus ) {
-		canvas_draw_line( 20, 372, 44, 362, PANEL_FONT_COLOR_FOCUS );
-		canvas_draw_line( 20, 392, 44, 382, PANEL_FONT_COLOR_FOCUS );
-		canvas_draw_line( 20, 402, 44, 392, PANEL_FONT_COLOR_FOCUS );
-		canvas_draw_line( 20, 422, 44, 402, PANEL_FONT_COLOR_FOCUS );
-		canvas_draw_line( 20, 372, 20, 422, PANEL_FONT_COLOR_FOCUS );
-		canvas_draw_line( 44, 362, 44, 402, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_line( 20, 372, 44, 367, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_line( 20, 382, 44, 377, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_line( 20, 392, 44, 387, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_line( 20, 402, 44, 397, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_line( 20, 372, 20, 402, PANEL_FONT_COLOR_FOCUS );
+		canvas_draw_line( 44, 367, 44, 397, PANEL_FONT_COLOR_FOCUS );
+		//canvas_fill( 30, 393, BLUE, BLACK );
 	} else {
-		canvas_draw_line( 20, 372, 44, 362, PANEL_FONT_COLOR );
-		canvas_draw_line( 20, 392, 44, 382, PANEL_FONT_COLOR );
-		canvas_draw_line( 20, 402, 44, 392, PANEL_FONT_COLOR );
-		canvas_draw_line( 20, 422, 44, 402, PANEL_FONT_COLOR );
-		canvas_draw_line( 20, 372, 20, 422, PANEL_FONT_COLOR );
-		canvas_draw_line( 44, 362, 44, 402, PANEL_FONT_COLOR );
+		canvas_draw_line( 20, 372, 44, 367, PANEL_FONT_COLOR );
+		canvas_draw_line( 20, 382, 44, 377, PANEL_FONT_COLOR );
+		canvas_draw_line( 20, 392, 44, 387, PANEL_FONT_COLOR );
+		canvas_draw_line( 20, 402, 44, 397, PANEL_FONT_COLOR );
+		canvas_draw_line( 20, 372, 20, 402, PANEL_FONT_COLOR );
+		canvas_draw_line( 44, 367, 44, 397, PANEL_FONT_COLOR );
+		//canvas_fill( 30, 393, BLUE, BLACK );
 	}
 	
 	
