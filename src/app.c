@@ -527,10 +527,10 @@ void _app_draw( void ) {
 		arrayX[0] = 10;
 		arrayX[1] = 24;
 		arrayX[2] = 40;
-		arrayX[3] = 60;
+		arrayX[3] = 54;
 		arrayY[0] = 192;
-		arrayY[1] = 176;
-		arrayY[2] = 208;
+		arrayY[1] = 150;
+		arrayY[2] = 230;
 		arrayY[3] = 192;
 		canvas_draw_bezier( arrayX, arrayY, PANEL_FONT_COLOR_FOCUS );
 		
@@ -540,10 +540,10 @@ void _app_draw( void ) {
 		arrayX[0] = 10;
 		arrayX[1] = 24;
 		arrayX[2] = 40;
-		arrayX[3] = 60;
+		arrayX[3] = 54;
 		arrayY[0] = 192;
-		arrayY[1] = 176;
-		arrayY[2] = 208;
+		arrayY[1] = 150;
+		arrayY[2] = 230;
 		arrayY[3] = 192;
 		canvas_draw_bezier( arrayX, arrayY, PANEL_FONT_COLOR );
 	}
