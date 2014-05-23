@@ -512,14 +512,40 @@ void _app_draw( void ) {
 	}
 	
 	// 3 - CURVE
-	
-	// 4 - ELLIPSE
-	if ( side_panels[ 3 ].focus ) {
+	if ( side_panels[ 2 ].focus ) {
 		canvas_draw_ellipse_mouse( 32, 256, 57, 272, PANEL_FONT_COLOR_FOCUS );
 		//canvas_draw_ellipse( 32, 256, 25, 16, PANEL_FONT_COLOR_FOCUS );
 	} else {
 		canvas_draw_ellipse_mouse( 32, 256, 57, 272, PANEL_FONT_COLOR );
 		//canvas_draw_ellipse( 32, 256, 25, 16, PANEL_FONT_COLOR );
+	}
+	
+	// 4 - ELLIPSE
+	if ( side_panels[ 3 ].focus ) {
+		int arrayX[4];
+		int arrayY[4];
+		arrayX[0] = 10;
+		arrayX[1] = 24;
+		arrayX[2] = 40;
+		arrayX[3] = 60;
+		arrayY[0] = 192;
+		arrayY[1] = 176;
+		arrayY[2] = 208;
+		arrayY[3] = 192;
+		canvas_draw_bezier( arrayX, arrayY, PANEL_FONT_COLOR_FOCUS );
+		
+	} else {
+		int arrayX[4];
+		int arrayY[4];
+		arrayX[0] = 10;
+		arrayX[1] = 24;
+		arrayX[2] = 40;
+		arrayX[3] = 60;
+		arrayY[0] = 192;
+		arrayY[1] = 176;
+		arrayY[2] = 208;
+		arrayY[3] = 192;
+		canvas_draw_bezier( arrayX, arrayY, PANEL_FONT_COLOR );
 	}
     
 	// 5 - POLYGON
