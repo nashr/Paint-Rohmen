@@ -87,7 +87,7 @@ Deskripsi
          terbentuk;
       d. Lepaskan click setelah selesai.
   3.3 Curve
-      a. Click kiri pada tombol Polygon;
+      a. Click kiri pada tombol Curve;
       b. Click kiri pertama pada canvas untuk mengambil 
          titik pertama;
       c. Tahan dan gerakkan mouse untuk melihat garis yang
@@ -96,7 +96,14 @@ Deskripsi
   3.4 Ellipse
       a. ???
   3.5 Polygon
-      a. ???
+      a. Klik kiri pada tombol Polygon;
+      b. Klik kiri pertama pada canvas untuk mengambil 
+         titik pertama;
+      c. Tahan dan gerakkan mouse untuk melihat garis yang
+         terbentuk;
+      d. Lepaskan click untuk membentuk sisi pertama
+	  e. Ulangi step b sampai d untuk membentuk sisi lainnya.
+	  f. Pertemukan titik akhir garis terakhir dengan titik awal sisi pertama untuk menyelesaikan poligon
   3.6 Fill
       a. Klik kiri pada tombol Fill (gambar paint bucket).
 	  b. Klik kiri pada daerah yang ingin di-fill.
