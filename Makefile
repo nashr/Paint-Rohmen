@@ -15,4 +15,4 @@ lib/libopenbgi.a:
 	$(CC) $(CFLAGS) -c $<
 	
 clean:
-	del /s *.exe *.o
+	del /s *.o
