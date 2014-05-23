@@ -304,7 +304,7 @@ void drawing_draw( void ) {
     }
     
 	// Draw Curve
-	for (i = 0; i <= n_curve; i++){
+	/*for (i = 0; i <= n_curve; i++){
         canvas_draw_bezier( curves[i].px, curves[i].py, curves[i].color );
 
     }

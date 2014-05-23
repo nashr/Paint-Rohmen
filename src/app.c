@@ -137,7 +137,7 @@ void _app_handle_input( void ) {
 			} else if ( side_focus == 1 ) { // LINE
 				drawing_prepare_line( state.x, state.y, chosen_color );
 			} else if ( side_focus == 2 ) { // CURVE
-				drawing_prepare_curve( state.x, state.y, chosen_color );
+				//drawing_prepare_curve( state.x, state.y, chosen_color );
 			} else if ( side_focus == 3 ) { // ELLIPSE
 				drawing_prepare_ellipse( state.x, state.y, chosen_color );
 			} else if ( side_focus == 4 ) { // POLYGON
@@ -160,7 +160,7 @@ void _app_handle_input( void ) {
 		} else if ( side_focus == 1 ) { // LINE
 			drawing_process_line( state.x, state.y );
 		} else if ( side_focus == 2 ) { // CURVE
-			drawing_process_curve (state.x, state.y);
+			//drawing_process_curve (state.x, state.y);
 		} else if ( side_focus == 3 ) { // ELLIPSE
 			drawing_process_ellipse( state.x, state.y );
 		} else if ( side_focus == 4 ) { // POLYGON
@@ -182,7 +182,7 @@ void _app_handle_input( void ) {
 		} else if ( side_focus == 1 ) { // LINE
 			drawing_finalize_line( state.x, state.y );
 		} else if ( side_focus == 2 ) { // CURVE
-			drawing_finalize_curve( state.x, state.y );
+			//drawing_finalize_curve( state.x, state.y );
 		} else if ( side_focus == 3 ) { // ELLIPSE
 			drawing_finalize_ellipse( state.x, state.y );
 		} else if ( side_focus == 4 ) { // POLYGON
@@ -512,7 +512,7 @@ void _app_draw( void ) {
 	}
 	
 	// 3 - CURVE
-	if ( side_panels[ 2 ].focus ) {
+	/*if ( side_panels[ 2 ].focus ) {
 		int arrayX[4];
 		int arrayY[4];
 		arrayX[0] = 10;
@@ -537,7 +537,7 @@ void _app_draw( void ) {
 		arrayY[2] = 230;
 		arrayY[3] = 192;
 		canvas_draw_bezier( arrayX, arrayY, PANEL_FONT_COLOR );
-	}
+	}*/
 	
 	// 4 - ELLIPSE
     if ( side_panels[ 3 ].focus ) {
