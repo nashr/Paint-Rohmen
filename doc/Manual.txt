@@ -2,7 +2,7 @@ MANUAL PAINT-ROHMEN
 oleh kelompok Grafika-Rohmen
 
 Daftar Isi
-================================================================
+===============================================================================
 +-> 1.Koordinat
 |
 +-> 2.Transformasi
@@ -27,11 +27,9 @@ Daftar Isi
   +-> 4.2 Curve
   +-> 4.3 Ellipse
   +-> 4.4 Fill
-  +-> 4.5 Crop
-  +-> 4.6 Anticlipping
 
 Deskripsi
-================================================================
+===============================================================================
 1.Koordinat
   Paint-Rohmen dapat menampilkan/menyembunyikan koordinat
   kartesian dengan meng-click kiri pada tombol Koordinat.
@@ -78,7 +76,7 @@ Deskripsi
 3.Gambar
   Semua aksi gambar menggunakan click kiri.
   3.1 Select
-      a. ???
+      a. -
   3.2 Line
       a. Click kiri pada tombol Line;
       b. Click kiri pertama pada canvas untuk mengambil 
@@ -114,7 +112,7 @@ Deskripsi
       a. Klik kiri pada tombol Fill (gambar paint bucket);
 	  b. Klik kiri di kanvas pada daerah yang ingin di-fill;
   3.7 Crop
-      a. ???
+      a. -
 
 4.Algoritma
   4.1 Line
@@ -129,13 +127,9 @@ Deskripsi
       Fill dilakukan dengan menggunakan algoritma flood fill.
 	  Warna fill diambil dari chosen_color. Warna yang akan 
 	  diambil dari warna pada posisi awal fill dilakukan
-  4.5 Crop
-      ???
-  4.6 Anticlipping
-      ???
 
 Copyright
-================================================================
+===============================================================================
 13511018 Tito D. Kesumo Siregar
 13511020 Arief Rahman
 13511044 Muhammad Nassirudin
