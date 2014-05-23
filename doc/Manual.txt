@@ -94,20 +94,25 @@ Deskripsi
          terbentuk;
       d. Lepaskan click untuk membentuk garis pertama
   3.4 Ellipse
-      a. ???
+      a. Klik kiri pada tombol Ellipse;
+	  b. Klik kiri pertama pada canvas untuk mengambil titik
+	     pusat;
+	  c. Tahan dan gerakkan mouse untuk melihat ellipse yang
+	     terbentuk;
+	  d. Lepaskan klik untuk membuat ellipse di kanvas;
   3.5 Polygon
       a. Klik kiri pada tombol Polygon;
       b. Klik kiri pertama pada canvas untuk mengambil 
          titik pertama;
       c. Tahan dan gerakkan mouse untuk melihat garis yang
          terbentuk;
-      d. Lepaskan click untuk membentuk sisi pertama
-	  e. Ulangi step b sampai d untuk membentuk sisi lainnya.
+      d. Lepaskan click untuk membentuk sisi pertama;
+	  e. Ulangi step b sampai d untuk membentuk sisi lainnya;
 	  f. Pertemukan titik akhir garis terakhir dengan titik awal 
-		 sisi pertama untuk menyelesaikan poligon
+		 sisi pertama untuk menyelesaikan poligon;
   3.6 Fill
-      a. Klik kiri pada tombol Fill (gambar paint bucket).
-	  b. Klik kiri pada daerah yang ingin di-fill.
+      a. Klik kiri pada tombol Fill (gambar paint bucket);
+	  b. Klik kiri di kanvas pada daerah yang ingin di-fill;
   3.7 Crop
       a. ???
 
@@ -115,9 +120,11 @@ Deskripsi
   4.1 Line
       Penggambaran garis menggunakan algoritma Bresenham.
   4.2 Curve
-      ???
+      Penggambaran bezier menggunakan 4 titik dan menggunakan rumus
+	  bezier rekursif.
   4.3 Ellipse
-      ???
+      Penggambaran ellips dilakukan dengan menggunakan algoritma
+	  Bresenham untuk lingkaran yang dimodifikasi.
   4.4 Fill
       Fill dilakukan dengan menggunakan algoritma flood fill.
 	  Warna fill diambil dari chosen_color. Warna yang akan 
