@@ -103,7 +103,8 @@ Deskripsi
          terbentuk;
       d. Lepaskan click untuk membentuk sisi pertama
 	  e. Ulangi step b sampai d untuk membentuk sisi lainnya.
-	  f. Pertemukan titik akhir garis terakhir dengan titik awal sisi pertama untuk menyelesaikan poligon
+	  f. Pertemukan titik akhir garis terakhir dengan titik awal 
+		 sisi pertama untuk menyelesaikan poligon
   3.6 Fill
       a. Klik kiri pada tombol Fill (gambar paint bucket).
 	  b. Klik kiri pada daerah yang ingin di-fill.
