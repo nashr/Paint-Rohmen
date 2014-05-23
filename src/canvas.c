@@ -510,17 +510,43 @@ void canvas_fill_rectangle( int x0, int y0, int x1, int y1, int color ) {
 	return;
 }
 
+
 void canvas_fill ( int x, int y, int fillColor, int oldColor ) {
-	int current;
-	current = getpixel ( x, y );
-	if (current  !=  fillColor && current == oldColor)  {
-		setcolor( fillColor );
-		putpixel( x, y, 0 );
-		canvas_fill( x+1, y, fillColor, oldColor );
-		canvas_fill( x-1, y, fillColor, oldColor );
-		canvas_fill( x,   y+1, fillColor, oldColor );
-		canvas_fill( x,   y-1, fillColor, oldColor );
-	}
+	if(oldColor == fillColor) return;
+    emptyStackX();
+	emptyStackY();
+    
+    int y1; 
+	int w, h;
+	w = getmaxx();
+	h = getmaxy();
+    bool spanLeft, spanRight;
+    if(!pushX(x) || !pushY(y)) return;
+    while(popX(&x) && popY(&y)) {
+		//printf("%d %d\n", stackXPointer, stackYPointer);
+        y1 = y;
+        while(y1 >= 0 && getpixel(x, y1) == oldColor) y1--;
+        y1++;
+        spanLeft = spanRight = 0;
+        while(y1 < h && getpixel(x, y1) == oldColor ) {
+            putpixel(x, y1, fillColor);
+            if(!spanLeft && x > 0 && getpixel(x - 1,y1) == oldColor) {
+                if(!pushX(x - 1) && !pushY(y1)) return;
+                spanLeft = 1;
+            }
+            else if(spanLeft && x > 0 && getpixel(x - 1,y1) != oldColor) {
+                spanLeft = 0;
+            }
+            if(!spanRight && x < w - 1 && getpixel(x + 1,y1) == oldColor) {
+                if(!pushX(x + 1) && !pushY(y1)) return;
+                spanRight = 1;
+            }
+            else if(spanRight && x < w - 1 && getpixel(x + 1,y1) != oldColor) {
+                spanRight = 0;
+            } 
+            y1++;
+        }
+    }
 }
 
 void canvas_draw_bezier( int* px, int* py, int color ){
@@ -546,4 +572,60 @@ void canvas_draw_bezier( int* px, int* py, int color ){
 		putpixel (px[i], py[i], color);
 
 	return;	
+}
+
+bool popX(int *x) { 
+    if(stackXPointer > 0) { 
+        int p = stackX[stackXPointer]; 
+        *x = p; 
+        stackXPointer--; 
+        return 1; 
+    }     
+    else { 
+        return 0; 
+    }    
+}    
+
+bool pushX(int x) { 
+    if(stackXPointer < stackSize - 1) { 
+        stackXPointer++; 
+        stackX[stackXPointer] = x; 
+        return 1; 
+    }     
+    else { 
+        return 0; 
+    }    
+}     
+
+void emptyStackX() { 
+    int x; 
+    while(popX(&x)); 
+}
+
+bool popY(int *y) { 
+    if(stackYPointer > 0) { 
+        int p = stackY[stackYPointer]; 
+        *y = p; 
+        stackYPointer--; 
+        return 1; 
+    }     
+    else { 
+        return 0; 
+    }    
+}    
+
+bool pushY(int Y) { 
+    if(stackYPointer < stackSize - 1) { 
+        stackYPointer++; 
+        stackY[stackYPointer] = Y; 
+        return 1; 
+    }     
+    else { 
+        return 0; 
+    }    
+}     
+
+void emptyStackY() { 
+    int y; 
+    while(popY(&y)); 
 }

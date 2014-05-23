@@ -65,6 +65,13 @@ extern double angle;
 extern int sx, sy, change_s;
 extern double factor_x, factor_y;
 
+// Canvas stack (for fill algorithm)
+#define stackSize 32768
+static int stackX[stackSize];
+static int stackY[stackSize];
+static int stackXPointer = 0;
+static int stackYPointer = 0;
+
 // Functions and procedures prototype
 void canvas_init( void );
 
@@ -111,5 +118,17 @@ void canvas_draw_bezier( int* px, int* py, int color );
 void canvas_fill_rectangle( int x0, int y0, int x1, int y1, int color );
 
 void canvas_fill( int x, int y, int fillColor, int oldColor );
+
+bool popX(int *x);
+
+bool pushX(int x); 
+
+void emptyStackX();
+
+bool popY(int *y);
+
+bool pushY(int y); 
+
+void emptyStackY();
 
 #endif
