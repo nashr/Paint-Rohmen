@@ -1,8 +1,0 @@
-NIM	Nama	Bagian Kerja	Deskripsi pekerjaan
-13510002	Yusuf Ardi	Implementasi algoritma line bresenham	Mengimplementasikan algoritma bresenham dalam pembuatan garis
-13510077	Ananta Pandu	Integrasi algoritma filling ke dalam main program	Melakukan penggabungan fitur filling yang telah dibuat ke dalam program utama
-13510014	Purwoko Cahyo	Penyempurnaan implementasi transformasi pada program utama	Melakukan penyempurnaan fitur translasi dan rotasi agar dapat digunakan secara bersamaan pada program utama
-13510045	Zulhendra	Pembuatan video demo	Pembuatan video demo untuk fitur pembuatan garis dan filling
-13510077	Ananta Pandu	Pembuatan dokumentasi program	Pembuatan dokumen program bagian penjelasan cara kerja algoritma a, b, dan c
-
-Log-act diurutkan berdasarkan waktu pengerjaan.		
